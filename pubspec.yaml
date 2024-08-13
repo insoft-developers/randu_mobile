@@ -72,6 +72,13 @@ flutter:
   #To add assets to your application, add an assets section, like this:
   assets:
     - images/login.png
+    - images/randu.png
+    - images/jurnal_icon.png
+    - images/laporan_icon.png
+    - images/pengaturan_icon.png
+    - images/penyusutan_icon.png
+    - images/utang_icon.png
+    - images/exit.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

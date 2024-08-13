@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:randu_mobile/components/jarak.dart';
+import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textview.dart';
+import 'package:randu_mobile/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final LoginController _loginController = Get.put(LoginController());
   final TextEditingController _emailText = TextEditingController();
   final TextEditingController _passText = TextEditingController();
   @override
@@ -56,14 +60,40 @@ class _LoginPageState extends State<LoginPage> {
                             obsecureText: true),
                       ),
                       Jarak(tinggi: 20),
-                      Container(
-                          padding: const EdgeInsets.only(
-                              left: 50, right: 30, top: 10, bottom: 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.blue[900]),
-                          child: const Icon(Icons.arrow_forward,
-                              color: Colors.white)),
+                      Obx(
+                        () => _loginController.loading.value
+                            ? Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                child: const CircularProgressIndicator())
+                            : InkWell(
+                                onTap: () {
+                                  _loginController.login(
+                                      _emailText.text, _passText.text);
+                                },
+                                child: Container(
+                                    width: 130,
+                                    padding: const EdgeInsets.only(
+                                        left: 30,
+                                        right: 10,
+                                        top: 10,
+                                        bottom: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.blue[900]),
+                                    child: Row(
+                                      children: [
+                                        const Text("Submit",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: 'Rubik',
+                                                color: Colors.white)),
+                                        Spasi(lebar: 10),
+                                        const Icon(Icons.arrow_forward,
+                                            color: Colors.white),
+                                      ],
+                                    )),
+                              ),
+                      ),
                       Jarak(tinggi: 20),
                       Text("Lupa Password ?",
                           style: TextStyle(

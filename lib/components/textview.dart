@@ -25,12 +25,11 @@ class TextView extends StatelessWidget {
         left: 10,
         right: 10,
       ),
-      height: 50,
+      height: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: Colors.transparent,
-        border: Border.all(
-            color: const Color.fromARGB(255, 23, 68, 136), width: 1.5),
+        border: Border.all(color: Colors.grey, width: 1.0),
         boxShadow: const [
           BoxShadow(offset: Offset(0, 1), blurRadius: 50, color: Colors.white),
         ],
