@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:randu_mobile/journal/tambah/jurnal_cepat/jurnal_cepat_controller.dart';
 
 // ignore: must_be_immutable
 class InputDate extends StatelessWidget {
   final TextEditingController textEditingController;
+  final JurnalCepatController _jurnalCepatController =
+      Get.put(JurnalCepatController());
+
   String hint;
   String title;
   InputDate(
@@ -15,15 +20,13 @@ class InputDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey, width: 0.5),
-      ),
-      height: 40,
+          border: Border.all(color: Colors.grey, width: 0.5),
+          borderRadius: BorderRadius.circular(4)),
+      height: 50,
       child: TextField(
-        controller:
-            textEditingController, //editing controller of this TextField
+        controller: textEditingController,
         decoration: InputDecoration(
           hintText: hint,
           label: Text(title),
@@ -31,12 +34,8 @@ class InputDate extends StatelessWidget {
           filled: false,
           suffixIcon: const Icon(Icons.calendar_month),
         ),
-
-        readOnly: true, //set it true, so that user will not able to edit text
-        onTap: () {
-          // _realisasiController.getTransactionDate().then((value) {
-          //   textEditingController.text = value.toString();
-        },
+        readOnly: true,
+        onTap: () {},
       ),
     );
   }

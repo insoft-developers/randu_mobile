@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/homepage/homepage_controller.dart';
-import 'package:randu_mobile/homepage/shimmer/branch_name_shimmer.dart';
+import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/journal/index.dart';
+import 'package:randu_mobile/journal/tambah/jurnal_cepat/index.dart';
 import 'package:randu_mobile/laporan/index.dart';
 import 'package:randu_mobile/pengaturan/index.dart';
 import 'package:randu_mobile/penyusutan/index.dart';
@@ -24,7 +25,8 @@ class _HomePageState extends State<HomePage> {
     const Laporan(),
     const Utang(),
     const Penyusutan(),
-    const Pengaturan()
+    const Pengaturan(),
+    const JurnalCepat()
   ];
 
   @override
@@ -38,25 +40,38 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           actions: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-              child: ElevatedButton(
-                  onPressed: () {}, child: const Text("Input Jurnal")),
+            Obx(
+              () => _homePageController.pageTitle.value == ''
+                  ? Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 5),
+                      child: ElevatedButton(
+                          onPressed: () {}, child: const Text("Input Jurnal")),
+                    )
+                  : const SizedBox(),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.white),
-                  onPressed: () {},
-                  child: Text("Jurnal Cepat",
-                      style: TextStyle(color: Colors.blue[900]))),
+            Obx(
+              () => _homePageController.pageTitle.value == ''
+                  ? Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      child: ElevatedButton(
+                          style:
+                              ElevatedButton.styleFrom(primary: Colors.white),
+                          onPressed: () {
+                            _homePageController.changeTabIndex(5);
+                            _homePageController.changePageTitle("Jurnal Cepat");
+                          },
+                          child: Text("Jurnal Cepat",
+                              style: TextStyle(color: Colors.blue[900]))),
+                    )
+                  : const SizedBox(),
             )
           ],
           backgroundColor: Colors.blue[900],
           title: Obx(
             () => Text(
               _homePageController.pageTitle.toString(),
-              style: const TextStyle(fontFamily: 'Rubik'),
             ),
           ),
         ),
@@ -83,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                       Spasi(lebar: 20),
                       Obx(
                         () => _homePageController.branchLoading.value
-                            ? BranchNameShimmer(lebar: 150, tinggi: 30)
+                            ? TextShimmer(lebar: 150, tinggi: 30)
                             : SizedBox(
                                 width: 150,
                                 child: Obx(

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 // ignore: must_be_immutable
-class BranchNameShimmer extends StatelessWidget {
+class TextShimmer extends StatelessWidget {
   double lebar;
   double tinggi;
-  BranchNameShimmer({Key? key, required this.lebar, required this.tinggi})
+  TextShimmer({Key? key, required this.lebar, required this.tinggi})
       : super(key: key);
 
   @override

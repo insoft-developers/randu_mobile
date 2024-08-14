@@ -9,7 +9,7 @@ class HomePageController extends GetxController {
   var branchName = "".obs;
   var tabIndex = 0.obs;
   var branchLoading = false.obs;
-  var pageTitle = "Jurnal".obs;
+  var pageTitle = "".obs;
 
   void changePageTitle(String title) {
     pageTitle.value = title;
