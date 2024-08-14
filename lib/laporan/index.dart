@@ -9,6 +9,7 @@ class Laporan extends StatefulWidget {
 
 class _LaporanState extends State<Laporan> {
   @override
+  @override
   Widget build(BuildContext context) {
     return const Center(child: Text("Laporan Page"));
   }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/homepage/homepage_controller.dart';
+import 'package:randu_mobile/homepage/shimmer/branch_name_shimmer.dart';
 import 'package:randu_mobile/journal/index.dart';
 import 'package:randu_mobile/laporan/index.dart';
 import 'package:randu_mobile/pengaturan/index.dart';
@@ -36,10 +37,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+              child: ElevatedButton(
+                  onPressed: () {}, child: const Text("Input Jurnal")),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.white),
+                  onPressed: () {},
+                  child: Text("Jurnal Cepat",
+                      style: TextStyle(color: Colors.blue[900]))),
+            )
+          ],
           backgroundColor: Colors.blue[900],
-          title: const Text(
-            "Kelola Jurnal",
-            style: TextStyle(fontFamily: 'Rubik'),
+          title: Obx(
+            () => Text(
+              _homePageController.pageTitle.toString(),
+              style: const TextStyle(fontFamily: 'Rubik'),
+            ),
           ),
         ),
         body: Obx(() => pages[_homePageController.tabIndex.value]),
@@ -63,16 +81,21 @@ class _HomePageState extends State<HomePage> {
                         width: 70,
                       ),
                       Spasi(lebar: 20),
-                      SizedBox(
-                        width: 150,
-                        child: Obx(
-                          () => Text(
-                              _homePageController.branchName.value.toString(),
-                              style: const TextStyle(
-                                  fontFamily: 'RubikBold',
-                                  fontSize: 20,
-                                  color: Colors.white)),
-                        ),
+                      Obx(
+                        () => _homePageController.branchLoading.value
+                            ? BranchNameShimmer(lebar: 150, tinggi: 30)
+                            : SizedBox(
+                                width: 150,
+                                child: Obx(
+                                  () => Text(
+                                      _homePageController.branchName.value
+                                          .toString(),
+                                      style: const TextStyle(
+                                          fontFamily: 'RubikBold',
+                                          fontSize: 20,
+                                          color: Colors.white)),
+                                ),
+                              ),
                       )
                     ],
                   ),
@@ -97,6 +120,7 @@ class _HomePageState extends State<HomePage> {
                 ]),
                 onTap: () {
                   _homePageController.changeTabIndex(0);
+                  _homePageController.changePageTitle("");
                   Get.back();
                 },
               ),
@@ -121,6 +145,7 @@ class _HomePageState extends State<HomePage> {
                 ]),
                 onTap: () {
                   _homePageController.changeTabIndex(1);
+                  _homePageController.changePageTitle("Laporan");
                   Get.back();
                 },
               ),
@@ -144,6 +169,7 @@ class _HomePageState extends State<HomePage> {
                 ]),
                 onTap: () {
                   _homePageController.changeTabIndex(2);
+                  _homePageController.changePageTitle("Utang & Piutang");
                   Get.back();
                 },
               ),
@@ -168,6 +194,7 @@ class _HomePageState extends State<HomePage> {
                 ]),
                 onTap: () {
                   _homePageController.changeTabIndex(3);
+                  _homePageController.changePageTitle("Penyusutan");
                   Get.back();
                 },
               ),
@@ -192,6 +219,7 @@ class _HomePageState extends State<HomePage> {
                 ]),
                 onTap: () {
                   _homePageController.changeTabIndex(4);
+                  _homePageController.changePageTitle("Pengaturan Aplikasi");
                   Get.back();
                 },
               ),

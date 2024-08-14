@@ -8,12 +8,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomePageController extends GetxController {
   var branchName = "".obs;
   var tabIndex = 0.obs;
+  var branchLoading = false.obs;
+  var pageTitle = "Jurnal".obs;
+
+  void changePageTitle(String title) {
+    pageTitle.value = title;
+  }
 
   void changeTabIndex(int tab) {
     tabIndex.value = tab;
   }
 
   void getBranchName() async {
+    branchLoading(true);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user')!);
     if (user != null) {
@@ -22,6 +29,7 @@ class HomePageController extends GetxController {
       var res = await Network().post(data, '/journal/branch-name');
       var body = jsonDecode(res.body);
       if (body['success']) {
+        branchLoading(false);
         branchName.value = body['data'];
       }
     }
