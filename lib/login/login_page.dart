@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randu_mobile/color/app_color.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textview.dart';
@@ -33,11 +34,11 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Jarak(tinggi: 40),
-                      Text("LOGIN",
+                      const Text("LOGIN",
                           style: TextStyle(
                               fontFamily: "RubikBold",
                               fontSize: 30,
-                              color: Colors.blue[900])),
+                              color: AppColor.mainColor)),
                       Expanded(
                         child: Container(
                           alignment: Alignment.bottomCenter,
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                                         bottom: 10),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: Colors.blue[900]),
+                                        color: AppColor.mainColor),
                                     child: Row(
                                       children: [
                                         const Text("Submit",
@@ -119,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: MediaQuery.of(context).size.height,
-                color: Colors.blue[900],
+                color: AppColor.mainColor,
                 child: Image.asset(
                   "images/login.png",
                   width: 20,

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randu_mobile/color/app_color.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/homepage/homepage_controller.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/journal/index.dart';
+import 'package:randu_mobile/journal/jurnal_controller.dart';
+import 'package:randu_mobile/journal/tambah/input_jurnal/index.dart';
 import 'package:randu_mobile/journal/tambah/jurnal_cepat/index.dart';
 import 'package:randu_mobile/laporan/index.dart';
 import 'package:randu_mobile/pengaturan/index.dart';
@@ -20,13 +23,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final HomePageController _homePageController = Get.put(HomePageController());
+  final JurnalController _jurnalController = Get.put(JurnalController());
   var pages = [
     const Journal(),
     const Laporan(),
     const Utang(),
     const Penyusutan(),
     const Pengaturan(),
-    const JurnalCepat()
   ];
 
   @override
@@ -46,7 +49,10 @@ class _HomePageState extends State<HomePage> {
                       margin: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 5),
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text("Input Jurnal")),
+                          onPressed: () {
+                            Get.to(() => const InputJurnal());
+                          },
+                          child: const Text("Input Jurnal")),
                     )
                   : const SizedBox(),
             ),
@@ -59,16 +65,16 @@ class _HomePageState extends State<HomePage> {
                           style:
                               ElevatedButton.styleFrom(primary: Colors.white),
                           onPressed: () {
-                            _homePageController.changeTabIndex(5);
-                            _homePageController.changePageTitle("Jurnal Cepat");
+                            Get.to(() => const JurnalCepat())!.then(
+                                (value) => _jurnalController.getJournalList());
                           },
-                          child: Text("Jurnal Cepat",
-                              style: TextStyle(color: Colors.blue[900]))),
+                          child: const Text("Jurnal Cepat",
+                              style: TextStyle(color: AppColor.mainColor))),
                     )
                   : const SizedBox(),
             )
           ],
-          backgroundColor: Colors.blue[900],
+          backgroundColor: AppColor.mainColor,
           title: Obx(
             () => Text(
               _homePageController.pageTitle.toString(),
@@ -83,8 +89,8 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 150,
                 child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue[900],
+                  decoration: const BoxDecoration(
+                    color: AppColor.mainColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

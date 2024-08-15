@@ -1,7 +1,9 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:randu_mobile/components/inputdate.dart';
+import 'package:randu_mobile/color/app_color.dart';
+import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/select/select_transaksi.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
@@ -18,6 +20,8 @@ class _JurnalCepatState extends State<JurnalCepat> {
   final JurnalCepatController _jurnalCepatController =
       Get.put(JurnalCepatController());
   final TextEditingController _tanggalText = TextEditingController();
+  final TextEditingController _nominalText = TextEditingController();
+  final TextEditingController _keteranganlText = TextEditingController();
 
   @override
   void initState() {
@@ -26,13 +30,18 @@ class _JurnalCepatState extends State<JurnalCepat> {
                       now); 
     _tanggalText.text = formattedDate;
     _jurnalCepatController.getTransactionList();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: AppColor.mainColor,
+          title: const Text(
+            "Jurnal Cepat"   
+            ),
+        ),
         body: Container(
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -88,7 +97,79 @@ class _JurnalCepatState extends State<JurnalCepat> {
                     defValue: _jurnalCepatController.jenisTransaksi.value,
                     label: "Jenis Transaksi",
                     menuItems: _jurnalCepatController.transaksiDropdown),
-          )
+          ),
+          Jarak(tinggi: 20),
+          Obx(()
+            => _jurnalCepatController.loadingTerimaDari.value ? TextShimmer(
+                    lebar: MediaQuery.of(context).size.width, tinggi: 50) : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey, width: 0.5),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: DropdownSearch<String>(
+                  showSearchBox:true,
+                  mode: Mode.MENU,
+                  showSelectedItems: true,
+                  items:_jurnalCepatController.accountDropdown,
+                  dropdownSearchDecoration: const InputDecoration(
+                    border: InputBorder.none,
+                    label: Text("Pilih diterima dari")
+                  ),
+                  onChanged: (value) {
+                    _jurnalCepatController.onchangeReceiveFrom(_jurnalCepatController.accountDropdown.indexOf(value!));
+                  },
+                  selectedItem: "",
+              ),
+            ),
+          ),
+          Jarak(tinggi: 20),
+          Obx(()
+            => _jurnalCepatController.loadingTerimaDari.value ? TextShimmer(
+                    lebar: MediaQuery.of(context).size.width, tinggi: 50) : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey, width: 0.5),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: DropdownSearch<String>(
+                  showSearchBox:true,
+                  mode: Mode.MENU,
+                  showSelectedItems: true,
+                  items:_jurnalCepatController.saveDropdown,
+                  dropdownSearchDecoration: const InputDecoration(
+                    border: InputBorder.none,
+                    label: Text("Pilih simpan ke")
+                  ),
+                  onChanged: (value) {
+                    _jurnalCepatController.onchangeSaveTo(_jurnalCepatController.saveDropdown.indexOf(value!));
+                  },
+                  selectedItem: "",
+              ),
+            ),
+          ),
+          Jarak(tinggi: 20),
+          InputText(hint: "Nama Transaksi", textInputType: TextInputType.text, textEditingController: _keteranganlText, obsecureText: false, code:""),
+          Jarak(tinggi: 20),
+          InputText(hint: "Nominal", textInputType: TextInputType.number, textEditingController: _nominalText, obsecureText: false, code:"journal-nominal"),
+          Jarak(tinggi: 5),
+          Obx(()=> Container(
+            margin:const EdgeInsets.only(left:5),
+            child: Text(_jurnalCepatController.nominalRibuan.value.toString(), style:const TextStyle(fontFamily: 'Rubik',color:Colors.red)))),
+          Jarak(tinggi: 30),
+          Obx(()
+            => _jurnalCepatController.saveLoading.value ? const SizedBox(
+                               
+                                child:  Center(
+                                    child: CircularProgressIndicator())): SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(primary:AppColor.mainColor),
+                onPressed: (){
+                  _jurnalCepatController.saveQuickJournal(_tanggalText.text, _keteranganlText.text, _nominalText.text.isEmpty ? 0 : int.parse(_nominalText.text));
+                },  child: const Text("Simpan", style:TextStyle(fontFamily: 'RubikBold', fontSize: 18)))),
+          ),
+            Jarak(tinggi: 50),
         ],
       ),
     ));

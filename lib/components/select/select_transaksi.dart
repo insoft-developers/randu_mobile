@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randu_mobile/journal/tambah/jurnal_cepat/jurnal_cepat_controller.dart';
 
 // ignore: must_be_immutable
 class SelectTransaksi extends StatelessWidget {
   String defValue;
   String label;
   List<DropdownMenuItem<String>> menuItems;
+  final JurnalCepatController _jurnalCepatController =
+      Get.put(JurnalCepatController());
+
   SelectTransaksi({
     Key? key,
     required this.defValue,
@@ -27,7 +31,9 @@ class SelectTransaksi extends StatelessWidget {
             border: InputBorder.none,
           ),
           value: defValue,
-          onChanged: (String? newValue) {},
+          onChanged: (String? newValue) {
+            _jurnalCepatController.onChangeTransaction(newValue.toString());
+          },
           items: menuItems),
     );
   }
