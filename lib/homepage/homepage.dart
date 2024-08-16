@@ -50,7 +50,8 @@ class _HomePageState extends State<HomePage> {
                           vertical: 10, horizontal: 5),
                       child: ElevatedButton(
                           onPressed: () {
-                            Get.to(() => const InputJurnal());
+                            Get.to(() => const InputJurnal())!.then(
+                                (value) => _jurnalController.getJournalList());
                           },
                           child: const Text("Input Jurnal")),
                     )
