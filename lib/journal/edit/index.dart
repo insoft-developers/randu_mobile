@@ -6,19 +6,21 @@ import 'package:randu_mobile/color/app_color.dart';
 import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
-import 'package:randu_mobile/journal/tambah/input_jurnal/input_jurnal_controller.dart';
+import 'package:randu_mobile/journal/edit/jurnal_edit_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 
-class InputJurnal extends StatefulWidget {
-  const InputJurnal({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class JournalEdit extends StatefulWidget {
+  int id;
+  JournalEdit({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<InputJurnal> createState() => _InputJurnalState();
+  State<JournalEdit> createState() => _JournalEditState();
 }
 
-class _InputJurnalState extends State<InputJurnal> {
-  final InputJurnalController _inputJurnalController =
-      Get.put(InputJurnalController());
+class _JournalEditState extends State<JournalEdit> {
+  final JournalEditController _journalEditController =
+      Get.put(JournalEditController());
   final TextEditingController _tanggal = TextEditingController();
   final TextEditingController _transName = TextEditingController();
   final List<TextEditingController> _debits = [TextEditingController()];
@@ -34,11 +36,29 @@ class _InputJurnalState extends State<InputJurnal> {
 
   @override
   void initState() {
-    var now = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    _tanggal.text = formattedDate;
-    _inputJurnalController.getAccountSelect();
-    _addItem();
+    
+    String formattedDate = "";
+    _itemDelete(0);
+    _journalEditController.getDataJournal(widget.id.toString()).then((value) {
+      
+      setState(() {
+        formattedDate = _journalEditController.journalDate.value;
+         _tanggal.text = formattedDate;
+         _transName.text = _journalEditController.journal['transaction_name'];
+
+         for(var i=0; i < _journalEditController.journalList.length; i++) {
+            _journalEditController.getAccountSelect().then((value){
+                 _initItem(i);
+            });
+           
+         }
+        
+        
+      });
+      
+    }); 
+   
+    
     super.initState();
   }
 
@@ -47,14 +67,29 @@ class _InputJurnalState extends State<InputJurnal> {
     List<String> _creditText = [];
 
     for (var i = 0; i < _debits.length; i++) {
+
       _debetText.add(_debits[i].text.isEmpty ? "0" : _debits[i].text);
       _creditText.add(_credits[i].text.isEmpty ? "0" : _credits[i].text);
     }
 
-    _inputJurnalController.saveMultipleJournal(_tanggal.text, _transName.text,
+    _journalEditController.updateMultipleJournal(widget.id, _tanggal.text, _transName.text,
         _selectedAkuns, _debetText, _creditText);
   }
 
+  _initItem(int k) {
+    setState(() {
+      _debitReadonly.add(false);
+      _creditReadonly.add(false);
+      _akuns.add(_journalEditController.journalList[k]['asset_data_name'].toString()+" ( "+_journalEditController.journalList[k]['group'].toString()+" )");
+      _debitRibuan.add(Ribuan.convertToIdr( _journalEditController.journalList[k]['debet'], 0));
+      _creditRibuan.add(Ribuan.convertToIdr( _journalEditController.journalList[k]['credit'], 0));
+      _debits.add(TextEditingController(text: _journalEditController.journalList[k]['debet'].toString()));
+      _credits.add(TextEditingController(text: _journalEditController.journalList[k]['credit'].toString()));
+      _selectedAkuns.add(_journalEditController.journalList[k]['asset_data_id'].toString()+'_'+_journalEditController.journalList[k]['account_code_id'].toString());
+    });
+     _countTotal();
+  }
+  
   _addItem() {
     setState(() {
       _debitReadonly.add(false);
@@ -100,6 +135,23 @@ class _InputJurnalState extends State<InputJurnal> {
      }
   }
 
+  _itemDelete(int index) {
+    setState(() {
+      _akuns.removeAt(index);
+      _debitRibuan.removeAt(index);
+      _creditRibuan.removeAt(index);
+      _selectedAkuns.removeAt(index);
+      _debits[index].clear();
+      _debits.removeAt(index);
+      _credits[index].clear();
+      _credits.removeAt(index);
+      _debitReadonly.removeAt(index);
+      _creditReadonly.removeAt(index);
+      _countTotal();
+    });
+      
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,10 +168,10 @@ class _InputJurnalState extends State<InputJurnal> {
                   child: const Icon(Icons.add, color: Colors.white)),
             ),
           ],
-          title: const Text("Input Jurnal"),
+          title: const Text("Edit Jurnal"),
         ),
         floatingActionButton: Obx(
-          () => _inputJurnalController.saveLoading.value
+          () => _journalEditController.saveLoading.value
               ? Container(
                   margin: const EdgeInsets.only(bottom: 70),
                   child: const CircularProgressIndicator())
@@ -197,7 +249,7 @@ class _InputJurnalState extends State<InputJurnal> {
              ),
             Jarak(tinggi: 2),
             Obx(
-              () => _inputJurnalController.loading.value
+              () => _journalEditController.loading.value
                   ? Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: InputJurnalShimmer(tinggi: 150, jumlah: 2))
@@ -236,7 +288,7 @@ class _InputJurnalState extends State<InputJurnal> {
                                             showSearchBox: true,
                                             mode: Mode.DIALOG,
                                             showSelectedItems: true,
-                                            items: _inputJurnalController
+                                            items: _journalEditController
                                                 .accountDropdown,
                                             dropdownSearchDecoration:
                                                 const InputDecoration(
@@ -247,12 +299,12 @@ class _InputJurnalState extends State<InputJurnal> {
                                                 _akuns[index] =
                                                     value.toString();
                                                 int indexSelected =
-                                                    _inputJurnalController
+                                                    _journalEditController
                                                         .accountDropdown
                                                         .indexOf(value!);
                                                 Map<String, dynamic>
                                                     _selectedAccount =
-                                                    _inputJurnalController
+                                                    _journalEditController
                                                             .accountSelect[
                                                         indexSelected];
                                                 String _accountId =
@@ -391,17 +443,7 @@ class _InputJurnalState extends State<InputJurnal> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                _akuns.removeAt(index);
-                                                _debitRibuan.removeAt(index);
-                                                _creditRibuan.removeAt(index);
-                                                _selectedAkuns.removeAt(index);
-                                                _debits[index].clear();
-                                                _debits.removeAt(index);
-                                                _credits[index].clear();
-                                                _credits.removeAt(index);
-                                                _debitReadonly.removeAt(index);
-                                                _creditReadonly.removeAt(index);
-                                                _countTotal();
+                                                _itemDelete(index);
                                               });
                                             },
                                             child: Container(

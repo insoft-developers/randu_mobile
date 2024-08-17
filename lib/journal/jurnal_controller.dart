@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sweetalertv2/sweetalertv2.dart';
 
 class JurnalController extends GetxController {
   var now = DateTime.now();
@@ -16,6 +17,7 @@ class JurnalController extends GetxController {
   var thisMonth = "".obs;
   var thisYear = "".obs;
   var tahunSekarang = "".obs;
+  var deleteLoading = false.obs;
 
   @override
   void onInit() {
@@ -138,5 +140,26 @@ class JurnalController extends GetxController {
   void onYearChange(String value) {
     thisYear.value = value;
     getJournalList();
+  }
+
+  void onJournalDelete(int id) async {
+    deleteLoading(true);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {"userid": userId, "id": id};
+      var res = await Network().post(data, '/journal/delete-journal');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        deleteLoading(false);
+        getJournalList();
+      } else {
+        SweetAlertV2.show(Get.context,
+            title: "Gagal",
+            subtitle: body['message'].toString(),
+            style: SweetAlertV2Style.error);
+      }
+    }
   }
 }

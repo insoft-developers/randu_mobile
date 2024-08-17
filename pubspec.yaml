@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.18.1
   dropdown_search: ^3.0.1
   flutter_html: ^0.8.2
+  sweetalertv2: ^0.0.2
 
 dev_dependencies:
   flutter_test:

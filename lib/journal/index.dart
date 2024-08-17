@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randu_mobile/color/app_color.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/select/select_month.dart';
 import 'package:randu_mobile/components/select/select_year.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textcari.dart';
 import 'package:randu_mobile/homepage/shimmer/list_shimmer.dart';
+import 'package:randu_mobile/journal/edit/index.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/utils/warna.dart';
+import 'package:sweetalertv2/sweetalertv2.dart';
 
 class Journal extends StatefulWidget {
   const Journal({Key? key}) : super(key: key);
@@ -118,27 +121,27 @@ class _JournalState extends State<Journal> {
                                                       .width -
                                                   120,
                                               child: Text(
-                                                  _jurnalController
-                                                              .journalList[index]
+                                                  _jurnalController.journalList[index]
                                                                   ['edit_count']
                                                               .toString()
                                                               .isNotEmpty &&
-                                                          _jurnalController.journalList[index]['edit_count']
-                                                                  .toString() !=
+                                                          _jurnalController.journalList[index]['edit_count'].toString() !=
                                                               "0"
-                                                      ? _jurnalController.journalList[index]['transaction_name']
-                                                              .toString() +
+                                                      ? _jurnalController.journalList[index]['transaction_name'].toString() +
                                                           ' ( ' +
                                                           _jurnalController
                                                               .journalList[index]
                                                                   ['edit_count']
                                                               .toString() +
                                                           ' )'
-                                                      : _jurnalController
-                                                          .journalList[index]
-                                                              ['transaction_name']
+                                                      : _jurnalController.journalList[index]['transaction_name']
                                                           .toString(),
-                                                  style: const TextStyle(fontFamily: 'Rubik', fontSize: 15)),
+                                                  style: TextStyle(
+                                                      fontFamily: _jurnalController.journalList[index]['not_balance'] == 1
+                                                          ? 'RubikBold'
+                                                          : 'Rubik',
+                                                      fontSize: 15,
+                                                      color: _jurnalController.journalList[index]['not_balance'] == 1 ? Colors.red : AppColor.mainColor)),
                                             ),
                                             Jarak(tinggi: 5),
                                             Row(
@@ -173,31 +176,95 @@ class _JournalState extends State<Journal> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
-                                                Container(
-                                                    padding:
-                                                        const EdgeInsets.all(3),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: Colors.orange),
-                                                    child: const Icon(
-                                                        Icons.edit,
-                                                        size: 17,
-                                                        color: Colors.white)),
+                                                _jurnalController.journalList[
+                                                            index]['awal'] ==
+                                                        1
+                                                    ? GestureDetector(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(3),
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                color: Colors
+                                                                    .green),
+                                                            child: const Icon(
+                                                                Icons.preview,
+                                                                size: 17,
+                                                                color: Colors
+                                                                    .white)),
+                                                      )
+                                                    : GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(JournalEdit(
+                                                                  id: _jurnalController
+                                                                              .journalList[
+                                                                          index]
+                                                                      ['id']))!
+                                                              .then((value) =>
+                                                                  _jurnalController
+                                                                      .getJournalList());
+                                                        },
+                                                        child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(3),
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                color: Colors
+                                                                    .orange),
+                                                            child: const Icon(
+                                                                Icons.edit,
+                                                                size: 17,
+                                                                color: Colors
+                                                                    .white)),
+                                                      ),
                                                 Spasi(lebar: 20),
-                                                Container(
-                                                    padding:
-                                                        const EdgeInsets.all(3),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: Colors.red[900]),
-                                                    child: const Icon(
-                                                        Icons.delete,
-                                                        size: 17,
-                                                        color: Colors.white)),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    SweetAlertV2.show(context,
+                                                        title: "Hapus Data ?",
+                                                        subtitle: "",
+                                                        style: SweetAlertV2Style
+                                                            .confirm,
+                                                        showCancelButton: true,
+                                                        onPress:
+                                                            (bool isConfirm) {
+                                                      if (isConfirm) {
+                                                        Get.back();
+                                                        _jurnalController
+                                                            .onJournalDelete(
+                                                                _jurnalController
+                                                                        .journalList[
+                                                                    index]['id']);
+                                                      } else {
+                                                        Get.back();
+                                                      }
+                                                      return false;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              3),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          color:
+                                                              Colors.red[900]),
+                                                      child: const Icon(
+                                                          Icons.delete,
+                                                          size: 17,
+                                                          color: Colors.white)),
+                                                ),
                                               ],
                                             )
                                           ],
