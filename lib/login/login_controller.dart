@@ -37,7 +37,6 @@ class LoginController extends GetxController {
       localStorage.setString('user', json.encode(body['data']));
       localStorage.setString('token', json.encode(body['token']));
       Get.off(const HomePage());
-      showToast(body['message'].toString());
     } else {
       loading(false);
       showToast(body['message'].toString());

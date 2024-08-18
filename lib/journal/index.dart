@@ -9,6 +9,7 @@ import 'package:randu_mobile/components/textcari.dart';
 import 'package:randu_mobile/homepage/shimmer/list_shimmer.dart';
 import 'package:randu_mobile/journal/edit/index.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
+import 'package:randu_mobile/journal/lihat.dart';
 import 'package:randu_mobile/utils/warna.dart';
 import 'package:sweetalertv2/sweetalertv2.dart';
 
@@ -180,7 +181,12 @@ class _JournalState extends State<Journal> {
                                                             index]['awal'] ==
                                                         1
                                                     ? GestureDetector(
-                                                        onTap: () {},
+                                                        onTap: () {
+                                                          Get.to(() => JournalPreview(
+                                                              journalId: _jurnalController
+                                                                      .journalList[
+                                                                  index]['id'].toString()));
+                                                        },
                                                         child: Container(
                                                             padding:
                                                                 const EdgeInsets

@@ -200,7 +200,7 @@ class _InputJurnalState extends State<InputJurnal> {
               () => _inputJurnalController.loading.value
                   ? Container(
                       margin: const EdgeInsets.only(top: 10),
-                      child: InputJurnalShimmer(tinggi: 150, jumlah: 2))
+                      child: InputJurnalShimmer(tinggi: 150, jumlah: 2, pad:10))
                   : Expanded(
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(10,5,10,10),

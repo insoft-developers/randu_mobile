@@ -19,118 +19,96 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passText = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-            body: Row(
-          children: [
-            Expanded(
-              flex: 8,
-              child: Container(
-                color: Colors.white,
-                margin: const EdgeInsets.all(20),
-                child: Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Jarak(tinggi: 40),
-                      const Text("LOGIN",
-                          style: TextStyle(
-                              fontFamily: "RubikBold",
-                              fontSize: 30,
-                              color: AppColor.mainColor)),
-                      Expanded(
+    return Scaffold(
+        backgroundColor: AppColor.mainColor,
+        body: Container(
+          decoration: const BoxDecoration(color: AppColor.mainColor),
+          padding: const EdgeInsets.all(20),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Jarak(tinggi: 10),
+              const Text("LOGIN",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "RubikBold",
+                    fontSize: 30,
+                  )),
+              Jarak(tinggi: 60),
+              Image.asset(
+                "images/login.png",
+                width: 160,
+                height: 160,
+              ),
+              Jarak(tinggi: MediaQuery.of(context).size.height - 620),
+              SizedBox(
+                child: TextView(
+                    hint: "Email",
+                    textInputType: TextInputType.emailAddress,
+                    iconData: Icons.email,
+                    textEditingController: _emailText,
+                    obsecureText: false),
+              ),
+              Jarak(tinggi: 10),
+              SizedBox(
+                child: TextView(
+                    hint: "Password",
+                    textInputType: TextInputType.text,
+                    iconData: Icons.lock,
+                    textEditingController: _passText,
+                    obsecureText: true),
+              ),
+              Jarak(tinggi: 20),
+              Obx(
+                () => _loginController.loading.value
+                    ? const SizedBox(
+                        width: 30,
+                        height: 40,
+                        child: Center(child: CircularProgressIndicator()))
+                    : InkWell(
+                        onTap: () {
+                          _loginController.login(
+                              _emailText.text, _passText.text);
+                        },
                         child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: TextView(
-                              hint: "Email",
-                              textInputType: TextInputType.emailAddress,
-                              iconData: Icons.email,
-                              textEditingController: _emailText,
-                              obsecureText: false),
-                        ),
+                            margin: const EdgeInsets.only(right: 180),
+                            padding: const EdgeInsets.only(
+                                left: 30, right: 10, top: 10, bottom: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("Submit",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: 'Rubik',
+                                        color: AppColor.mainColor)),
+                                Spasi(lebar: 10),
+                                const Icon(Icons.arrow_forward,
+                                    color: AppColor.mainColor),
+                              ],
+                            )),
                       ),
-                      Jarak(tinggi: 10),
-                      Container(
-                        alignment: Alignment.bottomCenter,
-                        child: TextView(
-                            hint: "Password",
-                            textInputType: TextInputType.text,
-                            iconData: Icons.lock,
-                            textEditingController: _passText,
-                            obsecureText: true),
-                      ),
-                      Jarak(tinggi: 20),
-                      Obx(
-                        () => _loginController.loading.value
-                            ? Container(
-                                margin: const EdgeInsets.only(left: 10),
-                                child: const CircularProgressIndicator())
-                            : InkWell(
-                                onTap: () {
-                                  _loginController.login(
-                                      _emailText.text, _passText.text);
-                                },
-                                child: Container(
-                                    width: 130,
-                                    padding: const EdgeInsets.only(
-                                        left: 30,
-                                        right: 10,
-                                        top: 10,
-                                        bottom: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppColor.mainColor),
-                                    child: Row(
-                                      children: [
-                                        const Text("Submit",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontFamily: 'Rubik',
-                                                color: Colors.white)),
-                                        Spasi(lebar: 10),
-                                        const Icon(Icons.arrow_forward,
-                                            color: Colors.white),
-                                      ],
-                                    )),
-                              ),
-                      ),
-                      Jarak(tinggi: 20),
-                      Text("Lupa Password ?",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontFamily: 'Rubik',
-                              fontSize: 16,
-                              color: Colors.blue[900])),
-                      Jarak(tinggi: 15),
-                      Text("Perlu Bantuan Login/Aktivasi ?",
-                          style: TextStyle(
-                              fontFamily: 'Rubik',
-                              decoration: TextDecoration.underline,
-                              fontSize: 16,
-                              color: Colors.blue[900])),
-                      Jarak(tinggi: 30)
-                    ],
-                  ),
-                ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                height: MediaQuery.of(context).size.height,
-                color: AppColor.mainColor,
-                child: Image.asset(
-                  "images/login.png",
-                  width: 20,
-                  height: 20,
-                ),
-              ),
-            ),
-          ],
-        )),
-      ],
-    );
+              Jarak(tinggi: 20),
+              const Text("Lupa Password ?",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontFamily: 'Rubik',
+                      fontSize: 16,
+                      color: Colors.white)),
+              Jarak(tinggi: 15),
+              const Text("Perlu Bantuan Login/Aktivasi ?",
+                  style: TextStyle(
+                      fontFamily: 'Rubik',
+                      decoration: TextDecoration.underline,
+                      fontSize: 16,
+                      color: Colors.white)),
+              Jarak(tinggi: 30)
+            ],
+          ),
+        ));
   }
 }

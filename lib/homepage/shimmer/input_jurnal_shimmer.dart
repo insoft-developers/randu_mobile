@@ -4,7 +4,9 @@ import 'package:shimmer/shimmer.dart';
 class InputJurnalShimmer extends StatelessWidget {
   double tinggi;
   int jumlah;
-  InputJurnalShimmer({Key? key, required this.tinggi, required this.jumlah})
+  double pad;
+  InputJurnalShimmer(
+      {Key? key, required this.tinggi, required this.jumlah, required this.pad})
       : super(key: key);
 
   @override
@@ -13,7 +15,7 @@ class InputJurnalShimmer extends StatelessWidget {
         baseColor: Colors.grey[400]!,
         highlightColor: Colors.grey[100]!,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: pad),
           child: ListView.builder(
               shrinkWrap: true,
               physics: const ScrollPhysics(),

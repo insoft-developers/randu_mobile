@@ -29,25 +29,23 @@ class TextView extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: Colors.transparent,
-        border: Border.all(color: Colors.grey, width: 1.0),
-        boxShadow: const [
-          BoxShadow(offset: Offset(0, 1), blurRadius: 50, color: Colors.white),
-        ],
+        border: Border.all(color: Colors.white, width: 1.0),
       ),
       child: TextField(
         controller: textEditingController,
         obscureText: obsecureText,
         keyboardType: textInputType,
         textInputAction: TextInputAction.next,
+        style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           icon: SizedBox(
             height: 30,
             width: 30,
-            child: Icon(iconData, color: Colors.blue[900]),
+            child: Icon(iconData, color: Colors.white),
           ),
           hintText: hint,
           hintStyle: const TextStyle(
-              fontFamily: 'Rubik', fontSize: 15, color: Colors.grey),
+              fontFamily: 'Rubik', fontSize: 15, color: Colors.white),
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
         ),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:sweetalertv2/sweetalertv2.dart';
 
 class JurnalController extends GetxController {
@@ -18,6 +19,12 @@ class JurnalController extends GetxController {
   var thisYear = "".obs;
   var tahunSekarang = "".obs;
   var deleteLoading = false.obs;
+  var previewLoading = false.obs;
+  var previewJournal = <String, dynamic>{}.obs;
+  var previewList = List.empty().obs;
+  var previewDate = "".obs;
+  var totalDebit = 0.obs;
+  var totalKredit = 0.obs;
 
   @override
   void onInit() {
@@ -160,6 +167,21 @@ class JurnalController extends GetxController {
             subtitle: body['message'].toString(),
             style: SweetAlertV2Style.error);
       }
+    }
+  }
+
+  void journalPreview(String id) async {
+    previewLoading(true);
+    var data = {"journal_id": id};
+    var res = await Network().post(data, '/journal/journal-preview');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      previewLoading(false);
+      previewJournal.value = body['data']['jurnal'];
+      previewList.value = body['data']['list'];
+      previewDate.value = body['data']['tanggal'];
+      totalDebit.value = body['data']['total_debit'];
+      totalKredit.value = body['data']['total_kredit'];
     }
   }
 }
