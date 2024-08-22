@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randu_mobile/color/app_color.dart';
+import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/homepage_controller.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/journal/index.dart';
@@ -113,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                                       _homePageController.branchName.value
                                           .toString(),
                                       style: const TextStyle(
-                                          fontFamily: 'RubikBold',
+                                          fontFamily: FontSetting.bold,
                                           fontSize: 20,
                                           color: Colors.white)),
                                 ),
@@ -133,10 +134,11 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text("Jurnal",
-                          style:
-                              TextStyle(fontFamily: 'RubikBold', fontSize: 15)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.bold, fontSize: 15)),
                       Text("Jurnal Akuntansi",
-                          style: TextStyle(fontFamily: 'Rubik', fontSize: 13)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.reg, fontSize: 13)),
                     ],
                   )
                 ]),
@@ -158,10 +160,11 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text("Laporan",
-                          style:
-                              TextStyle(fontFamily: 'RubikBold', fontSize: 15)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.bold, fontSize: 15)),
                       Text("Lihat Laporan",
-                          style: TextStyle(fontFamily: 'Rubik', fontSize: 13)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.reg, fontSize: 13)),
                     ],
                   )
                 ]),
@@ -182,10 +185,11 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text("Utang / Piutang",
-                          style:
-                              TextStyle(fontFamily: 'RubikBold', fontSize: 15)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.bold, fontSize: 15)),
                       Text("Data Utang / Piutang",
-                          style: TextStyle(fontFamily: 'Rubik', fontSize: 13)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.reg, fontSize: 13)),
                     ],
                   )
                 ]),
@@ -207,10 +211,11 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text("Penyusutan",
-                          style:
-                              TextStyle(fontFamily: 'RubikBold', fontSize: 15)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.bold, fontSize: 15)),
                       Text("Data Aset dan Peralatan",
-                          style: TextStyle(fontFamily: 'Rubik', fontSize: 13)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.reg, fontSize: 13)),
                     ],
                   )
                 ]),
@@ -232,10 +237,11 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text("Pengaturan Aplikasi",
-                          style:
-                              TextStyle(fontFamily: 'RubikBold', fontSize: 15)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.bold, fontSize: 15)),
                       Text("Data Bisnis dan Aplikasi",
-                          style: TextStyle(fontFamily: 'Rubik', fontSize: 13)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.reg, fontSize: 13)),
                     ],
                   )
                 ]),
@@ -255,10 +261,11 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text("Keluar",
-                          style:
-                              TextStyle(fontFamily: 'RubikBold', fontSize: 15)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.bold, fontSize: 15)),
                       Text("Keluar dari Aplikasi",
-                          style: TextStyle(fontFamily: 'Rubik', fontSize: 13)),
+                          style: TextStyle(
+                              fontFamily: FontSetting.reg, fontSize: 13)),
                     ],
                   )
                 ]),

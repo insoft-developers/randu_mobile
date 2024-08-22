@@ -2,9 +2,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:randu_mobile/color/app_color.dart';
+import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/journal/tambah/input_jurnal/input_jurnal_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
@@ -190,8 +191,8 @@ class _InputJurnalState extends State<InputJurnal> {
                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:[
-                    Text("(D) : ${totalDebit}", style:const TextStyle(fontFamily:'RubikBold', color:Colors.white)),
-                     Text("(K) : ${totalCredit}", style:const TextStyle(fontFamily:'RubikBold', color:Colors.white))
+                    Text("(D) : ${totalDebit}", style:const TextStyle(fontFamily:FontSetting.bold, color:Colors.white)),
+                     Text("(K) : ${totalCredit}", style:const TextStyle(fontFamily:FontSetting.bold, color:Colors.white))
                   ]
                 ),
              ),
@@ -301,7 +302,7 @@ class _InputJurnalState extends State<InputJurnal> {
                                                         decoration: const InputDecoration(
                                                           hintText: "Debet",
                                                           hintStyle:  TextStyle(
-                                                              fontFamily: 'Rubik', fontSize: 15, color: Colors.grey),
+                                                              fontFamily: FontSetting.reg, fontSize: 15, color: Colors.grey),
                                                           enabledBorder: InputBorder.none,
                                                           focusedBorder: InputBorder.none,
                                                         ),
@@ -320,7 +321,7 @@ class _InputJurnalState extends State<InputJurnal> {
                                                             left: 5, top: 5),
                                                     child:  Text(_debitRibuan[index],
                                                         style:  const TextStyle(
-                                                            fontFamily: 'Rubik',
+                                                            fontFamily: FontSetting.reg,
                                                             color: Colors.red)))
                                               ],
                                             ),
@@ -356,7 +357,7 @@ class _InputJurnalState extends State<InputJurnal> {
                                                         decoration: const InputDecoration(
                                                           hintText: "Kredit",
                                                           hintStyle:  TextStyle(
-                                                              fontFamily: 'Rubik', fontSize: 15, color: Colors.grey),
+                                                              fontFamily: FontSetting.reg, fontSize: 15, color: Colors.grey),
                                                           enabledBorder: InputBorder.none,
                                                           focusedBorder: InputBorder.none,
                                                         ),
@@ -375,7 +376,7 @@ class _InputJurnalState extends State<InputJurnal> {
                                                             left: 5, top: 5),
                                                     child:  Text(_creditRibuan[index],
                                                         style:  const TextStyle(
-                                                            fontFamily: 'Rubik',
+                                                            fontFamily: FontSetting.reg,
                                                             color: Colors.red)))
                                               ],
                                             ),

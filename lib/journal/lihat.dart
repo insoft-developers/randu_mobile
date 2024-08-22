@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randu_mobile/color/app_color.dart';
+import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
@@ -46,8 +47,8 @@ class _JournalPreviewState extends State<JournalPreview> {
                           ' - ' +
                           _jurnalController.previewJournal['transaction_name']
                               .toString(),
-                      style:
-                          const TextStyle(fontFamily: 'Rubik', fontSize: 18)))),
+                      style: const TextStyle(
+                          fontFamily: FontSetting.reg, fontSize: 16)))),
           Jarak(tinggi: 10),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -60,7 +61,7 @@ class _JournalPreviewState extends State<JournalPreview> {
                         : Text(
                             "(D) ${Ribuan.formatAngka(_jurnalController.totalDebit.value.toString())}",
                             style: const TextStyle(
-                                fontFamily: 'RubikBold',
+                                fontFamily: FontSetting.bold,
                                 color: AppColor.mainColor)),
                   ),
                   Obx(
@@ -69,7 +70,7 @@ class _JournalPreviewState extends State<JournalPreview> {
                         : Text(
                             "(K) ${Ribuan.formatAngka(_jurnalController.totalKredit.value.toString())}",
                             style: const TextStyle(
-                                fontFamily: 'RubikBold',
+                                fontFamily: FontSetting.bold,
                                 color: AppColor.mainColor)),
                   ),
                 ]),
@@ -79,7 +80,7 @@ class _JournalPreviewState extends State<JournalPreview> {
               margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: Obx(
                 () => _jurnalController.previewLoading.value
-                    ? InputJurnalShimmer(tinggi: 60, jumlah: 6, pad: 0)
+                    ? InputJurnalShimmer(tinggi: 60, jumlah: 12, pad: 0)
                     : ListView.builder(
                         shrinkWrap: true,
                         itemCount: _jurnalController.previewList.length,
@@ -106,15 +107,15 @@ class _JournalPreviewState extends State<JournalPreview> {
                                     children: [
                                       const Text("Estimasi",
                                           style: TextStyle(
-                                              fontFamily: 'RubikBold')),
+                                              fontFamily: FontSetting.bold)),
                                       const Divider(),
                                       Text(
                                           _jurnalController.previewList[index]
                                                   ['asset_data_name']
                                               .toString(),
                                           style: const TextStyle(
-                                              fontFamily: 'Rubik',
-                                              fontSize: 16)),
+                                              fontFamily: FontSetting.reg,
+                                              fontSize: 14)),
                                     ],
                                   ),
                                 ),
@@ -130,15 +131,15 @@ class _JournalPreviewState extends State<JournalPreview> {
                                     children: [
                                       const Text("Debet (D)",
                                           style: TextStyle(
-                                              fontFamily: 'RubikBold')),
+                                              fontFamily: FontSetting.bold)),
                                       const Divider(),
                                       Text(
                                           Ribuan.formatAngka(_jurnalController
                                               .previewList[index]['debet']
                                               .toString()),
                                           style: const TextStyle(
-                                              fontFamily: 'Rubik',
-                                              fontSize: 16)),
+                                              fontFamily: FontSetting.reg,
+                                              fontSize: 14)),
                                     ],
                                   ),
                                 ),
@@ -153,15 +154,15 @@ class _JournalPreviewState extends State<JournalPreview> {
                                     children: [
                                       const Text("Kredit (K)",
                                           style: TextStyle(
-                                              fontFamily: 'RubikBold')),
+                                              fontFamily: FontSetting.bold)),
                                       const Divider(),
                                       Text(
                                           Ribuan.formatAngka(_jurnalController
                                               .previewList[index]['credit']
                                               .toString()),
                                           style: const TextStyle(
-                                              fontFamily: 'Rubik',
-                                              fontSize: 16)),
+                                              fontFamily: FontSetting.reg,
+                                              fontSize: 14)),
                                     ],
                                   ),
                                 ),

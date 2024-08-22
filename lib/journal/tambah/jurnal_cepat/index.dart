@@ -2,10 +2,11 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:randu_mobile/color/app_color.dart';
+import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/select/select_transaksi.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/journal/tambah/jurnal_cepat/jurnal_cepat_controller.dart';
 
@@ -171,7 +172,7 @@ class _JurnalCepatState extends State<JurnalCepat> {
                   child: Text(
                       _jurnalCepatController.nominalRibuan.value.toString(),
                       style: const TextStyle(
-                          fontFamily: 'Rubik', color: Colors.red)))),
+                          fontFamily: FontSetting.reg, color: Colors.red)))),
               Jarak(tinggi: 30),
               Obx(
                 () => _jurnalCepatController.saveLoading.value

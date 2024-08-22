@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randu_mobile/color/app_color.dart';
+import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/select/select_month.dart';
 import 'package:randu_mobile/components/select/select_year.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textcari.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/list_shimmer.dart';
 import 'package:randu_mobile/journal/edit/index.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
@@ -106,7 +107,7 @@ class _JournalState extends State<Journal> {
                                                     ['tanggal']
                                                 .toString(),
                                             style: const TextStyle(
-                                                fontFamily: "RubikBold",
+                                                fontFamily: FontSetting.bold,
                                                 fontSize: 20,
                                                 color: Colors.white)),
                                       ),
@@ -139,8 +140,8 @@ class _JournalState extends State<Journal> {
                                                           .toString(),
                                                   style: TextStyle(
                                                       fontFamily: _jurnalController.journalList[index]['not_balance'] == 1
-                                                          ? 'RubikBold'
-                                                          : 'Rubik',
+                                                          ? FontSetting.bold
+                                                          : FontSetting.reg,
                                                       fontSize: 15,
                                                       color: _jurnalController.journalList[index]['not_balance'] == 1 ? Colors.red : AppColor.mainColor)),
                                             ),
@@ -159,7 +160,8 @@ class _JournalState extends State<Journal> {
                                                       style: const TextStyle(
                                                           fontSize: 17,
                                                           fontFamily:
-                                                              'RubikBold')),
+                                                              FontSetting
+                                                                  .bold)),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
@@ -168,7 +170,8 @@ class _JournalState extends State<Journal> {
                                                               ['created']
                                                           .toString(),
                                                       style: const TextStyle(
-                                                          fontFamily: 'Rubik')),
+                                                          fontFamily:
+                                                              FontSetting.reg)),
                                                 ),
                                               ],
                                             ),
@@ -184,8 +187,10 @@ class _JournalState extends State<Journal> {
                                                         onTap: () {
                                                           Get.to(() => JournalPreview(
                                                               journalId: _jurnalController
-                                                                      .journalList[
-                                                                  index]['id'].toString()));
+                                                                  .journalList[
+                                                                      index]
+                                                                      ['id']
+                                                                  .toString()));
                                                         },
                                                         child: Container(
                                                             padding:

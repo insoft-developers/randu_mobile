@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randu_mobile/color/app_color.dart';
+import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textview.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
               const Text("LOGIN",
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: "RubikBold",
+                    fontFamily: FontSetting.bold,
                     fontSize: 30,
                   )),
               Jarak(tinggi: 60),
@@ -83,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                                 const Text("Submit",
                                     style: TextStyle(
                                         fontSize: 15,
-                                        fontFamily: 'Rubik',
+                                        fontFamily: FontSetting.reg,
                                         color: AppColor.mainColor)),
                                 Spasi(lebar: 10),
                                 const Icon(Icons.arrow_forward,
@@ -96,13 +97,13 @@ class _LoginPageState extends State<LoginPage> {
               const Text("Lupa Password ?",
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontFamily: 'Rubik',
+                      fontFamily: FontSetting.reg,
                       fontSize: 16,
                       color: Colors.white)),
               Jarak(tinggi: 15),
               const Text("Perlu Bantuan Login/Aktivasi ?",
                   style: TextStyle(
-                      fontFamily: 'Rubik',
+                      fontFamily: FontSetting.reg,
                       decoration: TextDecoration.underline,
                       fontSize: 16,
                       color: Colors.white)),

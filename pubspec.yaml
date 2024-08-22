@@ -83,6 +83,11 @@ flutter:
     - images/penyusutan_icon.png
     - images/utang_icon.png
     - images/exit.png
+    - images/kalendar.png
+    - images/bukubesar.png
+    - images/labarugi.png
+    - images/neraca.png
+    - images/neracasaldo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
