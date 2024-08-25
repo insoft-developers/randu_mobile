@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/laporan/laporan_buku_besar/buku_besar_controller.dart';
 import 'package:randu_mobile/laporan/laporan_jurnal/laporan_jurnal_controller.dart';
+import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
+import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
 
 // ignore: must_be_immutable
 class SelectYearReport extends StatelessWidget {
@@ -31,6 +33,12 @@ class SelectYearReport extends StatelessWidget {
       final NeracaSaldoController _neracaSaldo =
           Get.put(NeracaSaldoController());
       _neracaSaldo.thisYear.value = value;
+    } else if (code == 'profit-loss') {
+      final ProfitLossController _laporan = Get.put(ProfitLossController());
+      _laporan.thisYear.value = value;
+    }else if (code == 'balance-sheet') {
+      final NeracaController _laporan = Get.put(NeracaController());
+      _laporan.thisYear.value = value;
     }
   }
 

@@ -5,7 +5,9 @@ import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/laporan/laporan_buku_besar/index.dart';
 import 'package:randu_mobile/laporan/laporan_jurnal/index.dart';
+import 'package:randu_mobile/laporan/neraca/index.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/index.dart';
+import 'package:randu_mobile/laporan/profit_loss/index.dart';
 
 class Laporan extends StatefulWidget {
   const Laporan({Key? key}) : super(key: key);
@@ -38,6 +40,10 @@ class _LaporanState extends State<Laporan> {
       Get.to(() => const BukuBesar());
     } else if (index == 2) {
       Get.to(() => const NeracaSaldo());
+    } else if (index == 3) {
+      Get.to(() => const ProfitLoss());
+    } else if (index == 4) {
+      Get.to(() => const Neraca());
     }
   }
 
