@@ -65,7 +65,7 @@ class _LaporanState extends State<Laporan> {
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
                         gradient: AppColor.blueGradient,
-                        borderRadius: BorderRadius.circular(4)),
+                        borderRadius: BorderRadius.circular(14)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

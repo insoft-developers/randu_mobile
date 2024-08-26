@@ -7,6 +7,9 @@ class AppColor {
   static const Color mainColor = Color(0xFF2F467B);
   static const Color hijau = Colors.green;
   static const Color putih = Colors.white;
+  static const Color merah = Color.fromRGBO(183, 28, 28, 1);
+  static const Color display = Color(0xFFBBDEFB);
+  static const Color displayLine = Colors.blue;
   static const Gradient linearGradient = LinearGradient(
     begin: Alignment(0.0, 0.0),
     end: Alignment(0.707, -0.707),
