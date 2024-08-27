@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
+import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TambahHutangController extends GetxController {
@@ -16,6 +19,8 @@ class TambahHutangController extends GetxController {
   var debtTo = List.empty().obs;
   var debtToLoading = false.obs;
   var selectedDebtTo = "".obs;
+  var storeLoading = false.obs;
+  var nominalRibuan = "0".obs;
 
   void getDebtTo() async {
     debtToLoading(true);
@@ -45,7 +50,6 @@ class TambahHutangController extends GetxController {
       if (body['success']) {
         debtFromLoading(false);
         debtFrom.value = body['data'];
-        print(debtFrom);
       }
     }
   }
@@ -89,7 +93,7 @@ class TambahHutangController extends GetxController {
             child: SizedBox(
                 width: MediaQuery.of(Get.context!).size.width - 85,
                 child: Text(subCategoryList[i]['name'].toString())),
-            value: subCategoryList[i]['id']),
+            value: subCategoryList[i]['name'].toString()),
       );
     }
 
@@ -138,5 +142,63 @@ class TambahHutangController extends GetxController {
     getSubCategory();
     getDebtFrom();
     getDebtTo();
+  }
+
+  void onDebtStore(
+      String transactionName, int debtAmount, String debtNote) async {
+    storeLoading(true);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {
+        "debt_from": selectedDebtFrom.value,
+        "save_to": selectedDebtTo.value,
+        "name": transactionName,
+        "type": selectedCategory.value,
+        "sub_type": selectedSub.value,
+        "amount": debtAmount,
+        "note": debtNote,
+        "user_id": userId,
+        "sync_status": "0",
+      };
+
+      var res = await Network().post(data, '/journal/debt-store');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        showSuccess(body['message'].toString());
+        storeLoading(false);
+        Get.back();
+      } else {
+        showError(body['message'].toString());
+        storeLoading(false);
+      }
+    }
+  }
+
+  void setRibuan(int value) {
+    nominalRibuan.value = Ribuan.convertToIdr(value, 0);
+  }
+
+  void showError(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.red,
+      content: Html(
+        data: n,
+        defaultTextStyle: const TextStyle(
+            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+      ),
+    ));
+  }
+
+  void showSuccess(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.green[900],
+      content: Html(
+        data: n,
+        defaultTextStyle: const TextStyle(
+            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+      ),
+    ));
   }
 }

@@ -10,6 +10,7 @@ import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/utang/hutang/history/history.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
+import 'package:randu_mobile/utang/hutang/pembayaran/index.dart';
 import 'package:randu_mobile/utang/hutang/tambah/index.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:randu_mobile/utils/tanggal.dart';
@@ -40,7 +41,8 @@ class _HutangState extends State<Hutang> {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(() => const TambahHutang());
+              Get.to(() => const TambahHutang())!
+                  .then((value) => _hutangController.getHutangData(""));
             },
             child: Container(
                 margin: const EdgeInsets.only(right: 20),
@@ -452,14 +454,19 @@ void showSlideupView(BuildContext context, Map<String, dynamic> dataList) {
                         ),
                         Column(
                           children: [
-                            Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: AppColor.kuning,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Icon(Icons.attach_money,
-                                    color: AppColor.putih)),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => DebtPayment(dataList: dataList));
+                              },
+                              child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.kuning,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: const Icon(Icons.attach_money,
+                                      color: AppColor.putih)),
+                            ),
                             Jarak(tinggi: 2),
                             const Text("Bayar")
                           ],

@@ -83,7 +83,9 @@ class _JurnalCepatState extends State<JurnalCepat> {
                     suffixIcon: Icon(Icons.calendar_month),
                   ),
                   readOnly: true,
-                  onTap: () {},
+                  onTap: () {
+                    _onDateChange();
+                  },
                 ),
               ),
               Jarak(tinggi: 20),

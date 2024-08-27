@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/journal/tambah/jurnal_cepat/jurnal_cepat_controller.dart';
+import 'package:randu_mobile/utang/hutang/pembayaran/debt_payment_controller.dart';
+import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
 
 // ignore: must_be_immutable
 class InputText extends StatelessWidget {
@@ -9,9 +11,6 @@ class InputText extends StatelessWidget {
   TextEditingController textEditingController;
   bool obsecureText;
   String code;
-
-  final JurnalCepatController _jurnalCepatController =
-      Get.put(JurnalCepatController());
 
   InputText(
       {Key? key,
@@ -52,8 +51,17 @@ class InputText extends StatelessWidget {
         ),
         onChanged: (value) {
           if (code == 'journal-nominal') {
+            final JurnalCepatController _jurnalCepatController =
+                Get.put(JurnalCepatController());
             _jurnalCepatController
                 .setRibuan(value.isEmpty ? 0 : int.parse(value));
+          } else if (code == 'nominal-hutang') {
+            final TambahHutangController _thc =
+                Get.put(TambahHutangController());
+            _thc.setRibuan(value.isEmpty ? 0 : int.parse(value));
+          } else if (code == 'pembayaran-hutang') {
+            final DebtPaymentController _dpc = Get.put(DebtPaymentController());
+            _dpc.setRibuan(value.isEmpty ? 0 : int.parse(value));
           }
         },
       ),

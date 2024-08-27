@@ -5,6 +5,7 @@ import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/select/select_mont_report.dart';
 import 'package:randu_mobile/components/textarea.dart';
 import 'package:randu_mobile/css/app_color.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
 
@@ -18,6 +19,7 @@ class TambahHutang extends StatefulWidget {
 class _TambahHutangState extends State<TambahHutang> {
   final TambahHutangController _thc = Get.put(TambahHutangController());
   final TextEditingController _tName = TextEditingController();
+  final TextEditingController _tNominal = TextEditingController();
   final TextEditingController _tKeterangan = TextEditingController();
 
   @override
@@ -76,22 +78,41 @@ class _TambahHutangState extends State<TambahHutang> {
             Jarak(tinggi: 20),
             InputText(
                 hint: "Nominal",
-                textInputType: TextInputType.text,
-                textEditingController: _tName,
+                textInputType: TextInputType.number,
+                textEditingController: _tNominal,
                 obsecureText: false,
                 code: "nominal-hutang"),
+            Jarak(tinggi: 5),
+            Obx(() => Container(
+                margin: const EdgeInsets.only(left: 5),
+                child: Text(_thc.nominalRibuan.value.toString(),
+                    style: const TextStyle(
+                        fontFamily: FontSetting.reg, color: Colors.red)))),
             Jarak(tinggi: 20),
             TextArea(
                 hint: "Keterangan",
                 textEditingController: _tKeterangan,
                 maxline: 10),
             Jarak(tinggi: 30),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: AppColor.mainColor),
-                onPressed: () {},
-                child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: const Text("SUBMIT"))),
+            Obx(
+              () => _thc.storeLoading.value
+                  ? const SizedBox(
+                      child: Center(child: CircularProgressIndicator()))
+                  : ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: AppColor.mainColor),
+                      onPressed: () {
+                        _thc.onDebtStore(
+                            _tName.text,
+                            _tNominal.text.toString().isEmpty
+                                ? 0
+                                : int.parse(_tNominal.text),
+                            _tKeterangan.text);
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: const Text("SUBMIT"))),
+            ),
             Jarak(tinggi: 20)
           ],
         ),
