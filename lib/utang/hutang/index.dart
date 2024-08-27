@@ -8,7 +8,9 @@ import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
+import 'package:randu_mobile/utang/hutang/history/history.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
+import 'package:randu_mobile/utang/hutang/tambah/index.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:randu_mobile/utils/tanggal.dart';
 
@@ -35,6 +37,16 @@ class _HutangState extends State<Hutang> {
       appBar: AppBar(
         backgroundColor: AppColor.mainColor,
         title: const Text("Daftar Hutang"),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Get.to(() => const TambahHutang());
+            },
+            child: Container(
+                margin: const EdgeInsets.only(right: 20),
+                child: const Icon(Icons.add)),
+          )
+        ],
       ),
       body: Container(
           padding: const EdgeInsets.all(10),
@@ -73,11 +85,13 @@ class _HutangState extends State<Hutang> {
               ),
               Jarak(tinggi: 5),
               InputSearch(
-                  hint: "Cari Transaksi",
-                  textInputType: TextInputType.text,
-                  iconData: Icons.search,
-                  textEditingController: _textCari,
-                  obsecureText: false),
+                hint: "Cari Transaksi",
+                textInputType: TextInputType.text,
+                iconData: Icons.search,
+                textEditingController: _textCari,
+                obsecureText: false,
+                code: "debt-search",
+              ),
               const Divider(),
               Expanded(
                 child: Container(
@@ -85,145 +99,274 @@ class _HutangState extends State<Hutang> {
                   child: Obx(
                     () => _hutangController.loading.value
                         ? InputJurnalShimmer(tinggi: 160, jumlah: 10, pad: 0)
-                        : ListView.builder(
-                            itemCount: _hutangController.hutangList.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    border:
-                                        Border.all(color: AppColor.displayLine),
-                                    color: AppColor.display),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  2 /
-                                                  3 -
-                                              42,
-                                          child: Text(
-                                              _hutangController
-                                                  .hutangList[index]['name']
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  fontFamily: FontSetting.bold,
-                                                  color: AppColor.mainColor,
-                                                  fontSize: 16)),
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              1 /
-                                              3,
-                                          child: Text(
-                                              Tanggal.getOnlyDate(
-                                                  _hutangController
-                                                      .hutangList[index]
-                                                          ['created_at']
-                                                      .toString()),
-                                              textAlign: TextAlign.end,
-                                              style: const TextStyle(
-                                                  fontFamily: FontSetting.reg)),
-                                        ),
-                                      ],
-                                    ),
-                                    const Divider(),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Text(
-                                          _hutangController.hutangList[index]
-                                                  ['type']
-                                              .toString(),
-                                          style: const TextStyle(
-                                              fontFamily: FontSetting.reg)),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Text(
-                                          _hutangController.hutangList[index]
-                                                  ['sub_type']
-                                              .toString(),
-                                          style: const TextStyle(
-                                              fontFamily: FontSetting.reg)),
-                                    ),
-                                    const Divider(),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
+                        : _hutangController.hutangList.isEmpty
+                            ? const Text('Tidak ada data')
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const ScrollPhysics(),
+                                itemCount: _hutangController.hutangList.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onLongPress: () {
+                                      showSlideupView(context,
+                                          _hutangController.hutangList[index]);
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          border: Border.all(
+                                              color: AppColor.displayLine),
+                                          color: AppColor.display),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        2 /
+                                                        3 -
+                                                    42,
+                                                child: Text(
+                                                    _hutangController
+                                                        .hutangList[index]
+                                                            ['name']
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        fontFamily:
+                                                            FontSetting.bold,
+                                                        color:
+                                                            AppColor.mainColor,
+                                                        fontSize: 16)),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     1 /
-                                                    5 -
-                                                20,
-                                            child: _hutangController
+                                                    3,
+                                                child: Text(
+                                                    Tanggal.getOnlyDate(
+                                                        _hutangController
                                                             .hutangList[index]
-                                                        ['sync_status'] ==
-                                                    1
-                                                ? Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(vertical: 5),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: AppColor.putih),
-                                                    child: const Icon(
-                                                      Icons.sync,
-                                                      color: AppColor.hijau,
-                                                    ),
-                                                  )
-                                                : Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(vertical: 5),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: AppColor.putih),
-                                                    child: const Icon(
-                                                      Icons.sync_disabled,
-                                                      color: AppColor.merah,
-                                                    ),
-                                                  )),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  4 /
-                                                  5 -
-                                              42,
-                                          child: Text(
-                                              "Rp. " +
-                                                  Ribuan.formatAngka(
-                                                      _hutangController
-                                                          .hutangList[index]
-                                                              ['amount']
-                                                          .toString()),
-                                              textAlign: TextAlign.end,
-                                              style: const TextStyle(
-                                                  fontFamily: FontSetting.bold,
-                                                  color: AppColor.hijau,
-                                                  fontSize: 20)),
-                                        ),
-                                      ],
+                                                                ['created_at']
+                                                            .toString()),
+                                                    textAlign: TextAlign.end,
+                                                    style: const TextStyle(
+                                                        fontFamily:
+                                                            FontSetting.reg)),
+                                              ),
+                                            ],
+                                          ),
+                                          const Divider(),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Text(
+                                                _hutangController
+                                                    .hutangList[index]['type']
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    fontFamily:
+                                                        FontSetting.reg)),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Text(
+                                                _hutangController
+                                                    .hutangList[index]
+                                                        ['sub_type']
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    fontFamily:
+                                                        FontSetting.reg)),
+                                          ),
+                                          const Divider(),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        1 /
+                                                        2 -
+                                                    20,
+                                                child: Text(
+                                                    _hutangController
+                                                        .hutangList[index]
+                                                            ['from']
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        fontFamily:
+                                                            FontSetting.reg)),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        1 /
+                                                        2 -
+                                                    22,
+                                                child: Text(
+                                                    _hutangController
+                                                        .hutangList[index]
+                                                            ['save']
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        fontFamily:
+                                                            FontSetting.reg)),
+                                              ),
+                                            ],
+                                          ),
+                                          const Divider(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      1 /
+                                                      4,
+                                                  child: _hutangController
+                                                                      .hutangList[
+                                                                  index]
+                                                              ['sync_status'] ==
+                                                          1
+                                                      ? Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 5),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              color: AppColor
+                                                                  .putih),
+                                                          child: Row(
+                                                            children: const [
+                                                              Icon(
+                                                                Icons.sync,
+                                                                color: AppColor
+                                                                    .hijau,
+                                                              ),
+                                                              Text("Sync",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontFamily:
+                                                                          FontSetting
+                                                                              .bold))
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 5),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              color: AppColor
+                                                                  .putih),
+                                                          child: Row(
+                                                            children: const [
+                                                              Icon(
+                                                                Icons
+                                                                    .sync_disabled,
+                                                                color: AppColor
+                                                                    .merah,
+                                                              ),
+                                                              Text("not Sync",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontFamily:
+                                                                          FontSetting
+                                                                              .bold))
+                                                            ],
+                                                          ),
+                                                        )),
+                                              Column(
+                                                children: [
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                    .size
+                                                                    .width *
+                                                                3 /
+                                                                4 -
+                                                            60,
+                                                    child: Text(
+                                                        "Rp. " +
+                                                            Ribuan.formatAngka(
+                                                                _hutangController
+                                                                    .hutangList[
+                                                                        index][
+                                                                        'amount']
+                                                                    .toString()),
+                                                        textAlign: TextAlign
+                                                            .end,
+                                                        style: const TextStyle(
+                                                            fontFamily:
+                                                                FontSetting
+                                                                    .bold,
+                                                            color:
+                                                                AppColor.hijau,
+                                                            fontSize: 20)),
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                    .size
+                                                                    .width *
+                                                                3 /
+                                                                4 -
+                                                            60,
+                                                    child: Text(
+                                                        "Sisa   " +
+                                                            Ribuan.formatAngka(
+                                                                _hutangController
+                                                                    .hutangList[
+                                                                        index][
+                                                                        'balance']
+                                                                    .toString()),
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        style: const TextStyle(
+                                                            fontFamily:
+                                                                FontSetting
+                                                                    .bold,
+                                                            color:
+                                                                AppColor.merah,
+                                                            fontSize: 14)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              );
-                            }),
+                                  );
+                                }),
                   ),
                 ),
               )
@@ -231,4 +374,127 @@ class _HutangState extends State<Hutang> {
           )),
     );
   }
+}
+
+void showSlideupView(BuildContext context, Map<String, dynamic> dataList) {
+  showBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          child: GestureDetector(
+            onTap: () {},
+            child: Container(
+                height: 310,
+                width: MediaQuery.of(context).size.width,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                // margin: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
+                    color: AppColor.putih,
+                    border: Border.all(color: AppColor.mainColor, width: 10.0)),
+                child: Column(
+                  children: [
+                    Text(dataList['name'],
+                        style: const TextStyle(
+                            fontSize: 16, fontFamily: FontSetting.bold),
+                        textAlign: TextAlign.center),
+                    Text(
+                        "Jumlah : " +
+                            Ribuan.formatAngka(dataList['amount'].toString()),
+                        style: const TextStyle(
+                            color: AppColor.hijau,
+                            fontSize: 24,
+                            fontFamily: FontSetting.bold),
+                        textAlign: TextAlign.center),
+                    Text(
+                        "Sisa : " +
+                            Ribuan.formatAngka(dataList['balance'].toString()),
+                        style: const TextStyle(
+                            color: AppColor.merah,
+                            fontSize: 20,
+                            fontFamily: FontSetting.bold),
+                        textAlign: TextAlign.center),
+                    Jarak(tinggi: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: AppColor.hijau,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: const Icon(Icons.sync,
+                                    color: AppColor.putih)),
+                            Jarak(tinggi: 2),
+                            const Text("Sync")
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: AppColor.merah,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: const Icon(Icons.delete,
+                                    color: AppColor.putih)),
+                            Jarak(tinggi: 2),
+                            const Text("Hapus")
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: AppColor.kuning,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: const Icon(Icons.attach_money,
+                                    color: AppColor.putih)),
+                            Jarak(tinggi: 2),
+                            const Text("Bayar")
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() =>
+                                DebtHistory(id: dataList['id'].toString()));
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.mainColor,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: const Icon(Icons.history,
+                                      color: AppColor.putih)),
+                              Jarak(tinggi: 2),
+                              const Text("History")
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Jarak(tinggi: 20),
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text("Tutup"))
+                  ],
+                )),
+          ),
+        );
+      });
 }

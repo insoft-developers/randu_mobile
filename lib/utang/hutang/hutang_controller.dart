@@ -123,7 +123,6 @@ class HutangController extends GetxController {
       var body = jsonDecode(res.body);
       if (body['success']) {
         hutangList.value = body['data'];
-        print(hutangList);
         loading(false);
       }
     }
@@ -132,5 +131,19 @@ class HutangController extends GetxController {
   categoryOnChange(String value) {
     selectedCategory.value = value;
     getHutangData("");
+  }
+
+  monthOnChange(String value) {
+    thisMonth.value = value;
+    getHutangData("");
+  }
+
+  yearOnChange(String value) {
+    thisYear.value = value;
+    getHutangData("");
+  }
+
+  onSearchDebt(String value) {
+    getHutangData(value);
   }
 }

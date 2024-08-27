@@ -6,6 +6,7 @@ import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
 import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
+import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
 
 // ignore: must_be_immutable
 class SelectMonthReport extends StatelessWidget {
@@ -42,6 +43,15 @@ class SelectMonthReport extends StatelessWidget {
     } else if (code == 'debt-category') {
       final HutangController _hutang = Get.put(HutangController());
       _hutang.categoryOnChange(value);
+    } else if (code == 'debt-list') {
+      final HutangController _hutang = Get.put(HutangController());
+      _hutang.monthOnChange(value);
+    } else if (code == 'tambah-hutang') {
+      final TambahHutangController _thc = Get.put(TambahHutangController());
+      _thc.onChangeCategory(value);
+    } else if (code == 'debt-sub-category') {
+      final TambahHutangController _thc = Get.put(TambahHutangController());
+      _thc.selectedSub.value = value;
     }
   }
 

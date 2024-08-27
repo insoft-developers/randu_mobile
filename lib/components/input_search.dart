@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
+import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
 
 // ignore: must_be_immutable
 class InputSearch extends StatelessWidget {
@@ -10,6 +11,7 @@ class InputSearch extends StatelessWidget {
   TextEditingController textEditingController;
   bool obsecureText;
   final JurnalController _jurnalController = Get.put(JurnalController());
+  String code;
 
   InputSearch(
       {Key? key,
@@ -17,7 +19,8 @@ class InputSearch extends StatelessWidget {
       required this.textInputType,
       required this.iconData,
       required this.textEditingController,
-      required this.obsecureText})
+      required this.obsecureText,
+      required this.code})
       : super(key: key);
 
   @override
@@ -40,7 +43,10 @@ class InputSearch extends StatelessWidget {
       child: TextField(
         controller: textEditingController,
         onChanged: (value) {
-          _jurnalController.searchJournalList(value);
+          if (code == 'debt-search') {
+            HutangController _hc = Get.put(HutangController());
+            _hc.onSearchDebt(value);
+          }
         },
         obscureText: obsecureText,
         keyboardType: textInputType,

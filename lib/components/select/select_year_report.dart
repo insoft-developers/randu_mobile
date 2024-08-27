@@ -6,6 +6,7 @@ import 'package:randu_mobile/laporan/laporan_jurnal/laporan_jurnal_controller.da
 import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
 import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
+import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
 
 // ignore: must_be_immutable
 class SelectYearReport extends StatelessWidget {
@@ -36,9 +37,12 @@ class SelectYearReport extends StatelessWidget {
     } else if (code == 'profit-loss') {
       final ProfitLossController _laporan = Get.put(ProfitLossController());
       _laporan.thisYear.value = value;
-    }else if (code == 'balance-sheet') {
+    } else if (code == 'balance-sheet') {
       final NeracaController _laporan = Get.put(NeracaController());
       _laporan.thisYear.value = value;
+    } else if (code == 'debt-list') {
+      final HutangController _hutang = Get.put(HutangController());
+      _hutang.yearOnChange(value);
     }
   }
 
