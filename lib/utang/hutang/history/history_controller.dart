@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DebtHistoryController extends GetxController {
   var loading = false.obs;
@@ -16,7 +17,22 @@ class DebtHistoryController extends GetxController {
     if (body['success']) {
       history.value = body['data'];
       loading(false);
-      print(history);
+    }
+  }
+
+  void paymentSync(String paymentId, String hutangId) async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {"payment_id": paymentId, "userid": userId};
+
+      var res = await Network().post(data, '/journal/payment-sync');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        Get.back();
+        getHistoryById(hutangId);
+      }
     }
   }
 }

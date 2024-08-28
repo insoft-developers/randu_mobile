@@ -4,6 +4,7 @@ import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/utang/hutang/index.dart';
+import 'package:randu_mobile/utang/piutang/index.dart';
 
 class Utang extends StatefulWidget {
   const Utang({Key? key}) : super(key: key);
@@ -26,7 +27,9 @@ class _UtangState extends State<Utang> {
   _onTapReport(int index) {
     if (index == 0) {
       Get.to(() => const Hutang());
-    } else if (index == 1) {}
+    } else if (index == 1) {
+      Get.to(() => const Piutang());
+    }
   }
 
   @override

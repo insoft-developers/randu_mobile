@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
+import 'package:randu_mobile/utang/piutang/piutang_controller.dart';
 
 // ignore: must_be_immutable
 class InputSearch extends StatelessWidget {
@@ -46,6 +47,9 @@ class InputSearch extends StatelessWidget {
           if (code == 'debt-search') {
             HutangController _hc = Get.put(HutangController());
             _hc.onSearchDebt(value);
+          } else if (code == 'piutang-search') {
+            PiutangController _hc = Get.put(PiutangController());
+            _hc.onSearchPiutang(value);
           }
         },
         obscureText: obsecureText,

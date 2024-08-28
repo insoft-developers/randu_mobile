@@ -7,24 +7,26 @@ import 'package:randu_mobile/homepage/homepage.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/utang/hutang/history/history_controller.dart';
 import 'package:randu_mobile/utang/hutang/index.dart';
+import 'package:randu_mobile/utang/piutang/history/piutang_history_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:randu_mobile/utils/tanggal.dart';
 
 // ignore: must_be_immutable
-class DebtHistory extends StatefulWidget {
+class PiutangHistory extends StatefulWidget {
   String id;
-  DebtHistory({Key? key, required this.id}) : super(key: key);
+  PiutangHistory({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<DebtHistory> createState() => _DebtHistoryState();
+  State<PiutangHistory> createState() => _PiutangHistoryState();
 }
 
-class _DebtHistoryState extends State<DebtHistory> {
-  final DebtHistoryController _debtHistory = Get.put(DebtHistoryController());
+class _PiutangHistoryState extends State<PiutangHistory> {
+  final PiutangHistoryController _piutangHistory =
+      Get.put(PiutangHistoryController());
 
   @override
   void initState() {
-    _debtHistory.getHistoryById(widget.id);
+    _piutangHistory.getHistoryById(widget.id);
     super.initState();
   }
 
@@ -33,27 +35,27 @@ class _DebtHistoryState extends State<DebtHistory> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColor.mainColor,
-          title: const Text("History Hutang"),
+          title: const Text("History Piutang"),
         ),
         body: Container(
             margin: const EdgeInsets.all(10),
             child: Obx(
-              () => _debtHistory.loading.value
+              () => _piutangHistory.loading.value
                   ? InputJurnalShimmer(tinggi: 200, jumlah: 10, pad: 0)
-                  : _debtHistory.history.isEmpty
+                  : _piutangHistory.history.isEmpty
                       ? const Center(child: Text("Belum ada pembayaran"))
                       : ListView.builder(
-                          itemCount: _debtHistory.history.length,
+                          itemCount: _piutangHistory.history.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onLongPress: () {
-                                if (_debtHistory.history[index]
+                                if (_piutangHistory.history[index]
                                         ['sync_status'] ==
                                     1) {
                                 } else {
                                   showDialogSync(
                                       context,
-                                      _debtHistory.history[index]['id']
+                                      _piutangHistory.history[index]['id']
                                           .toString(),
                                       widget.id);
                                 }
@@ -91,9 +93,10 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                   2 -
                                               40,
                                           child: Text(
-                                              Tanggal.getOnlyDate(_debtHistory
-                                                  .history[index]['created_at']
-                                                  .toString()),
+                                              Tanggal.getOnlyDate(
+                                                  _piutangHistory.history[index]
+                                                          ['created_at']
+                                                      .toString()),
                                               textAlign: TextAlign.end,
                                               style: const TextStyle(
                                                   fontFamily:
@@ -125,8 +128,8 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                   2 -
                                               40,
                                           child: Text(
-                                              _debtHistory.history[index]
-                                                      ['payment_from']
+                                              _piutangHistory.history[index]
+                                                      ['payment_to']
                                                   .toString(),
                                               textAlign: TextAlign.end,
                                               style: const TextStyle(
@@ -159,8 +162,8 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                   2 -
                                               40,
                                           child: Text(
-                                              _debtHistory.history[index]
-                                                      ['payment_to']
+                                              _piutangHistory.history[index]
+                                                      ['payment_from']
                                                   .toString(),
                                               textAlign: TextAlign.end,
                                               style: const TextStyle(
@@ -193,7 +196,7 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                   2 -
                                               40,
                                           child: Text(
-                                              Ribuan.formatAngka(_debtHistory
+                                              Ribuan.formatAngka(_piutangHistory
                                                   .history[index]['amount']
                                                   .toString()),
                                               textAlign: TextAlign.end,
@@ -227,7 +230,7 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                   2 -
                                               40,
                                           child: Text(
-                                              Ribuan.formatAngka(_debtHistory
+                                              Ribuan.formatAngka(_piutangHistory
                                                   .history[index]['balance']
                                                   .toString()),
                                               textAlign: TextAlign.end,
@@ -261,11 +264,11 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                   2 -
                                               40,
                                           child: Text(
-                                              _debtHistory.history[index]
+                                              _piutangHistory.history[index]
                                                           ['note'] !=
                                                       null
-                                                  ? _debtHistory.history[index]
-                                                          ['note']
+                                                  ? _piutangHistory
+                                                      .history[index]['note']
                                                       .toString()
                                                   : "",
                                               textAlign: TextAlign.end,
@@ -298,7 +301,7 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                   1 /
                                                   2 -
                                               40,
-                                          child: _debtHistory.history[index]
+                                          child: _piutangHistory.history[index]
                                                       ['sync_status'] ==
                                                   1
                                               ? Row(
@@ -364,7 +367,7 @@ showDialogSync(BuildContext context, String paymentId, String hutangId) {
       style: TextStyle(fontFamily: 'PoppinsBold'),
     ),
     onPressed: () {
-      DebtHistoryController _history = Get.put(DebtHistoryController());
+      PiutangHistoryController _history = Get.put(PiutangHistoryController());
       _history.paymentSync(paymentId, hutangId);
     },
   );

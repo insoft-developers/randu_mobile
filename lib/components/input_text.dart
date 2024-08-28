@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:randu_mobile/journal/tambah/jurnal_cepat/jurnal_cepat_controller.dart';
 import 'package:randu_mobile/utang/hutang/pembayaran/debt_payment_controller.dart';
 import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
+import 'package:randu_mobile/utang/piutang/pembayaran/piutang_payment_controller.dart';
+import 'package:randu_mobile/utang/piutang/tambah/tambah_piutang_controller.dart';
 
 // ignore: must_be_immutable
 class InputText extends StatelessWidget {
@@ -62,6 +64,14 @@ class InputText extends StatelessWidget {
           } else if (code == 'pembayaran-hutang') {
             final DebtPaymentController _dpc = Get.put(DebtPaymentController());
             _dpc.setRibuan(value.isEmpty ? 0 : int.parse(value));
+          } else if (code == 'nominal-piutang') {
+            final TambahPiutangController _tpc =
+                Get.put(TambahPiutangController());
+            _tpc.setRibuan(value.isEmpty ? 0 : int.parse(value));
+          } else if (code == 'pembayaran-piutang') {
+            final PiutangPaymentController _tpc =
+                Get.put(PiutangPaymentController());
+            _tpc.setRibuan(value.isEmpty ? 0 : int.parse(value));
           }
         },
       ),

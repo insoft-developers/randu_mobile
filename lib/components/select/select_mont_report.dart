@@ -7,6 +7,9 @@ import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
 import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
 import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
+import 'package:randu_mobile/utang/piutang/pembayaran/piutang_payment_controller.dart';
+import 'package:randu_mobile/utang/piutang/piutang_controller.dart';
+import 'package:randu_mobile/utang/piutang/tambah/tambah_piutang_controller.dart';
 
 // ignore: must_be_immutable
 class SelectMonthReport extends StatelessWidget {
@@ -58,6 +61,29 @@ class SelectMonthReport extends StatelessWidget {
     } else if (code == 'debt-to') {
       final TambahHutangController _thc = Get.put(TambahHutangController());
       _thc.selectedDebtTo.value = value;
+    }
+    // ========================================================================
+    else if (code == 'piutang-category') {
+      final PiutangController _piutang = Get.put(PiutangController());
+      _piutang.categoryOnChange(value);
+    } else if (code == 'piutang-list') {
+      final PiutangController _piutang = Get.put(PiutangController());
+      _piutang.monthOnChange(value);
+    } else if (code == 'tambah-piutang') {
+      final TambahPiutangController _thc = Get.put(TambahPiutangController());
+      _thc.onChangeCategory(value);
+    } else if (code == 'piutang-sub-category') {
+      final TambahPiutangController _thc = Get.put(TambahPiutangController());
+      _thc.selectedSub.value = value;
+    } else if (code == 'piutang-from') {
+      final TambahPiutangController _thc = Get.put(TambahPiutangController());
+      _thc.selectedPiutangFrom.value = value;
+    } else if (code == 'piutang-to') {
+      final TambahPiutangController _thc = Get.put(TambahPiutangController());
+      _thc.selectedPiutangTo.value = value;
+    } else if (code == 'bayar-ke') {
+      final PiutangPaymentController _thc = Get.put(PiutangPaymentController());
+      _thc.selectedBayarKe.value = value;
     }
   }
 
