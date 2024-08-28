@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
+import 'package:randu_mobile/utang/hutang/history/history.dart';
+import 'package:randu_mobile/utang/hutang/index.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,6 +40,8 @@ class DebtPaymentController extends GetxController {
       var body = jsonDecode(res.body);
       if (body['success']) {
         showSuccess(body['message'].toString());
+        Get.back();
+        Get.back();
       } else {
         showError(body['message'].toString());
         loading(false);

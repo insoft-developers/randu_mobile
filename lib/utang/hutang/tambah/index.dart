@@ -92,7 +92,7 @@ class _TambahHutangState extends State<TambahHutang> {
             TextArea(
                 hint: "Keterangan",
                 textEditingController: _tKeterangan,
-                maxline: 10),
+                maxline: 6),
             Jarak(tinggi: 30),
             Obx(
               () => _thc.storeLoading.value

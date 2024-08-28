@@ -343,21 +343,24 @@ class _HutangState extends State<Hutang> {
                                                                 4 -
                                                             60,
                                                     child: Text(
-                                                        "Sisa   " +
-                                                            Ribuan.formatAngka(
-                                                                _hutangController
+                                                        _hutangController
+                                                                        .hutangList[index]
+                                                                    [
+                                                                    'balance'] <=
+                                                                0
+                                                            ? "LUNAS"
+                                                            : "Sisa   " +
+                                                                Ribuan.formatAngka(_hutangController
                                                                     .hutangList[
                                                                         index][
                                                                         'balance']
                                                                     .toString()),
-                                                        textAlign:
-                                                            TextAlign.end,
+                                                        textAlign: TextAlign
+                                                            .end,
                                                         style: const TextStyle(
                                                             fontFamily:
-                                                                FontSetting
-                                                                    .bold,
-                                                            color:
-                                                                AppColor.merah,
+                                                                FontSetting.bold,
+                                                            color: AppColor.merah,
                                                             fontSize: 14)),
                                                   ),
                                                 ],
@@ -379,6 +382,7 @@ class _HutangState extends State<Hutang> {
 }
 
 void showSlideupView(BuildContext context, Map<String, dynamic> dataList) {
+  final HutangController _hc = Get.put(HutangController());
   showBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -387,7 +391,7 @@ void showSlideupView(BuildContext context, Map<String, dynamic> dataList) {
           child: GestureDetector(
             onTap: () {},
             child: Container(
-                height: 310,
+                height: 320,
                 width: MediaQuery.of(context).size.width,
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
@@ -420,57 +424,98 @@ void showSlideupView(BuildContext context, Map<String, dynamic> dataList) {
                             fontSize: 20,
                             fontFamily: FontSetting.bold),
                         textAlign: TextAlign.center),
-                    Jarak(tinggi: 20),
+                    const Divider(),
+                    Jarak(tinggi: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
                           children: [
-                            Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: AppColor.hijau,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Icon(Icons.sync,
-                                    color: AppColor.putih)),
+                            dataList['sync_status'] == 1
+                                ? Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppColor.inactive,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: const Icon(Icons.sync,
+                                        color: AppColor.putih))
+                                : GestureDetector(
+                                    onTap: () {
+                                      showDialogSync(context, dataList['id']);
+                                    },
+                                    child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: AppColor.hijau,
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        child: const Icon(Icons.sync,
+                                            color: AppColor.putih)),
+                                  ),
                             Jarak(tinggi: 2),
                             const Text("Sync")
                           ],
                         ),
                         Column(
                           children: [
-                            Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: AppColor.merah,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Icon(Icons.delete,
-                                    color: AppColor.putih)),
-                            Jarak(tinggi: 2),
-                            const Text("Hapus")
-                          ],
-                        ),
-                        Column(
-                          children: [
                             GestureDetector(
                               onTap: () {
-                                Get.to(() => DebtPayment(dataList: dataList));
+                                showDialogDelete(context, dataList['id']);
                               },
                               child: Container(
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    color: AppColor.kuning,
+                                    color: AppColor.merah,
                                     borderRadius: BorderRadius.circular(30),
                                   ),
-                                  child: const Icon(Icons.attach_money,
+                                  child: const Icon(Icons.delete,
                                       color: AppColor.putih)),
                             ),
                             Jarak(tinggi: 2),
-                            const Text("Bayar")
+                            const Text("Hapus")
                           ],
                         ),
+                        dataList['balance'] <= 0
+                            ? Column(
+                                children: [
+                                  Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: AppColor.inactive,
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: const Icon(
+                                          Icons.check_circle_outline,
+                                          color: AppColor.putih)),
+                                  Jarak(tinggi: 2),
+                                  const Text("Lunas")
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(() =>
+                                              DebtPayment(dataList: dataList))!
+                                          .then(
+                                              (value) => _hc.getHutangData(""));
+                                    },
+                                    child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: AppColor.kuning,
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        child: const Icon(Icons.attach_money,
+                                            color: AppColor.putih)),
+                                  ),
+                                  Jarak(tinggi: 2),
+                                  const Text("Bayar")
+                                ],
+                              ),
                         GestureDetector(
                           onTap: () {
                             Get.to(() =>
@@ -504,4 +549,86 @@ void showSlideupView(BuildContext context, Map<String, dynamic> dataList) {
           ),
         );
       });
+}
+
+showDialogDelete(BuildContext context, int hutangId) {
+  Widget cancelButton = TextButton(
+    child: const Text(
+      "Tidak",
+      style: TextStyle(fontFamily: 'PoppinsBold'),
+    ),
+    onPressed: () {
+      Get.back();
+    },
+  );
+
+  Widget continueButton = TextButton(
+    child: const Text(
+      "Hapus Data ?",
+      style: TextStyle(fontFamily: 'PoppinsBold'),
+    ),
+    onPressed: () {
+      HutangController _hc = Get.put(HutangController());
+      _hc.onDebtDelete(hutangId);
+    },
+  );
+
+  AlertDialog alert = AlertDialog(
+    title:
+        const Text("Peringatan", style: TextStyle(fontFamily: 'PoppinsBold')),
+    content: const Text('Anda Ingin menghapus data ini? ',
+        style: TextStyle(fontFamily: 'Poppins')),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showDialogSync(BuildContext context, int hutangId) {
+  Widget cancelButton = TextButton(
+    child: const Text(
+      "Tidak",
+      style: TextStyle(fontFamily: 'PoppinsBold'),
+    ),
+    onPressed: () {
+      Get.back();
+    },
+  );
+
+  Widget continueButton = TextButton(
+    child: const Text(
+      "Sync Data ?",
+      style: TextStyle(fontFamily: 'PoppinsBold'),
+    ),
+    onPressed: () {
+      HutangController _hc = Get.put(HutangController());
+      _hc.onDebtSync(hutangId);
+    },
+  );
+
+  AlertDialog alert = AlertDialog(
+    title:
+        const Text("Peringatan", style: TextStyle(fontFamily: 'PoppinsBold')),
+    content: const Text('Sinkronisasi data ini ke jurnal..? ',
+        style: TextStyle(fontFamily: 'Poppins')),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

@@ -11,6 +11,7 @@ class AppColor {
   static const Color merah = Color.fromRGBO(183, 28, 28, 1);
   static const Color display = Color(0xFFBBDEFB);
   static const Color displayLine = Colors.blue;
+  static const Color inactive = Colors.blueGrey;
   static const Gradient linearGradient = LinearGradient(
     begin: Alignment(0.0, 0.0),
     end: Alignment(0.707, -0.707),

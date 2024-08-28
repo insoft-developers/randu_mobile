@@ -146,4 +146,31 @@ class HutangController extends GetxController {
   onSearchDebt(String value) {
     getHutangData(value);
   }
+
+  void onDebtDelete(int hutangId) async {
+    var data = {"id": hutangId};
+    var res = await Network().post(data, '/journal/debt-destroy');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      Get.back();
+      Get.back();
+      getHutangData("");
+    }
+  }
+
+  void onDebtSync(int hutangId) async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {"id": hutangId, "userid": userId};
+      var res = await Network().post(data, '/journal/debt-sync');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        Get.back();
+        Get.back();
+        getHutangData("");
+      }
+    }
+  }
 }

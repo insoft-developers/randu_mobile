@@ -15,6 +15,7 @@ class DebtHistoryController extends GetxController {
     var body = jsonDecode(res.body);
     if (body['success']) {
       history.value = body['data'];
+      loading(false);
       print(history);
     }
   }

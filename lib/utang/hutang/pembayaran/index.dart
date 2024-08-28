@@ -112,15 +112,19 @@ class _DebtPaymentState extends State<DebtPayment> {
             Jarak(tinggi: 20),
             TextArea(hint: "Keterangan", textEditingController: _keterangan, maxline: 6),
             Jarak(tinggi: 30),
-            ElevatedButton(
-              style:
-                  ElevatedButton.styleFrom(primary: AppColor.mainColor),
-              onPressed: () {
-                _dpc.savePayment(widget.dataList['id'], widget.dataList['debt_from'].toString(), widget.dataList['save_to'].toString(), _nominal.text.toString().isEmpty ?0 : int.parse(_nominal.text), 0, _keterangan.text);
-              },
-              child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: const Text("SUBMIT")))
+            Obx(()
+              => _dpc.loading.value ?  const SizedBox(
+                      child: Center(child: CircularProgressIndicator())): ElevatedButton(
+                style:
+                    ElevatedButton.styleFrom(primary: AppColor.mainColor),
+                onPressed: () {
+                   
+                  _dpc.savePayment(widget.dataList['id'], widget.dataList['debt_from'].toString(), widget.dataList['save_to'].toString(), _nominal.text.toString().isEmpty ?0 : int.parse(_nominal.text), widget.dataList['balance'], _keterangan.text);
+                },
+                child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: const Text("SUBMIT"))),
+            )
             ],
           ),
         ));
