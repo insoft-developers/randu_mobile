@@ -13,6 +13,8 @@ import 'package:randu_mobile/journal/tambah/jurnal_cepat/index.dart';
 import 'package:randu_mobile/laporan/index.dart';
 import 'package:randu_mobile/pengaturan/index.dart';
 import 'package:randu_mobile/penyusutan/index.dart';
+import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
+import 'package:randu_mobile/penyusutan/tambah/index.dart';
 import 'package:randu_mobile/utang/index.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,6 +27,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final HomePageController _homePageController = Get.put(HomePageController());
   final JurnalController _jurnalController = Get.put(JurnalController());
+  final PenyusutanController _penyusutanController =
+      Get.put(PenyusutanController());
   var pages = [
     const Journal(),
     const Laporan(),
@@ -56,7 +60,19 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: const Text("Input Jurnal")),
                     )
-                  : const SizedBox(),
+                  // ignore: unrelated_type_equality_checks
+                  : _homePageController.pageTitle == 'Penyusutan'
+                      ? GestureDetector(
+                          onTap: () {
+                            Get.to(() => const TambahPenyusutan())!.then(
+                                (value) =>
+                                    _penyusutanController.getDataPenyusutan());
+                          },
+                          child: Container(
+                              margin: const EdgeInsets.only(right: 20),
+                              child: const Icon(Icons.add)),
+                        )
+                      : const SizedBox(),
             ),
             Obx(
               () => _homePageController.pageTitle.value == ''

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/journal/tambah/jurnal_cepat/jurnal_cepat_controller.dart';
+import 'package:randu_mobile/penyusutan/tambah/tambah_penyusutan_controller.dart';
 import 'package:randu_mobile/utang/hutang/pembayaran/debt_payment_controller.dart';
 import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
 import 'package:randu_mobile/utang/piutang/pembayaran/piutang_payment_controller.dart';
@@ -72,6 +73,14 @@ class InputText extends StatelessWidget {
             final PiutangPaymentController _tpc =
                 Get.put(PiutangPaymentController());
             _tpc.setRibuan(value.isEmpty ? 0 : int.parse(value));
+          } else if (code == 'nilai-awal-penyusutan') {
+            final TambahPenyusutanController _tpc =
+                Get.put(TambahPenyusutanController());
+            _tpc.setAwalRibuan(value.isEmpty ? 0 : int.parse(value));
+          } else if (code == 'residu-penyusutan') {
+            final TambahPenyusutanController _tpc =
+                Get.put(TambahPenyusutanController());
+            _tpc.setResiduRibuan(value.isEmpty ? 0 : int.parse(value));
           }
         },
       ),

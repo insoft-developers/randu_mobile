@@ -5,6 +5,8 @@ import 'package:randu_mobile/laporan/laporan_jurnal/laporan_jurnal_controller.da
 import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
 import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
+import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
+import 'package:randu_mobile/penyusutan/tambah/tambah_penyusutan_controller.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
 import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
 import 'package:randu_mobile/utang/piutang/pembayaran/piutang_payment_controller.dart';
@@ -84,6 +86,24 @@ class SelectMonthReport extends StatelessWidget {
     } else if (code == 'bayar-ke') {
       final PiutangPaymentController _thc = Get.put(PiutangPaymentController());
       _thc.selectedBayarKe.value = value;
+    } else if (code == 'penyusutan-category') {
+      final PenyusutanController _thc = Get.put(PenyusutanController());
+      _thc.categoryOnChange(value);
+    } else if (code == 'penyusutan-list') {
+      final PenyusutanController _penyusutan = Get.put(PenyusutanController());
+      _penyusutan.monthOnChange(value);
+    } else if (code == 'tambah-penyusutan') {
+      final TambahPenyusutanController _tpc =
+          Get.put(TambahPenyusutanController());
+      _tpc.onCategoryChange(value);
+    } else if (code == 'akumulasi-penyusutan') {
+      final TambahPenyusutanController _tpc =
+          Get.put(TambahPenyusutanController());
+      _tpc.selectedAkumulasi.value = value;
+    } else if (code == 'beban-penyusutan') {
+      final TambahPenyusutanController _tpc =
+          Get.put(TambahPenyusutanController());
+      _tpc.selectedBeban.value = value;
     }
   }
 

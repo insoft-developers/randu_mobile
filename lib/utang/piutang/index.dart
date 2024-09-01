@@ -8,9 +8,7 @@ import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
-import 'package:randu_mobile/utang/hutang/history/history.dart';
-import 'package:randu_mobile/utang/hutang/pembayaran/index.dart';
-import 'package:randu_mobile/utang/hutang/tambah/index.dart';
+
 import 'package:randu_mobile/utang/piutang/history/index.dart';
 import 'package:randu_mobile/utang/piutang/pembayaran/index.dart';
 import 'package:randu_mobile/utang/piutang/piutang_controller.dart';
