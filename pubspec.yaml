@@ -90,6 +90,10 @@ flutter:
     - images/neracasaldo.png
     - images/hutang.png
     - images/piutang.png
+    - images/setting_awal.png
+    - images/setting_rekening.png
+    - images/setting_open.png
+    - images/setting_hapus.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -9,7 +9,8 @@ class AppColor {
   static const Color putih = Colors.white;
   static const Color kuning = Colors.orange;
   static const Color merah = Color.fromRGBO(183, 28, 28, 1);
-  static const Color display = Color(0xFFBBDEFB);
+  // static const Color display = Color(0xFFBBDEFB);
+  static const Color display = Colors.white;
   static const Color displayLine = Colors.blue;
   static const Color inactive = Colors.blueGrey;
   static const Gradient linearGradient = LinearGradient(

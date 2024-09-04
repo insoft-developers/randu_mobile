@@ -2,24 +2,24 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:randu_mobile/components/input_readonly.dart';
 import 'package:randu_mobile/css/app_color.dart';
-import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
-import 'package:randu_mobile/journal/tambah/input_jurnal/input_jurnal_controller.dart';
+import 'package:randu_mobile/pengaturan/modal_awal/tambah/pengaturan_modal_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 
-class InputJurnal extends StatefulWidget {
-  const InputJurnal({Key? key}) : super(key: key);
+class TambahModal extends StatefulWidget {
+  const TambahModal({Key? key}) : super(key: key);
 
   @override
-  State<InputJurnal> createState() => _InputJurnalState();
+  State<TambahModal> createState() => _TambahModalState();
 }
 
-class _InputJurnalState extends State<InputJurnal> {
-  final InputJurnalController _inputJurnalController =
-      Get.put(InputJurnalController());
+class _TambahModalState extends State<TambahModal> {
+  final PengaturanAwalController _pengaturanAwal =
+      Get.put(PengaturanAwalController());
   final TextEditingController _tanggal = TextEditingController();
   final TextEditingController _transName = TextEditingController();
   final List<TextEditingController> _debits = [TextEditingController()];
@@ -38,9 +38,11 @@ class _InputJurnalState extends State<InputJurnal> {
     var now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
     _tanggal.text = formattedDate;
-    _inputJurnalController.getAccountSelect();
+    _pengaturanAwal.getAccountSelect();
     _addItem();
+    _transName.text = "Saldo Awal";
     super.initState();
+    
   }
 
   _onSubmit() {
@@ -52,7 +54,7 @@ class _InputJurnalState extends State<InputJurnal> {
       _creditText.add(_credits[i].text.isEmpty ? "0" : _credits[i].text);
     }
 
-    _inputJurnalController.saveMultipleJournal(_tanggal.text, _transName.text,
+    _pengaturanAwal.updateMultipleJournal(0, _tanggal.text, _transName.text,
         _selectedAkuns, _debetText, _creditText);
   }
 
@@ -117,10 +119,10 @@ class _InputJurnalState extends State<InputJurnal> {
                   child: const Icon(Icons.add, color: Colors.white)),
             ),
           ],
-          title: const Text("Input Jurnal"),
+          title: const Text("Pengaturan Modal Awal"),
         ),
         floatingActionButton: Obx(
-          () => _inputJurnalController.saveLoading.value
+          () => _pengaturanAwal.saveLoading.value
               ? Container(
                   margin: const EdgeInsets.only(bottom: 70),
                   child: const CircularProgressIndicator())
@@ -169,11 +171,10 @@ class _InputJurnalState extends State<InputJurnal> {
                   ),
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 2 / 3 - 40,
-                      child: InputText(
+                      child: InputReadOnly(
                           hint: "Nama Transaksi",
                           textInputType: TextInputType.text,
                           textEditingController: _transName,
-                          obsecureText: false,
                           code: "")),
                 ],
               ),
@@ -198,7 +199,7 @@ class _InputJurnalState extends State<InputJurnal> {
              ),
             Jarak(tinggi: 2),
             Obx(
-              () => _inputJurnalController.loading.value
+              () => _pengaturanAwal.loading.value
                   ? Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: InputJurnalShimmer(tinggi: 150, jumlah: 2, pad:10))
@@ -237,7 +238,7 @@ class _InputJurnalState extends State<InputJurnal> {
                                             showSearchBox: true,
                                             mode: Mode.DIALOG,
                                             showSelectedItems: true,
-                                            items: _inputJurnalController
+                                            items: _pengaturanAwal
                                                 .accountDropdown,
                                             dropdownSearchDecoration:
                                                 const InputDecoration(
@@ -248,12 +249,12 @@ class _InputJurnalState extends State<InputJurnal> {
                                                 _akuns[index] =
                                                     value.toString();
                                                 int indexSelected =
-                                                    _inputJurnalController
+                                                    _pengaturanAwal
                                                         .accountDropdown
                                                         .indexOf(value!);
                                                 Map<String, dynamic>
                                                     _selectedAccount =
-                                                    _inputJurnalController
+                                                    _pengaturanAwal
                                                             .accountSelect[
                                                         indexSelected];
                                                 String _accountId =

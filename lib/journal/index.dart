@@ -87,9 +87,9 @@ class _JournalState extends State<Journal> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4),
                                       border: Border.all(
-                                          color: Colors.blue.shade900,
+                                          color: AppColor.displayLine,
                                           width: 0.5),
-                                      color: Colors.blue.shade50),
+                                      color: AppColor.display),
                                   child: Row(
                                     children: [
                                       Container(

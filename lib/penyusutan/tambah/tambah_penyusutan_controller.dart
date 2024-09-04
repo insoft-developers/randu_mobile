@@ -62,22 +62,6 @@ class TambahPenyusutanController extends GetxController {
     }
   }
 
-  // void getBeban() async {
-  //   bebanLoading(true);
-  //   SharedPreferences localStorage = await SharedPreferences.getInstance();
-  //   var user = jsonDecode(localStorage.getString('user')!);
-  //   if (user != null) {
-  //     var userId = user['id'];
-  //     var data = {"userid": userId};
-  //     var res = await Network().post(data, '/journal/akun-biaya-penyusutan');
-  //     var body = jsonDecode(res.body);
-  //     if (body['success']) {
-  //       bebanList.value = body['data'];
-  //       bebanLoading(false);
-  //     }
-  //   }
-  // }
-
   void getPenyusutanCategory() async {
     categoryLoading(true);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -202,6 +186,4 @@ class TambahPenyusutanController extends GetxController {
       ),
     ));
   }
-
-  
 }

@@ -269,9 +269,9 @@ class _JournalEditState extends State<JournalEdit> {
                                     padding: const EdgeInsets.all(10),
                                     margin: const EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
-                                      color: Colors.blue.shade50,
+                                      color: AppColor.display,
                                       border: Border.all(
-                                          color: AppColor.mainColor, width: 1),
+                                          color: AppColor.displayLine,width: 1),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Column(
