@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
 
 // ignore: must_be_immutable
@@ -32,7 +33,7 @@ class TextCari extends StatelessWidget {
         left: 10,
         right: 10,
       ),
-      height: 40,
+      height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         color: Colors.transparent,
@@ -57,7 +58,7 @@ class TextCari extends StatelessWidget {
           ),
           hintText: hint,
           hintStyle: const TextStyle(
-              fontFamily: 'Rubik', fontSize: 15, color: Colors.grey),
+              fontFamily: FontSetting.reg, fontSize: 15, color: Colors.grey),
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
         ),

@@ -1,7 +1,7 @@
 class Constant {
   // ignore: non_constant_identifier_names
-  static String BASE_URL = "http://192.168.100.3/akunting-ukm/public/";
-  // static String BASE_URL = "https://dev.randu.co.id/";
+  // static String BASE_URL = "http://192.168.100.3/akunting-ukm/public/";
+  static String BASE_URL = "https://dev.randu.co.id/";
   // ignore: non_constant_identifier_names
   // static String SLIDER_IMAGE = BASE_URL + "storage/app/public/images/slider/";
   // // ignore: non_constant_identifier_names
@@ -18,4 +18,5 @@ class Constant {
   //     BASE_URL + "storage/app/public/images/notifikasi/";
   // ignore: non_constant_identifier_names
   static String VERSION = "1.0.0";
+  static String RELEASE_DATE = "06 September 2024";
 }

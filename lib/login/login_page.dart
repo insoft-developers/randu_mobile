@@ -36,13 +36,14 @@ class _LoginPageState extends State<LoginPage> {
                     fontFamily: FontSetting.bold,
                     fontSize: 25,
                   )),
-              Jarak(tinggi: 60),
+              Jarak(tinggi: MediaQuery.of(context).size.height - 620),
               Image.asset(
                 "images/randu_acc.png",
                 width: 100,
                 height: 100,
               ),
-              Jarak(tinggi: MediaQuery.of(context).size.height - 620),
+              // Jarak(tinggi: MediaQuery.of(context).size.height - 620),
+              Jarak(tinggi: 50),
               SizedBox(
                 child: TextView(
                     hint: "Email",
@@ -94,29 +95,35 @@ class _LoginPageState extends State<LoginPage> {
                       ),
               ),
               Jarak(tinggi: 40),
-              GestureDetector(
-                onTap: () {
-                  Get.to(() => const LupaPassword());
-                },
-                child: const Text("Lupa Password ?",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontFamily: FontSetting.reg,
-                        fontSize: 14,
-                        color: Colors.white)),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 3 / 4 - 40,
+                    child: const Text("Belum Daftar? atau Lupa Password ?",
+                        style: TextStyle(
+                            fontFamily: FontSetting.reg,
+                            fontSize: 14,
+                            color: Colors.white)),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _loginController.launchURL();
+                    },
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 1 / 4 - 20,
+                      child: const Text("Klik di Sini",
+                          style: TextStyle(
+                              fontFamily: FontSetting.reg,
+                              fontSize: 14,
+                              decoration: TextDecoration.underline,
+                              color: Colors.white)),
+                    ),
+                  ),
+                ],
               ),
-              Jarak(tinggi: 15),
-              InkWell(
-                onTap: () {
-                  _loginController.launchURL();
-                },
-                child: const Text("Perlu Bantuan Login/Aktivasi ?",
-                    style: TextStyle(
-                        fontFamily: FontSetting.reg,
-                        decoration: TextDecoration.underline,
-                        fontSize: 14,
-                        color: Colors.white)),
-              ),
+
               Jarak(tinggi: 30)
             ],
           ),

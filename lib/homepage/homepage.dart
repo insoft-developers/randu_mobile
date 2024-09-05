@@ -18,6 +18,7 @@ import 'package:randu_mobile/penyusutan/index.dart';
 import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
 import 'package:randu_mobile/penyusutan/tambah/index.dart';
 import 'package:randu_mobile/utang/index.dart';
+import 'package:randu_mobile/utils/constant.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -41,7 +42,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _homePageController.getBranchName();
+    // _homePageController.getBranchName();
+    _homePageController.initUserInfo();
     super.initState();
   }
 
@@ -134,41 +136,48 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.zero,
               children: [
                 SizedBox(
-                  height: 150,
+                  height: 200,
                   child: DrawerHeader(
                     decoration: const BoxDecoration(
                       color: AppColor.mainColor,
                     ),
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          "images/randu.png",
-                          fit: BoxFit.contain,
-                          width: 70,
+                        Center(
+                          child: Image.asset(
+                            "images/randu_icon.png",
+                            fit: BoxFit.contain,
+                            width: 120,
+                          ),
                         ),
-                        Spasi(lebar: 20),
-                        Obx(
-                          () => _homePageController.branchLoading.value
-                              ? TextShimmer(lebar: 150, tinggi: 30)
-                              : SizedBox(
-                                  width: 150,
-                                  child: Obx(
-                                    () => Text(
-                                        _homePageController.branchName.value
-                                            .toString(),
-                                        style: const TextStyle(
-                                            fontFamily: FontSetting.bold,
-                                            fontSize: 20,
-                                            color: Colors.white)),
-                                  ),
-                                ),
-                        )
+                        Jarak(tinggi: 30),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Obx(
+                            () => Text(_homePageController.userName.value,
+                                style: const TextStyle(
+                                    fontFamily: FontSetting.bold,
+                                    fontSize: 16,
+                                    color: Colors.white)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Obx(
+                            () => Text(_homePageController.userEmail.value,
+                                style: const TextStyle(
+                                    fontFamily: FontSetting.reg,
+                                    fontSize: 13,
+                                    color: Colors.white)),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
+                Jarak(tinggi: 20),
                 ListTile(
                   title: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -308,34 +317,112 @@ class _HomePageState extends State<HomePage> {
                     Get.back();
                   },
                 ),
-                Jarak(tinggi: 40),
-                ListTile(
-                  title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                            height: 40, child: Image.asset("images/exit.png")),
-                        Spasi(lebar: 15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text("Keluar",
-                                style: TextStyle(
-                                    fontFamily: FontSetting.bold,
-                                    fontSize: 15)),
-                            Text("Keluar dari Aplikasi",
-                                style: TextStyle(
-                                    fontFamily: FontSetting.reg, fontSize: 13)),
-                          ],
-                        )
-                      ]),
-                  onTap: () {
-                    _homePageController.logout();
-                  },
-                ),
+                Jarak(tinggi: 80),
+                Text("VERSI " + Constant.VERSION,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontFamily: FontSetting.reg, fontSize: 13)),
+                Text(Constant.RELEASE_DATE,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontFamily: FontSetting.reg, fontSize: 13)),
+                Jarak(tinggi: 50),
+                const Divider(),
+                Jarak(tinggi: 20),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _homePageController.showWebsite();
+                        },
+                        child: SizedBox(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.support_agent,
+                                  color: AppColor.mainColor, size: 30),
+                              Spasi(lebar: 5),
+                              const Text("Bantuan",
+                                  style: TextStyle(
+                                      fontFamily: FontSetting.bold,
+                                      color: AppColor.mainColor))
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showAlertDialog(context);
+                        },
+                        child: SizedBox(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.exit_to_app,
+                                  color: AppColor.merah, size: 30),
+                              Spasi(lebar: 5),
+                              const Text("Keluar",
+                                  style: TextStyle(
+                                      fontFamily: FontSetting.bold,
+                                      color: AppColor.merah))
+                            ],
+                          ),
+                        ),
+                      )
+                    ]),
+                Jarak(tinggi: 40)
               ],
             ),
           )),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    final HomePageController _homepage = HomePageController();
+    Widget cancelButton = TextButton(
+      child: const Text("Batal"),
+      onPressed: () {
+        Get.back();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.green,
+          ),
+          child: const Text("Ya",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: FontSetting.reg,
+              ))),
+      onPressed: () {
+        _homepage.logout();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Keluar Aplikasi",
+          style: TextStyle(
+            fontFamily: FontSetting.bold,
+            color: Colors.green,
+          )),
+      content: const Text("Anda yakin ingin keluar dari aplikasi?",
+          style: TextStyle(
+            fontFamily: FontSetting.reg,
+            fontSize: 15,
+          )),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

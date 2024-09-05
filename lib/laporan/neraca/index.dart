@@ -113,6 +113,7 @@ class _NeracaState extends State<Neraca> {
                             color: AppColor.putih,
                             fontFamily: FontSetting.reg))),
               ]),
+              Jarak(tinggi: 10),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(5),

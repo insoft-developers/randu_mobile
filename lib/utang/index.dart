@@ -49,7 +49,7 @@ class _UtangState extends State<Utang> {
                     padding: const EdgeInsets.all(20),
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
-                        gradient: AppColor.blueGradient,
+                        color: AppColor.mainColor,
                         borderRadius: BorderRadius.circular(14)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

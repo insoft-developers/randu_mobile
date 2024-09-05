@@ -46,7 +46,7 @@ class LoginController extends GetxController {
   }
 
   void launchURL() async {
-    launchUrl(Uri.parse('https://help.randu.co.id'),
+    launchUrl(Uri.parse('https://app.randu.co.id'),
         mode: LaunchMode.externalApplication);
   }
 

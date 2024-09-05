@@ -112,6 +112,7 @@ class _LaporanJurnalState extends State<LaporanJurnal> {
                       style: TextStyle(
                           color: AppColor.putih, fontFamily: FontSetting.reg))),
             ]),
+            Jarak(tinggi: 10),
             Obx(
               () => _laporanController.loading.value
                   ? Expanded(

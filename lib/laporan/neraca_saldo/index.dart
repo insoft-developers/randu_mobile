@@ -113,6 +113,7 @@ class _NeracaSaldoState extends State<NeracaSaldo> {
                             color: AppColor.putih,
                             fontFamily: FontSetting.reg))),
               ]),
+              Jarak(tinggi: 10),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(5),
