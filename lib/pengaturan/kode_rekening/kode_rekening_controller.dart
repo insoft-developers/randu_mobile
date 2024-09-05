@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ class KodeRekeningController extends GetxController {
   var accountGroup = List.empty().obs;
   var kodeLoading = false.obs;
   var kodeList = List.empty().obs;
+  var saveLoading = false.obs;
 
   void getAccountSelect() async {
     loading(true);
@@ -45,5 +47,51 @@ class KodeRekeningController extends GetxController {
         print(body);
       }
     }
+  }
+
+  void save(int indexId, List<String> accountItem, List<String> id, int accountCodeId) async {
+    saveLoading(true);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {
+        "userid": userId,
+        "index_id": indexId,
+        "account_item": accountItem,
+        "account_code_id": accountCodeId + 1,
+        "id":id
+      };
+      var res = await Network().post(data, '/journal/pengaturan-rekening-save');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        saveLoading(false);
+        showSuccess(body['message'].toString());
+      } else {
+        showError(body['message'].toString());
+      }
+    }
+  }
+
+  void showError(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.red,
+      content: Html(
+        data: n,
+        defaultTextStyle: const TextStyle(
+            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+      ),
+    ));
+  }
+
+  void showSuccess(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.green[900],
+      content: Html(
+        data: n,
+        defaultTextStyle: const TextStyle(
+            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+      ),
+    ));
   }
 }

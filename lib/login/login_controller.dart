@@ -6,11 +6,13 @@ import 'package:randu_mobile/api/network.dart';
 import 'package:randu_mobile/homepage/homepage.dart';
 import 'package:randu_mobile/login/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginController extends GetxController {
   var loading = false.obs;
   var isAuth = false.obs;
   var userName = "".obs;
+  var lupaLoading = false.obs;
 
   void setLogin() {
     isAuth(true);
@@ -39,11 +41,37 @@ class LoginController extends GetxController {
       Get.off(const HomePage());
     } else {
       loading(false);
-      showToast(body['message'].toString());
+      showError(body['message'].toString());
     }
   }
 
-  void showToast(String n) {
+  void launchURL() async {
+    launchUrl(Uri.parse('https://help.randu.co.id'),
+        mode: LaunchMode.externalApplication);
+  }
+
+  void lupaPassword(String email) async {
+    lupaLoading(true);
+    var data = {"email": email};
+    var res = await Network().auth(data, '/journal/lupa-password');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      showError(body['message'].toString());
+      lupaLoading(false);
+    } else {
+      showError(body['message'].toString());
+      lupaLoading(false);
+    }
+  }
+
+  void showSuccess(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.green,
+      content: Text(n.toString()),
+    ));
+  }
+
+  void showError(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       backgroundColor: Colors.red,
       content: Text(n.toString()),

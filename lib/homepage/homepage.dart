@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/css/app_color.dart';
@@ -43,254 +45,297 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          actions: [
-            Obx(
-              () => _homePageController.pageTitle.value == ''
-                  ? Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 5),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Get.to(() => const InputJurnal())!.then(
-                                (value) => _jurnalController.getJournalList());
-                          },
-                          child: const Text("Input Jurnal")),
-                    )
-                  // ignore: unrelated_type_equality_checks
-                  : _homePageController.pageTitle == 'Penyusutan'
-                      ? GestureDetector(
-                          onTap: () {
-                            Get.to(() => const TambahPenyusutan())!.then(
-                                (value) =>
-                                    _penyusutanController.getDataPenyusutan());
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.only(right: 20),
-                              child: const Icon(Icons.add)),
-                        )
-                      : const SizedBox(),
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text(
+              'Keluar Aplikasi...?',
+              style: TextStyle(fontFamily: FontSetting.bold),
             ),
-            Obx(
-              () => _homePageController.pageTitle.value == ''
-                  ? Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      child: ElevatedButton(
-                          style:
-                              ElevatedButton.styleFrom(primary: Colors.white),
-                          onPressed: () {
-                            Get.to(() => const JurnalCepat())!.then(
-                                (value) => _jurnalController.getJournalList());
-                          },
-                          child: const Text("Jurnal Cepat",
-                              style: TextStyle(color: AppColor.mainColor))),
-                    )
-                  : const SizedBox(),
-            )
-          ],
-          backgroundColor: AppColor.mainColor,
-          title: Obx(
-            () => Text(
-              _homePageController.pageTitle.toString(),
-            ),
-          ),
-        ),
-        body: Obx(() => pages[_homePageController.tabIndex.value]),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              SizedBox(
-                height: 150,
-                child: DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: AppColor.mainColor,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "images/randu.png",
-                        fit: BoxFit.contain,
-                        width: 70,
-                      ),
-                      Spasi(lebar: 20),
-                      Obx(
-                        () => _homePageController.branchLoading.value
-                            ? TextShimmer(lebar: 150, tinggi: 30)
-                            : SizedBox(
-                                width: 150,
-                                child: Obx(
-                                  () => Text(
-                                      _homePageController.branchName.value
-                                          .toString(),
-                                      style: const TextStyle(
-                                          fontFamily: FontSetting.bold,
-                                          fontSize: 20,
-                                          color: Colors.white)),
-                                ),
-                              ),
-                      )
-                    ],
-                  ),
-                ),
+            content: const Text('Anda yakin ingin keluar dari Aplikasi...? ',
+                style: TextStyle(fontFamily: FontSetting.reg)),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Tidak'),
               ),
-              ListTile(
-                title:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SizedBox(
-                      height: 40, child: Image.asset("images/jurnal_icon.png")),
-                  Spasi(lebar: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Jurnal",
-                          style: TextStyle(
-                              fontFamily: FontSetting.bold, fontSize: 15)),
-                      Text("Jurnal Akuntansi",
-                          style: TextStyle(
-                              fontFamily: FontSetting.reg, fontSize: 13)),
-                    ],
-                  )
-                ]),
-                onTap: () {
-                  _homePageController.changeTabIndex(0);
-                  _homePageController.changePageTitle("");
-                  Get.back();
-                },
-              ),
-              Jarak(tinggi: 10),
-              ListTile(
-                title:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SizedBox(
-                      height: 40,
-                      child: Image.asset("images/laporan_icon.png")),
-                  Spasi(lebar: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Laporan",
-                          style: TextStyle(
-                              fontFamily: FontSetting.bold, fontSize: 15)),
-                      Text("Lihat Laporan",
-                          style: TextStyle(
-                              fontFamily: FontSetting.reg, fontSize: 13)),
-                    ],
-                  )
-                ]),
-                onTap: () {
-                  _homePageController.changeTabIndex(1);
-                  _homePageController.changePageTitle("Laporan");
-                  Get.back();
-                },
-              ),
-              Jarak(tinggi: 10),
-              ListTile(
-                title:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SizedBox(
-                      height: 40, child: Image.asset("images/utang_icon.png")),
-                  Spasi(lebar: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Utang / Piutang",
-                          style: TextStyle(
-                              fontFamily: FontSetting.bold, fontSize: 15)),
-                      Text("Data Utang / Piutang",
-                          style: TextStyle(
-                              fontFamily: FontSetting.reg, fontSize: 13)),
-                    ],
-                  )
-                ]),
-                onTap: () {
-                  _homePageController.changeTabIndex(2);
-                  _homePageController.changePageTitle("Utang & Piutang");
-                  Get.back();
-                },
-              ),
-              Jarak(tinggi: 10),
-              ListTile(
-                title:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SizedBox(
-                      height: 40,
-                      child: Image.asset("images/penyusutan_icon.png")),
-                  Spasi(lebar: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Penyusutan",
-                          style: TextStyle(
-                              fontFamily: FontSetting.bold, fontSize: 15)),
-                      Text("Data Aset dan Peralatan",
-                          style: TextStyle(
-                              fontFamily: FontSetting.reg, fontSize: 13)),
-                    ],
-                  )
-                ]),
-                onTap: () {
-                  _homePageController.changeTabIndex(3);
-                  _homePageController.changePageTitle("Penyusutan");
-                  Get.back();
-                },
-              ),
-              Jarak(tinggi: 10),
-              ListTile(
-                title:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SizedBox(
-                      height: 40,
-                      child: Image.asset("images/pengaturan_icon.png")),
-                  Spasi(lebar: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Pengaturan Aplikasi",
-                          style: TextStyle(
-                              fontFamily: FontSetting.bold, fontSize: 15)),
-                      Text("Data Bisnis dan Aplikasi",
-                          style: TextStyle(
-                              fontFamily: FontSetting.reg, fontSize: 13)),
-                    ],
-                  )
-                ]),
-                onTap: () {
-                  _homePageController.changeTabIndex(4);
-                  _homePageController.changePageTitle("Pengaturan Aplikasi");
-                  Get.back();
-                },
-              ),
-              Jarak(tinggi: 40),
-              ListTile(
-                title:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SizedBox(height: 40, child: Image.asset("images/exit.png")),
-                  Spasi(lebar: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Keluar",
-                          style: TextStyle(
-                              fontFamily: FontSetting.bold, fontSize: 15)),
-                      Text("Keluar dari Aplikasi",
-                          style: TextStyle(
-                              fontFamily: FontSetting.reg, fontSize: 13)),
-                    ],
-                  )
-                ]),
-                onTap: () {
-                  _homePageController.logout();
-                },
+              TextButton(
+                onPressed: () => exit(0),
+                child: const Text('Ya'),
               ),
             ],
           ),
-        ));
+        )) ??
+        false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+          appBar: AppBar(
+            actions: [
+              Obx(
+                () => _homePageController.pageTitle.value == ''
+                    ? Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 5),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Get.to(() => const InputJurnal())!.then((value) =>
+                                  _jurnalController.getJournalList());
+                            },
+                            child: const Text("Input Jurnal")),
+                      )
+                    // ignore: unrelated_type_equality_checks
+                    : _homePageController.pageTitle == 'Penyusutan'
+                        ? GestureDetector(
+                            onTap: () {
+                              Get.to(() => const TambahPenyusutan())!.then(
+                                  (value) => _penyusutanController
+                                      .getDataPenyusutan());
+                            },
+                            child: Container(
+                                margin: const EdgeInsets.only(right: 20),
+                                child: const Icon(Icons.add)),
+                          )
+                        : const SizedBox(),
+              ),
+              Obx(
+                () => _homePageController.pageTitle.value == ''
+                    ? Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        child: ElevatedButton(
+                            style:
+                                ElevatedButton.styleFrom(primary: Colors.white),
+                            onPressed: () {
+                              Get.to(() => const JurnalCepat())!.then((value) =>
+                                  _jurnalController.getJournalList());
+                            },
+                            child: const Text("Jurnal Cepat",
+                                style: TextStyle(color: AppColor.mainColor))),
+                      )
+                    : const SizedBox(),
+              )
+            ],
+            backgroundColor: AppColor.mainColor,
+            title: Obx(
+              () => Text(
+                _homePageController.pageTitle.toString(),
+              ),
+            ),
+          ),
+          body: Obx(() => pages[_homePageController.tabIndex.value]),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                SizedBox(
+                  height: 150,
+                  child: DrawerHeader(
+                    decoration: const BoxDecoration(
+                      color: AppColor.mainColor,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "images/randu.png",
+                          fit: BoxFit.contain,
+                          width: 70,
+                        ),
+                        Spasi(lebar: 20),
+                        Obx(
+                          () => _homePageController.branchLoading.value
+                              ? TextShimmer(lebar: 150, tinggi: 30)
+                              : SizedBox(
+                                  width: 150,
+                                  child: Obx(
+                                    () => Text(
+                                        _homePageController.branchName.value
+                                            .toString(),
+                                        style: const TextStyle(
+                                            fontFamily: FontSetting.bold,
+                                            fontSize: 20,
+                                            color: Colors.white)),
+                                  ),
+                                ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 40,
+                            child: Image.asset("images/jurnal_icon.png")),
+                        Spasi(lebar: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text("Jurnal",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.bold,
+                                    fontSize: 15)),
+                            Text("Jurnal Akuntansi",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.reg, fontSize: 13)),
+                          ],
+                        )
+                      ]),
+                  onTap: () {
+                    _homePageController.changeTabIndex(0);
+                    _homePageController.changePageTitle("");
+                    Get.back();
+                  },
+                ),
+                Jarak(tinggi: 10),
+                ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 40,
+                            child: Image.asset("images/laporan_icon.png")),
+                        Spasi(lebar: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text("Laporan",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.bold,
+                                    fontSize: 15)),
+                            Text("Lihat Laporan",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.reg, fontSize: 13)),
+                          ],
+                        )
+                      ]),
+                  onTap: () {
+                    _homePageController.changeTabIndex(1);
+                    _homePageController.changePageTitle("Laporan");
+                    Get.back();
+                  },
+                ),
+                Jarak(tinggi: 10),
+                ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 40,
+                            child: Image.asset("images/utang_icon.png")),
+                        Spasi(lebar: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text("Utang / Piutang",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.bold,
+                                    fontSize: 15)),
+                            Text("Data Utang / Piutang",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.reg, fontSize: 13)),
+                          ],
+                        )
+                      ]),
+                  onTap: () {
+                    _homePageController.changeTabIndex(2);
+                    _homePageController.changePageTitle("Utang & Piutang");
+                    Get.back();
+                  },
+                ),
+                Jarak(tinggi: 10),
+                ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 40,
+                            child: Image.asset("images/penyusutan_icon.png")),
+                        Spasi(lebar: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text("Penyusutan",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.bold,
+                                    fontSize: 15)),
+                            Text("Data Aset dan Peralatan",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.reg, fontSize: 13)),
+                          ],
+                        )
+                      ]),
+                  onTap: () {
+                    _homePageController.changeTabIndex(3);
+                    _homePageController.changePageTitle("Penyusutan");
+                    Get.back();
+                  },
+                ),
+                Jarak(tinggi: 10),
+                ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 40,
+                            child: Image.asset("images/pengaturan_icon.png")),
+                        Spasi(lebar: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text("Pengaturan Aplikasi",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.bold,
+                                    fontSize: 15)),
+                            Text("Data Bisnis dan Aplikasi",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.reg, fontSize: 13)),
+                          ],
+                        )
+                      ]),
+                  onTap: () {
+                    _homePageController.changeTabIndex(4);
+                    _homePageController.changePageTitle("Pengaturan Aplikasi");
+                    Get.back();
+                  },
+                ),
+                Jarak(tinggi: 40),
+                ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 40, child: Image.asset("images/exit.png")),
+                        Spasi(lebar: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text("Keluar",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.bold,
+                                    fontSize: 15)),
+                            Text("Keluar dari Aplikasi",
+                                style: TextStyle(
+                                    fontFamily: FontSetting.reg, fontSize: 13)),
+                          ],
+                        )
+                      ]),
+                  onTap: () {
+                    _homePageController.logout();
+                  },
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }

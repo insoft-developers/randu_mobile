@@ -6,6 +6,7 @@ import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textview.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/login/login_controller.dart';
+import 'package:randu_mobile/login/lupa_password.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: AppColor.mainColor,
         body: Container(
           decoration: const BoxDecoration(color: AppColor.mainColor),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -33,13 +34,13 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: FontSetting.bold,
-                    fontSize: 30,
+                    fontSize: 25,
                   )),
               Jarak(tinggi: 60),
               Image.asset(
-                "images/login.png",
-                width: 160,
-                height: 160,
+                "images/randu_acc.png",
+                width: 100,
+                height: 100,
               ),
               Jarak(tinggi: MediaQuery.of(context).size.height - 620),
               SizedBox(
@@ -59,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                     textEditingController: _passText,
                     obsecureText: true),
               ),
-              Jarak(tinggi: 20),
+              Jarak(tinggi: 30),
               Obx(
                 () => _loginController.loading.value
                     ? const SizedBox(
@@ -72,11 +73,10 @@ class _LoginPageState extends State<LoginPage> {
                               _emailText.text, _passText.text);
                         },
                         child: Container(
-                            margin: const EdgeInsets.only(right: 180),
                             padding: const EdgeInsets.only(
                                 left: 30, right: 10, top: 10, bottom: 10),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(30),
                                 color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                                 const Text("Submit",
                                     style: TextStyle(
                                         fontSize: 15,
-                                        fontFamily: FontSetting.reg,
+                                        fontFamily: FontSetting.bold,
                                         color: AppColor.mainColor)),
                                 Spasi(lebar: 10),
                                 const Icon(Icons.arrow_forward,
@@ -93,20 +93,30 @@ class _LoginPageState extends State<LoginPage> {
                             )),
                       ),
               ),
-              Jarak(tinggi: 20),
-              const Text("Lupa Password ?",
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontFamily: FontSetting.reg,
-                      fontSize: 16,
-                      color: Colors.white)),
+              Jarak(tinggi: 40),
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => const LupaPassword());
+                },
+                child: const Text("Lupa Password ?",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontFamily: FontSetting.reg,
+                        fontSize: 14,
+                        color: Colors.white)),
+              ),
               Jarak(tinggi: 15),
-              const Text("Perlu Bantuan Login/Aktivasi ?",
-                  style: TextStyle(
-                      fontFamily: FontSetting.reg,
-                      decoration: TextDecoration.underline,
-                      fontSize: 16,
-                      color: Colors.white)),
+              InkWell(
+                onTap: () {
+                  _loginController.launchURL();
+                },
+                child: const Text("Perlu Bantuan Login/Aktivasi ?",
+                    style: TextStyle(
+                        fontFamily: FontSetting.reg,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14,
+                        color: Colors.white)),
+              ),
               Jarak(tinggi: 30)
             ],
           ),

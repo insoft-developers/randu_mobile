@@ -5,6 +5,8 @@ import 'package:randu_mobile/laporan/laporan_jurnal/laporan_jurnal_controller.da
 import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
 import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
+import 'package:randu_mobile/pengaturan/hapus_saldo/hapus_saldo_controller.dart';
+import 'package:randu_mobile/pengaturan/opening_balance/opening_balance_controller.dart';
 import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
 import 'package:randu_mobile/penyusutan/tambah/tambah_penyusutan_controller.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
@@ -104,6 +106,13 @@ class SelectMonthReport extends StatelessWidget {
       final TambahPenyusutanController _tpc =
           Get.put(TambahPenyusutanController());
       _tpc.selectedBeban.value = value;
+    } else if (code == 'opening-balance') {
+      final OpeningBalanceController _opening =
+          Get.put(OpeningBalanceController());
+      _opening.thisMonth.value = value;
+    } else if (code == 'hapus-saldo') {
+      final HapusSaldoController _hapusSaldo = Get.put(HapusSaldoController());
+      _hapusSaldo.thisMonth.value = value;
     }
   }
 

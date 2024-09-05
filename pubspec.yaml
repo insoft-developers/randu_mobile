@@ -51,20 +51,43 @@ dependencies:
   dropdown_search: ^3.0.1
   flutter_html: ^0.8.2
   sweetalertv2: ^0.0.2
+  flutter_native_splash: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  flutter_launcher_icons: ^0.11.0
+
   flutter_lints: ^1.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/randu.png"
+
+flutter_native_splash:
+  color: "#2F467B"
+  #background_image: "assets/background.png"
+
+  image: assets/randu_acc.png
+
+  # branding: assets/dart.png
+
+  #branding_dark: assets/dart_dark.png
+
+  # ios_content_mode value.
+  # branding_mode: bottom
+
+  #color_dark: "#042a49"
+  #background_image_dark: "assets/dark-background.png"
+  #image_dark: assets/splash-invert.png
+
+  # The android, ios and web parameters can be used to disable generating a splash screen on a given
+  # platform.
+  android: true
+  ios: true
+  web: false
 
 # The following section is specific to Flutter.
 flutter:
@@ -94,6 +117,8 @@ flutter:
     - images/setting_rekening.png
     - images/setting_open.png
     - images/setting_hapus.png
+    - images/randu_akuntansi.png
+    - images/randu_acc.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

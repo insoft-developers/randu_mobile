@@ -22,6 +22,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
       Get.put(KodeRekeningController());
 
   final List<TextEditingController> _akuns = [TextEditingController()];
+  final List<String> _id = ["0"];
   bool _loading = false;
 
   @override
@@ -33,6 +34,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
             for (var i = 0; i < _kodeRekening.kodeList.length; i++) {
               _akuns.add(TextEditingController());
               _akuns[i].text = _kodeRekening.kodeList[i]['name'].toString();
+              _id.add(_kodeRekening.kodeList[i]['id'].toString());
             }
             _loading = false;
           })
@@ -40,9 +42,18 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
     super.initState();
   }
 
+  _addItem() {
+    setState(() {
+      _akuns.add(TextEditingController());
+      _id.add("0");
+    });
+  }
+
   _itemDelete(int index) {
     setState(() {
+      _akuns[index].clear();
       _akuns.removeAt(index);
+      _id.removeAt(index);
     });
   }
 
@@ -52,6 +63,38 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
       appBar: AppBar(
         backgroundColor: AppColor.mainColor,
         title: Text(widget.judul),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              _addItem();
+            },
+            child: Container(
+                margin: const EdgeInsets.only(right: 20),
+                child: const Icon(Icons.add)),
+          ),
+        ],
+      ),
+      floatingActionButton: Obx(
+        () => _kodeRekening.saveLoading.value
+            ? Container(
+                margin: const EdgeInsets.only(bottom: 70),
+                child: const CircularProgressIndicator())
+            : Container(
+                margin: const EdgeInsets.only(bottom: 50),
+                child: FloatingActionButton(
+                    backgroundColor: AppColor.mainColor,
+                    child: const Icon(Icons.save),
+                    onPressed: () {
+                      List<String> inputAkuns = [];
+                      for (var i = 0; i < _akuns.length; i++) {
+                        inputAkuns.add(_akuns[i].text);
+                        // ids.add(_id[i]);
+                      }
+
+                      _kodeRekening.save(
+                          widget.akun, inputAkuns, _id, widget.akun);
+                    }),
+              ),
       ),
       body: Container(
         margin: const EdgeInsets.all(15),
@@ -67,20 +110,12 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Text(
-                          //     _kodeRekening.kodeList[index]['name'].toString()),
-                          _kodeRekening.kodeList[index]['can_be_deleted'] <= 1
-                              ? InputReadOnly(
-                                  hint: "",
-                                  textInputType: TextInputType.text,
-                                  textEditingController: _akuns[index],
-                                  code: "")
-                              : InputText(
-                                  hint: "",
-                                  textInputType: TextInputType.text,
-                                  textEditingController: _akuns[index],
-                                  obsecureText: false,
-                                  code: ""),
+                          InputText(
+                              hint: "",
+                              textInputType: TextInputType.text,
+                              textEditingController: _akuns[index],
+                              obsecureText: false,
+                              code: ""),
                         ],
                       ));
                 }),

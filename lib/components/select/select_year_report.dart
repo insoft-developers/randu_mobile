@@ -6,6 +6,8 @@ import 'package:randu_mobile/laporan/laporan_jurnal/laporan_jurnal_controller.da
 import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
 import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
+import 'package:randu_mobile/pengaturan/hapus_saldo/hapus_saldo_controller.dart';
+import 'package:randu_mobile/pengaturan/opening_balance/opening_balance_controller.dart';
 import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
 import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
 import 'package:randu_mobile/utang/piutang/piutang_controller.dart';
@@ -51,6 +53,12 @@ class SelectYearReport extends StatelessWidget {
     } else if (code == 'penyusutan-list') {
       final PenyusutanController _penyusutan = Get.put(PenyusutanController());
       _penyusutan.yearOnChange(value);
+    } else if (code == 'opening-balance') {
+      final OpeningBalanceController _opening = OpeningBalanceController();
+      _opening.thisYear.value = value;
+    } else if (code == 'hapus-saldo') {
+      final HapusSaldoController _hapusSaldo = Get.put(HapusSaldoController());
+      _hapusSaldo.thisYear.value = value;
     }
   }
 

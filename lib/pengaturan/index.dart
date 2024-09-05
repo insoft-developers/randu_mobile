@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/font_setting.dart';
+import 'package:randu_mobile/pengaturan/hapus_saldo/index.dart';
 import 'package:randu_mobile/pengaturan/kode_rekening/index.dart';
 
 import 'package:randu_mobile/pengaturan/modal_awal/edit/index.dart';
 import 'package:randu_mobile/pengaturan/modal_awal/tambah/index.dart';
+import 'package:randu_mobile/pengaturan/opening_balance/index.dart';
 import 'package:randu_mobile/pengaturan/pengaturan_controller.dart';
 
 class Pengaturan extends StatefulWidget {
@@ -52,7 +54,10 @@ class _PengaturanState extends State<Pengaturan> {
     } else if (index == 1) {
       Get.to(() => const KodeRekening());
     } else if (index == 2) {
-    } else if (index == 3) {}
+      Get.to(() => const OpeningBalance());
+    } else if (index == 3) {
+      Get.to(() => const HapusSaldo());
+    }
   }
 
   @override
