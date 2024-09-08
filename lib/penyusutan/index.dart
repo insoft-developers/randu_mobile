@@ -507,7 +507,9 @@ class _PenyusutanState extends State<Penyusutan> {
                                 }),
                   ),
                 ),
-              )
+              ),
+              const Text("*Klik & Tahan Untuk Lihat Simulasi",
+                  style: TextStyle(fontFamily: FontSetting.bold))
             ],
           )),
     );

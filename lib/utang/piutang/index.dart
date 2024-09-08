@@ -379,7 +379,9 @@ class _PiutangState extends State<Piutang> {
                                 }),
                   ),
                 ),
-              )
+              ),
+              const Text("*Klik & Tahan Untuk Bayar Piutang",
+                  style: TextStyle(fontFamily: FontSetting.bold))
             ],
           )),
     );

@@ -91,12 +91,32 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
                       style: const TextStyle(
                           fontFamily: FontSetting.reg, color: Colors.red)))),
               Jarak(tinggi: 20),
-              InputText(
-                  hint: "Umur Manfaat",
-                  textInputType: TextInputType.number,
-                  textEditingController: _umur,
-                  obsecureText: false,
-                  code: ""),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 3 / 4 - 40,
+                    child: InputText(
+                        hint: "Umur Manfaat",
+                        textInputType: TextInputType.number,
+                        textEditingController: _umur,
+                        obsecureText: false,
+                        code: ""),
+                  ),
+                  Container(
+                      padding:
+                          const EdgeInsets.only(top: 14, bottom: 14, left: 10),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(4),
+                              bottomRight: Radius.circular(4)),
+                          color: AppColor.mainColor),
+                      width: MediaQuery.of(context).size.width * 1 / 4,
+                      child: const Text("Bulan",
+                          style: TextStyle(
+                              color: AppColor.putih,
+                              fontFamily: FontSetting.bold)))
+                ],
+              ),
               Jarak(tinggi: 20),
               InputText(
                   hint: "Nilai Residu",

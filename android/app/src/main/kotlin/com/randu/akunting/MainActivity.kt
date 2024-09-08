@@ -1,4 +1,4 @@
-package com.example.randu_mobile
+package com.randu.akunting
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(const Duration(seconds: 10));
+  await Future.delayed(const Duration(seconds: 5));
   FlutterNativeSplash.remove();
 
   runApp(const GetMaterialApp(

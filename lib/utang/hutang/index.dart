@@ -374,7 +374,9 @@ class _HutangState extends State<Hutang> {
                                 }),
                   ),
                 ),
-              )
+              ),
+              const Text("*Klik & Tahan Untuk Bayar Utang",
+                  style: TextStyle(fontFamily: FontSetting.bold))
             ],
           )),
     );
