@@ -12,7 +12,7 @@ import 'package:randu_mobile/journal/edit/index.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/journal/lihat.dart';
 import 'package:randu_mobile/utils/warna.dart';
-import 'package:sweetalertv2/sweetalertv2.dart';
+// import 'package:sweetalertv2/sweetalertv2.dart';
 
 class Journal extends StatefulWidget {
   const Journal({Key? key}) : super(key: key);
@@ -240,26 +240,26 @@ class _JournalState extends State<Journal> {
                                                 Spasi(lebar: 20),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    SweetAlertV2.show(context,
-                                                        title: "Hapus Data ?",
-                                                        subtitle: "",
-                                                        style: SweetAlertV2Style
-                                                            .confirm,
-                                                        showCancelButton: true,
-                                                        onPress:
-                                                            (bool isConfirm) {
-                                                      if (isConfirm) {
-                                                        Get.back();
-                                                        _jurnalController
-                                                            .onJournalDelete(
-                                                                _jurnalController
-                                                                        .journalList[
-                                                                    index]['id']);
-                                                      } else {
-                                                        Get.back();
-                                                      }
-                                                      return false;
-                                                    });
+                                                    // SweetAlertV2.show(context,
+                                                    //     title: "Hapus Data ?",
+                                                    //     subtitle: "",
+                                                    //     style: SweetAlertV2Style
+                                                    //         .confirm,
+                                                    //     showCancelButton: true,
+                                                    //     onPress:
+                                                    //         (bool isConfirm) {
+                                                    //   if (isConfirm) {
+                                                    //     Get.back();
+                                                    //     _jurnalController
+                                                    //         .onJournalDelete(
+                                                    //             _jurnalController
+                                                    //                     .journalList[
+                                                    //                 index]['id']);
+                                                    //   } else {
+                                                    //     Get.back();
+                                                    //   }
+                                                    //   return false;
+                                                    // });
                                                   },
                                                   child: Container(
                                                       padding:

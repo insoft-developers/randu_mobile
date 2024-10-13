@@ -36,18 +36,13 @@ class _JurnalCepatState extends State<JurnalCepat> {
   _onDateChange() async {
     DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(), 
-        firstDate: DateTime(2022)
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
         lastDate: DateTime(2101));
-    if (pickedDate != null) {
-      String formattedDate = DateFormat('dd-MM-yyyy').format(
-          pickedDate); 
-      setState(() {
-        _tanggalText.text =
-            formattedDate; 
-          
-      });
-    } 
+    String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate!);
+    setState(() {
+      _tanggalText.text = formattedDate;
+    });
   }
 
   @override

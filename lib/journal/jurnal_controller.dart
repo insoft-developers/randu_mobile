@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:sweetalertv2/sweetalertv2.dart';
 
 class JurnalController extends GetxController {
   var now = DateTime.now();
@@ -162,10 +161,10 @@ class JurnalController extends GetxController {
         deleteLoading(false);
         getJournalList();
       } else {
-        SweetAlertV2.show(Get.context,
-            title: "Gagal",
-            subtitle: body['message'].toString(),
-            style: SweetAlertV2Style.error);
+        // SweetAlertV2.show(Get.context,
+        //     title: "Gagal",
+        //     subtitle: body['message'].toString(),
+        //     style: SweetAlertV2Style.error);
       }
     }
   }

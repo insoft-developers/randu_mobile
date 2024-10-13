@@ -70,35 +70,32 @@ class _InputJurnalState extends State<InputJurnal> {
   }
 
   _onDateChange() async {
-      DateTime? pickedDate = await showDatePicker(
+    DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(), 
-        firstDate: DateTime(2022)
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
         lastDate: DateTime(2101));
-      if (pickedDate != null) {
-          String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);   
-          setState(() {
-            _tanggal.text =
-                formattedDate; 
-          });
-      } 
+    String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate!);
+    setState(() {
+      _tanggal.text = formattedDate;
+    });
   }
 
   _countTotal() {
-     int tDebit = 0;
-     int tCredit = 0;
+    int tDebit = 0;
+    int tCredit = 0;
 
-     for(var i=0; i< _debits.length ; i++) {
+    for (var i = 0; i < _debits.length; i++) {
       int itemDebit = _debits[i].text.isEmpty ? 0 : int.parse(_debits[i].text);
       tDebit = tDebit + itemDebit;
 
-      int itemCredit = _credits[i].text.isEmpty ? 0 : int.parse(_credits[i].text);
+      int itemCredit =
+          _credits[i].text.isEmpty ? 0 : int.parse(_credits[i].text);
       tCredit = tCredit + itemCredit;
 
       totalDebit = Ribuan.convertToIdr(tDebit, 0);
       totalCredit = Ribuan.convertToIdr(tCredit, 0);
-
-     }
+    }
   }
 
   @override
@@ -162,7 +159,7 @@ class _InputJurnalState extends State<InputJurnal> {
                         filled: false,
                       ),
                       readOnly: true,
-                      onTap: ()  {
+                      onTap: () {
                         _onDateChange();
                       },
                     ),
@@ -177,34 +174,36 @@ class _InputJurnalState extends State<InputJurnal> {
                           code: "")),
                 ],
               ),
-             
             ),
             Jarak(tinggi: 5),
-             Container(
-
-               margin: const EdgeInsets.symmetric(horizontal: 10),
-               padding: const EdgeInsets.all(10),
-               decoration:BoxDecoration(
-                color:AppColor.mainColor,
-                borderRadius:BorderRadius.circular(4),
-               ),
-               child: Row(
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppColor.mainColor,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:[
-                    Text("(D) : ${totalDebit}", style:const TextStyle(fontFamily:FontSetting.bold, color:Colors.white)),
-                     Text("(K) : ${totalCredit}", style:const TextStyle(fontFamily:FontSetting.bold, color:Colors.white))
-                  ]
-                ),
-             ),
+                  children: [
+                    Text("(D) : $totalDebit",
+                        style: const TextStyle(
+                            fontFamily: FontSetting.bold, color: Colors.white)),
+                    Text("(K) : $totalCredit",
+                        style: const TextStyle(
+                            fontFamily: FontSetting.bold, color: Colors.white))
+                  ]),
+            ),
             Jarak(tinggi: 2),
             Obx(
               () => _inputJurnalController.loading.value
                   ? Container(
                       margin: const EdgeInsets.only(top: 10),
-                      child: InputJurnalShimmer(tinggi: 150, jumlah: 2, pad:10))
+                      child:
+                          InputJurnalShimmer(tinggi: 150, jumlah: 2, pad: 10))
                   : Expanded(
                       child: Container(
-                        margin: const EdgeInsets.fromLTRB(10,5,10,10),
+                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
@@ -219,7 +218,8 @@ class _InputJurnalState extends State<InputJurnal> {
                                     decoration: BoxDecoration(
                                       color: AppColor.display,
                                       border: Border.all(
-                                          color: AppColor.displayLine, width: 1),
+                                          color: AppColor.displayLine,
+                                          width: 1),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Column(
@@ -279,104 +279,185 @@ class _InputJurnalState extends State<InputJurnal> {
                                                         MediaQuery.of(context)
                                                                     .size
                                                                     .width *
-                                                                1/2 - 25,
+                                                                1 /
+                                                                2 -
+                                                            25,
                                                     child: Container(
-                                                      padding: const EdgeInsets.only(
+                                                      padding:
+                                                          const EdgeInsets.only(
                                                         left: 10,
                                                         right: 10,
                                                       ),
                                                       height: 50,
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(4),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4),
                                                         color: Colors.white,
-                                                        border: Border.all(color: Colors.grey, width: 0.5),
+                                                        border: Border.all(
+                                                            color: Colors.grey,
+                                                            width: 0.5),
                                                         boxShadow: const [
-                                                          BoxShadow(offset: Offset(0, 1), blurRadius: 50, color: Colors.white),
+                                                          BoxShadow(
+                                                              offset:
+                                                                  Offset(0, 1),
+                                                              blurRadius: 50,
+                                                              color:
+                                                                  Colors.white),
                                                         ],
                                                       ),
                                                       child: TextField(
-                                                        readOnly: _debitReadonly[index],
-                                                        controller: _debits[index],
-                                                        keyboardType: TextInputType.number,
-                                                        textInputAction: TextInputAction.next,
-                                                        decoration: const InputDecoration(
-                                                          hintText: "Debet",
-                                                          hintStyle:  TextStyle(
-                                                              fontFamily: FontSetting.reg, fontSize: 15, color: Colors.grey),
-                                                          enabledBorder: InputBorder.none,
-                                                          focusedBorder: InputBorder.none,
-                                                        ),
-                                                        onChanged:(value) {
+                                                          readOnly: _debitReadonly[
+                                                              index],
+                                                          controller:
+                                                              _debits[index],
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .number,
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            hintText: "Debet",
+                                                            hintStyle: TextStyle(
+                                                                fontFamily:
+                                                                    FontSetting
+                                                                        .reg,
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .grey),
+                                                            enabledBorder:
+                                                                InputBorder
+                                                                    .none,
+                                                            focusedBorder:
+                                                                InputBorder
+                                                                    .none,
+                                                          ),
+                                                          onChanged: (value) {
                                                             setState(() {
-                                                              _debitRibuan[index] = value.isEmpty ? "" : Ribuan.convertToIdr(int.parse(value),0);
-                                                              _creditReadonly[index] = value.isEmpty ? false : true;
+                                                              _debitRibuan[
+                                                                  index] = value
+                                                                      .isEmpty
+                                                                  ? ""
+                                                                  : Ribuan.convertToIdr(
+                                                                      int.parse(
+                                                                          value),
+                                                                      0);
+                                                              _creditReadonly[
+                                                                      index] =
+                                                                  value.isEmpty
+                                                                      ? false
+                                                                      : true;
                                                               _countTotal();
                                                             });
-                                                        }
-                                                      ),
+                                                          }),
                                                     )),
                                                 Container(
                                                     margin:
                                                         const EdgeInsets.only(
                                                             left: 5, top: 5),
-                                                    child:  Text(_debitRibuan[index],
-                                                        style:  const TextStyle(
-                                                            fontFamily: FontSetting.reg,
+                                                    child: Text(
+                                                        _debitRibuan[index],
+                                                        style: const TextStyle(
+                                                            fontFamily:
+                                                                FontSetting.reg,
                                                             color: Colors.red)))
                                               ],
                                             ),
                                             Column(
-                                              crossAxisAlignment :CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
-                                                    width: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            1 /
-                                                            2 -
-                                                        25,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                    .size
+                                                                    .width *
+                                                                1 /
+                                                                2 -
+                                                            25,
                                                     child: Container(
-                                                      padding: const EdgeInsets.only(
+                                                      padding:
+                                                          const EdgeInsets.only(
                                                         left: 10,
                                                         right: 10,
                                                       ),
                                                       height: 50,
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(4),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4),
                                                         color: Colors.white,
-                                                        border: Border.all(color: Colors.grey, width: 0.5),
+                                                        border: Border.all(
+                                                            color: Colors.grey,
+                                                            width: 0.5),
                                                         boxShadow: const [
-                                                          BoxShadow(offset: Offset(0, 1), blurRadius: 50, color: Colors.white),
+                                                          BoxShadow(
+                                                              offset:
+                                                                  Offset(0, 1),
+                                                              blurRadius: 50,
+                                                              color:
+                                                                  Colors.white),
                                                         ],
                                                       ),
                                                       child: TextField(
-                                                        controller: _credits[index],
-                                                        readOnly: _creditReadonly[index],
-                                                        keyboardType: TextInputType.number,
-                                                        textInputAction: TextInputAction.next,
-                                                        decoration: const InputDecoration(
-                                                          hintText: "Kredit",
-                                                          hintStyle:  TextStyle(
-                                                              fontFamily: FontSetting.reg, fontSize: 15, color: Colors.grey),
-                                                          enabledBorder: InputBorder.none,
-                                                          focusedBorder: InputBorder.none,
-                                                        ),
-                                                        onChanged:(value) {
+                                                          controller:
+                                                              _credits[index],
+                                                          readOnly:
+                                                              _creditReadonly[
+                                                                  index],
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .number,
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            hintText: "Kredit",
+                                                            hintStyle: TextStyle(
+                                                                fontFamily:
+                                                                    FontSetting
+                                                                        .reg,
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .grey),
+                                                            enabledBorder:
+                                                                InputBorder
+                                                                    .none,
+                                                            focusedBorder:
+                                                                InputBorder
+                                                                    .none,
+                                                          ),
+                                                          onChanged: (value) {
                                                             setState(() {
-                                                              _creditRibuan[index] = value.isEmpty ? "" : Ribuan.convertToIdr(int.parse(value),0);
-                                                              _debitReadonly[index] = value.isEmpty ? false : true;
-                                                               _countTotal();
+                                                              _creditRibuan[
+                                                                  index] = value
+                                                                      .isEmpty
+                                                                  ? ""
+                                                                  : Ribuan.convertToIdr(
+                                                                      int.parse(
+                                                                          value),
+                                                                      0);
+                                                              _debitReadonly[
+                                                                      index] =
+                                                                  value.isEmpty
+                                                                      ? false
+                                                                      : true;
+                                                              _countTotal();
                                                             });
-                                                        }
-                                                      ),
+                                                          }),
                                                     )),
-                                                         Container(
+                                                Container(
                                                     margin:
                                                         const EdgeInsets.only(
                                                             left: 5, top: 5),
-                                                    child:  Text(_creditRibuan[index],
-                                                        style:  const TextStyle(
-                                                            fontFamily: FontSetting.reg,
+                                                    child: Text(
+                                                        _creditRibuan[index],
+                                                        style: const TextStyle(
+                                                            fontFamily:
+                                                                FontSetting.reg,
                                                             color: Colors.red)))
                                               ],
                                             ),

@@ -88,8 +88,8 @@ class PiutangPaymentController extends GetxController {
       backgroundColor: Colors.red,
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }
@@ -99,8 +99,8 @@ class PiutangPaymentController extends GetxController {
       backgroundColor: Colors.green[900],
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }

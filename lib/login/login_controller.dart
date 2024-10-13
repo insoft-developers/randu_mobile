@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:randu_mobile/homepage/homepage.dart';
-import 'package:randu_mobile/login/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 

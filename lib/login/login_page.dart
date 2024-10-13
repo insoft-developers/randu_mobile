@@ -6,7 +6,6 @@ import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textview.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/login/login_controller.dart';
-import 'package:randu_mobile/login/lupa_password.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

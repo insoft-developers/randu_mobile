@@ -110,6 +110,7 @@ class NeracaSaldoController extends GetxController {
         totalDebet.value = body['total_debet'];
         totalCredit.value = body['total_credit'];
         loading(false);
+        print(neracaSaldo);
       }
     }
   }

@@ -105,10 +105,14 @@ class _JournalPreviewState extends State<JournalPreview> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text("Estimasi",
-                                          style: TextStyle(
-                                              fontFamily: FontSetting.bold)),
-                                      const Divider(),
+                                      index == 0
+                                          ? const Text("Estimasi",
+                                              style: TextStyle(
+                                                  fontFamily: FontSetting.bold))
+                                          : const SizedBox(),
+                                      index == 0
+                                          ? const Divider()
+                                          : const SizedBox(),
                                       Text(
                                           _jurnalController.previewList[index]
                                                   ['asset_data_name']
@@ -129,10 +133,14 @@ class _JournalPreviewState extends State<JournalPreview> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text("Debet (D)",
-                                          style: TextStyle(
-                                              fontFamily: FontSetting.bold)),
-                                      const Divider(),
+                                      index == 0
+                                          ? const Text("Debet (D)",
+                                              style: TextStyle(
+                                                  fontFamily: FontSetting.bold))
+                                          : const SizedBox(),
+                                      index == 0
+                                          ? const Divider()
+                                          : const SizedBox(),
                                       Text(
                                           Ribuan.formatAngka(_jurnalController
                                               .previewList[index]['debet']
@@ -152,10 +160,14 @@ class _JournalPreviewState extends State<JournalPreview> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text("Kredit (K)",
-                                          style: TextStyle(
-                                              fontFamily: FontSetting.bold)),
-                                      const Divider(),
+                                      index == 0
+                                          ? const Text("Kredit (K)",
+                                              style: TextStyle(
+                                                  fontFamily: FontSetting.bold))
+                                          : const SizedBox(),
+                                      index == 0
+                                          ? const Divider()
+                                          : const SizedBox(),
                                       Text(
                                           Ribuan.formatAngka(_jurnalController
                                               .previewList[index]['credit']

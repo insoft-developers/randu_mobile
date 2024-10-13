@@ -7,7 +7,6 @@ import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/homepage_controller.dart';
-import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/journal/index.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/journal/tambah/input_jurnal/index.dart';

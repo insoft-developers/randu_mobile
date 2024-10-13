@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/laporan/laporan_buku_besar/buku_besar_controller.dart';
 import 'package:randu_mobile/laporan/laporan_jurnal/laporan_jurnal_controller.dart';
 import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';

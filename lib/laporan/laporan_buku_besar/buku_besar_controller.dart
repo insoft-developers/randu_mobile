@@ -37,7 +37,7 @@ class BukuBesarController extends GetxController {
   onChangeAccount(String value) {
     selectedAccount.value = value;
 
-    int indexSelected = accountDropdown.indexOf(value!);
+    int indexSelected = accountDropdown.indexOf(value);
     Map<String, dynamic> _selectedAccount = accountList[indexSelected];
     String _accountId =
         "${_selectedAccount['id']}_${_selectedAccount['account_code_id']}";
@@ -166,8 +166,8 @@ class BukuBesarController extends GetxController {
       backgroundColor: Colors.red,
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }

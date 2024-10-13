@@ -62,12 +62,10 @@ class JurnalCepatController extends GetxController {
       lastDate: DateTime(2101),
     );
 
-    if (pickedDate != null) {
-      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate!);
 
-      selectedDate.value = formattedDate; //set output date to TextField value.
-      return selectedDate;
-    }
+    selectedDate.value = formattedDate; //set output date to TextField value.
+    return selectedDate;
   }
 
   void getAccountList(String id) async {
@@ -163,8 +161,8 @@ class JurnalCepatController extends GetxController {
       backgroundColor: Colors.red,
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }

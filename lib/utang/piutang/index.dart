@@ -264,7 +264,7 @@ class _PiutangState extends State<Piutang> {
                                                               color: AppColor
                                                                   .putih),
                                                           child: Row(
-                                                            children: const [
+                                                            children: [
                                                               Icon(
                                                                 Icons.sync,
                                                                 color: AppColor
@@ -293,7 +293,7 @@ class _PiutangState extends State<Piutang> {
                                                               color: AppColor
                                                                   .putih),
                                                           child: Row(
-                                                            children: const [
+                                                            children: [
                                                               Icon(
                                                                 Icons
                                                                     .sync_disabled,

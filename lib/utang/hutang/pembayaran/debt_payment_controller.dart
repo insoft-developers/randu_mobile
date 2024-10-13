@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
-import 'package:randu_mobile/utang/hutang/history/history.dart';
-import 'package:randu_mobile/utang/hutang/index.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,8 +52,8 @@ class DebtPaymentController extends GetxController {
       backgroundColor: Colors.red,
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }
@@ -65,8 +63,8 @@ class DebtPaymentController extends GetxController {
       backgroundColor: Colors.green[900],
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }

@@ -14,7 +14,7 @@ class SelectMonth extends StatelessWidget {
     required this.menuItems,
   }) : super(key: key);
 
-  JurnalController _jurnalController = Get.put(JurnalController());
+  final JurnalController _jurnalController = Get.put(JurnalController());
 
   @override
   Widget build(BuildContext context) {

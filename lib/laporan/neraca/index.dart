@@ -8,8 +8,6 @@ import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
-import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
-import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
 
 class Neraca extends StatefulWidget {
   const Neraca({Key? key}) : super(key: key);
