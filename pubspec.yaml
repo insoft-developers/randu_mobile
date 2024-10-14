@@ -121,6 +121,8 @@ flutter:
     - images/randu_akuntansi.png
     - images/randu_acc.png
     - images/randu_icon.png
+    - images/excel_icon.png
+    - images/pdf_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
