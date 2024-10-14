@@ -160,11 +160,10 @@ class _PiutangState extends State<Piutang> {
                                                     1 /
                                                     3,
                                                 child: Text(
-                                                    Tanggal.getOnlyDate(
-                                                        _piutangController
-                                                            .piutangList[index]
-                                                                ['created_at']
-                                                            .toString()),
+                                                    _piutangController
+                                                        .piutangList[index]
+                                                            ['date']
+                                                        .toString(),
                                                     textAlign: TextAlign.end,
                                                     style: const TextStyle(
                                                         fontFamily:
@@ -264,7 +263,7 @@ class _PiutangState extends State<Piutang> {
                                                               color: AppColor
                                                                   .putih),
                                                           child: Row(
-                                                            children: [
+                                                            children: const [
                                                               Icon(
                                                                 Icons.sync,
                                                                 color: AppColor
@@ -293,7 +292,7 @@ class _PiutangState extends State<Piutang> {
                                                               color: AppColor
                                                                   .putih),
                                                           child: Row(
-                                                            children: [
+                                                            children: const [
                                                               Icon(
                                                                 Icons
                                                                     .sync_disabled,

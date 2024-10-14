@@ -37,7 +37,7 @@ class DebtPaymentController extends GetxController {
       var res = await Network().post(data, '/journal/debt-payment');
       var body = jsonDecode(res.body);
       if (body['success']) {
-        showSuccess(body['message'].toString());
+        // showSuccess(body['message'].toString());
         Get.back();
         Get.back();
       } else {

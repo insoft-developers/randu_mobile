@@ -260,6 +260,11 @@ class _JournalState extends State<Journal> {
                                                     //   }
                                                     //   return false;
                                                     // });
+                                                    _showAlertDialog(
+                                                        context,
+                                                        _jurnalController
+                                                                .journalList[
+                                                            index]['id']);
                                                   },
                                                   child: Container(
                                                       padding:
@@ -292,4 +297,32 @@ class _JournalState extends State<Journal> {
       ),
     );
   }
+}
+
+void _showAlertDialog(BuildContext context, int journalId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Hapus Jurnal'),
+        content: const Text("Apakah anda yakin ingin menghapus jurnal ini?"),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Batal'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text('Hapus'),
+            onPressed: () {
+              JurnalController _jurnal = Get.put(JurnalController());
+              _jurnal.onJournalDelete(journalId);
+              Get.back();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

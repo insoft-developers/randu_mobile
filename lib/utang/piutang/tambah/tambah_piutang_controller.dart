@@ -144,8 +144,8 @@ class TambahPiutangController extends GetxController {
     getPiutangTo();
   }
 
-  void onPiutangStore(
-      String transactionName, int piutangAmount, String piutangNote) async {
+  void onPiutangStore(String transactionName, int piutangAmount,
+      String piutangNote, String transactionDate) async {
     storeLoading(true);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user')!);
@@ -161,6 +161,7 @@ class TambahPiutangController extends GetxController {
         "note": piutangNote,
         "user_id": userId,
         "sync_status": "0",
+        "tanggal": transactionDate
       };
 
       var res = await Network().post(data, '/journal/piutang-store');
@@ -180,25 +181,17 @@ class TambahPiutangController extends GetxController {
     nominalRibuan.value = Ribuan.convertToIdr(value, 0);
   }
 
-  void showError(String n) {
+  void showSuccess(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.red,
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-      ),
+      backgroundColor: Colors.green,
+      content: Text(n.toString()),
     ));
   }
 
-  void showSuccess(String n) {
+  void showError(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.green[900],
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-      ),
+      backgroundColor: Colors.red,
+      content: Text(n.toString()),
     ));
   }
 }
