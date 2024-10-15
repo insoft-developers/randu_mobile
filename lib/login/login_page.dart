@@ -53,12 +53,54 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Jarak(tinggi: 10),
               SizedBox(
-                child: TextView(
-                    hint: "Password",
-                    textInputType: TextInputType.text,
-                    iconData: Icons.lock,
-                    textEditingController: _passText,
-                    obsecureText: true),
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.transparent,
+                    border: Border.all(color: Colors.white, width: 1.0),
+                  ),
+                  child: Obx(
+                    () => TextField(
+                      controller: _passText,
+                      obscureText:
+                          _loginController.isPassShowed.value ? false : true,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        icon: const SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Icon(Icons.lock, color: Colors.white),
+                        ),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            _loginController.showPassword();
+                          },
+                          child: Icon(
+                            Icons.remove_red_eye_outlined,
+                            color: _loginController.isPassShowed.value
+                                ? Colors.white
+                                : Colors.grey,
+                          ),
+                        ),
+                        hintText: "Password",
+                        hintStyle: const TextStyle(
+                            fontFamily: 'Rubik',
+                            fontSize: 15,
+                            color: Colors.white),
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               Jarak(tinggi: 30),
               Obx(
