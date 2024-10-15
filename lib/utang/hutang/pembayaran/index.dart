@@ -35,18 +35,13 @@ class _DebtPaymentState extends State<DebtPayment> {
   _onDateChange() async {
     DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(), 
-        firstDate: DateTime(2022)
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
         lastDate: DateTime(2101));
-    if (pickedDate != null) {
-      String formattedDate = DateFormat('dd-MM-yyyy').format(
-          pickedDate); 
-      setState(() {
-        _tanggal.text =
-            formattedDate; 
-          
-      });
-    } 
+    String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate!);
+    setState(() {
+      _tanggal.text = formattedDate;
+    });
   }
 
   @override
@@ -63,8 +58,9 @@ class _DebtPaymentState extends State<DebtPayment> {
               Text(widget.dataList['name'].toString(),
                   style: const TextStyle(
                       color: AppColor.merah,
-                      fontSize: 14, fontFamily: FontSetting.semi)),
-                      const Divider(),
+                      fontSize: 14,
+                      fontFamily: FontSetting.semi)),
+              const Divider(),
               Text(
                   "Rp. " +
                       Ribuan.formatAngka(widget.dataList['balance'].toString()),
@@ -97,34 +93,46 @@ class _DebtPaymentState extends State<DebtPayment> {
                 ),
               ),
               Jarak(tinggi: 20),
-            InputText(
-                hint: "Nominal",
-                textInputType: TextInputType.number,
-                textEditingController: _nominal,
-                obsecureText: false,
-                code: "pembayaran-hutang"),
-            Jarak(tinggi: 5),
-            Obx(() => Container(
-                margin: const EdgeInsets.only(left: 5),
-                child: Text(_dpc.nominalRibuan.value.toString(),
-                    style: const TextStyle(
-                        fontFamily: FontSetting.reg, color: Colors.red)))),
-            Jarak(tinggi: 20),
-            TextArea(hint: "Keterangan", textEditingController: _keterangan, maxline: 6),
-            Jarak(tinggi: 30),
-            Obx(()
-              => _dpc.loading.value ?  const SizedBox(
-                      child: Center(child: CircularProgressIndicator())): ElevatedButton(
-                style:
-                    ElevatedButton.styleFrom(primary: AppColor.mainColor),
-                onPressed: () {
-                   
-                  _dpc.savePayment(widget.dataList['id'], widget.dataList['debt_from'].toString(), widget.dataList['save_to'].toString(), _nominal.text.toString().isEmpty ?0 : int.parse(_nominal.text), widget.dataList['balance'], _keterangan.text);
-                },
-                child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: const Text("SUBMIT"))),
-            )
+              InputText(
+                  hint: "Nominal",
+                  textInputType: TextInputType.number,
+                  textEditingController: _nominal,
+                  obsecureText: false,
+                  code: "pembayaran-hutang"),
+              Jarak(tinggi: 5),
+              Obx(() => Container(
+                  margin: const EdgeInsets.only(left: 5),
+                  child: Text(_dpc.nominalRibuan.value.toString(),
+                      style: const TextStyle(
+                          fontFamily: FontSetting.reg, color: Colors.red)))),
+              Jarak(tinggi: 20),
+              TextArea(
+                  hint: "Keterangan",
+                  textEditingController: _keterangan,
+                  maxline: 6),
+              Jarak(tinggi: 30),
+              Obx(
+                () => _dpc.loading.value
+                    ? const SizedBox(
+                        child: Center(child: CircularProgressIndicator()))
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: AppColor.mainColor),
+                        onPressed: () {
+                          _dpc.savePayment(
+                              widget.dataList['id'],
+                              widget.dataList['debt_from'].toString(),
+                              widget.dataList['save_to'].toString(),
+                              _nominal.text.toString().isEmpty
+                                  ? 0
+                                  : int.parse(_nominal.text),
+                              widget.dataList['balance'],
+                              _keterangan.text);
+                        },
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            child: const Text("SUBMIT"))),
+              )
             ],
           ),
         ));

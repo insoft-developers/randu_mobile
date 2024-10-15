@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
+import 'package:randu_mobile/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BukuBesarController extends GetxController {
   var now = DateTime.now();
@@ -34,10 +36,64 @@ class BukuBesarController extends GetxController {
     super.onInit();
   }
 
+  void exportExcel() async {
+    if (selectedAccountValue.value.isNotEmpty) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      var user = jsonDecode(localStorage.getString('user')!);
+      if (user != null) {
+        var userId = user['id'];
+        String param = thisMonth.value +
+            '_' +
+            thisYear.value +
+            '_' +
+            selectedAccountValue.value +
+            '_' +
+            userId.toString();
+
+        var data = {"param": param};
+
+        var res = await Network().post(data, '/journal/general-ledger-export');
+        var body = jsonDecode(res.body);
+        if (body['success']) {
+          launchURL(Constant.JOURNAL_REPORT + body['data'].toString());
+        }
+      }
+    }
+  }
+
+  void exportPdf() async {
+    if (selectedAccountValue.value.isNotEmpty) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      var user = jsonDecode(localStorage.getString('user')!);
+      if (user != null) {
+        var userId = user['id'];
+        String param = thisMonth.value +
+            '_' +
+            thisYear.value +
+            '_' +
+            selectedAccountValue.value +
+            '_' +
+            userId.toString();
+
+        var data = {"param": param};
+
+        var res = await Network().post(data, '/journal/general-ledger-pdf');
+        var body = jsonDecode(res.body);
+        if (body['success']) {
+          launchURL(Constant.JOURNAL_REPORT + body['data'].toString());
+        }
+      }
+    }
+  }
+
+  void launchURL(String url) async {
+    launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  }
+
   onChangeAccount(String value) {
     selectedAccount.value = value;
 
-    int indexSelected = accountDropdown.indexOf(value!);
+    int indexSelected = accountDropdown.indexOf(value);
     Map<String, dynamic> _selectedAccount = accountList[indexSelected];
     String _accountId =
         "${_selectedAccount['id']}_${_selectedAccount['account_code_id']}";
@@ -166,8 +222,8 @@ class BukuBesarController extends GetxController {
       backgroundColor: Colors.red,
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }

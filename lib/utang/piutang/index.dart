@@ -160,11 +160,10 @@ class _PiutangState extends State<Piutang> {
                                                     1 /
                                                     3,
                                                 child: Text(
-                                                    Tanggal.getOnlyDate(
-                                                        _piutangController
-                                                            .piutangList[index]
-                                                                ['created_at']
-                                                            .toString()),
+                                                    _piutangController
+                                                        .piutangList[index]
+                                                            ['date']
+                                                        .toString(),
                                                     textAlign: TextAlign.end,
                                                     style: const TextStyle(
                                                         fontFamily:

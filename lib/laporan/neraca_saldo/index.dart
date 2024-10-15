@@ -34,9 +34,46 @@ class _NeracaSaldoState extends State<NeracaSaldo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.mainColor,
-        title: const Text("Laporan Neraca Saldo"),
-      ),
+          backgroundColor: AppColor.mainColor,
+          title: const Text("Neraca Saldo"),
+          actions: [
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _laporanController.exportExcel();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white),
+                    child: Image.asset('images/excel_icon.png'),
+                    width: 25,
+                    height: 25,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _laporanController.exportPdf();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white),
+                    child: Image.asset('images/pdf_icon.png'),
+                    width: 25,
+                    height: 25,
+                  ),
+                ),
+              ],
+            )
+          ]),
       body: Container(
           padding: const EdgeInsets.all(10),
           child: Column(

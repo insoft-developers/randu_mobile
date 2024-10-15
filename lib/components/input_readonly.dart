@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:randu_mobile/journal/tambah/jurnal_cepat/jurnal_cepat_controller.dart';
-import 'package:randu_mobile/penyusutan/tambah/tambah_penyusutan_controller.dart';
-import 'package:randu_mobile/utang/hutang/pembayaran/debt_payment_controller.dart';
-import 'package:randu_mobile/utang/hutang/tambah/tambah_hutang_controller.dart';
-import 'package:randu_mobile/utang/piutang/pembayaran/piutang_payment_controller.dart';
-import 'package:randu_mobile/utang/piutang/tambah/tambah_piutang_controller.dart';
 
 // ignore: must_be_immutable
 class InputReadOnly extends StatelessWidget {

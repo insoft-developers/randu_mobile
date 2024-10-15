@@ -49,7 +49,8 @@ class KodeRekeningController extends GetxController {
     }
   }
 
-  void save(int indexId, List<String> accountItem, List<String> id, int accountCodeId) async {
+  void save(int indexId, List<String> accountItem, List<String> id,
+      int accountCodeId) async {
     saveLoading(true);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user')!);
@@ -60,7 +61,7 @@ class KodeRekeningController extends GetxController {
         "index_id": indexId,
         "account_item": accountItem,
         "account_code_id": accountCodeId + 1,
-        "id":id
+        "id": id
       };
       var res = await Network().post(data, '/journal/pengaturan-rekening-save');
       var body = jsonDecode(res.body);
@@ -78,8 +79,11 @@ class KodeRekeningController extends GetxController {
       backgroundColor: Colors.red,
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        style: {
+          "p": Style(color: Colors.white),
+        },
       ),
     ));
   }
@@ -89,8 +93,11 @@ class KodeRekeningController extends GetxController {
       backgroundColor: Colors.green[900],
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        style: {
+          "p": Style(color: Colors.white),
+        },
       ),
     ));
   }

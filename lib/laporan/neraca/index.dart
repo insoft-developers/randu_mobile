@@ -8,8 +8,6 @@ import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
-import 'package:randu_mobile/laporan/neraca/neraca_controller.dart';
-import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
 
 class Neraca extends StatefulWidget {
   const Neraca({Key? key}) : super(key: key);
@@ -35,9 +33,46 @@ class _NeracaState extends State<Neraca> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.mainColor,
-        title: const Text("Laporan Neraca"),
-      ),
+          backgroundColor: AppColor.mainColor,
+          title: const Text("Laporan Neraca"),
+          actions: [
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _laporanController.exportExcel();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white),
+                    child: Image.asset('images/excel_icon.png'),
+                    width: 25,
+                    height: 25,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _laporanController.exportPdf();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white),
+                    child: Image.asset('images/pdf_icon.png'),
+                    width: 25,
+                    height: 25,
+                  ),
+                ),
+              ],
+            )
+          ]),
       body: Container(
           padding: const EdgeInsets.all(10),
           child: Column(

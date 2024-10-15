@@ -144,8 +144,9 @@ class TambahHutangController extends GetxController {
     getDebtTo();
   }
 
-  void onDebtStore(
-      String transactionName, int debtAmount, String debtNote) async {
+  void onDebtStore(String transactionName, int debtAmount, String debtNote,
+      String transactionDate) async {
+    print(transactionDate);
     storeLoading(true);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user')!);
@@ -161,6 +162,7 @@ class TambahHutangController extends GetxController {
         "note": debtNote,
         "user_id": userId,
         "sync_status": "0",
+        "tanggal": transactionDate
       };
 
       var res = await Network().post(data, '/journal/debt-store');
@@ -180,25 +182,17 @@ class TambahHutangController extends GetxController {
     nominalRibuan.value = Ribuan.convertToIdr(value, 0);
   }
 
-  void showError(String n) {
+  void showSuccess(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.red,
-      content: Html(
-        data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-      ),
+      backgroundColor: Colors.green,
+      content: Text(n.toString()),
     ));
   }
 
-  void showSuccess(String n) {
+  void showError(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.green[900],
-      content: Html(
-        data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-      ),
+      backgroundColor: Colors.red,
+      content: Text(n.toString()),
     ));
   }
 }

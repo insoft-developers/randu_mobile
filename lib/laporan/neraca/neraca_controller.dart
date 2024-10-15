@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
+import 'package:randu_mobile/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class NeracaController extends GetxController {
   var loading = false.obs;
@@ -108,5 +111,45 @@ class NeracaController extends GetxController {
         loading(false);
       }
     }
+  }
+
+  void exportExcel() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      String param =
+          thisMonth.value + '_' + thisYear.value + '_' + userId.toString();
+
+      var data = {"param": param};
+
+      var res = await Network().post(data, '/journal/balance-sheet-export');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        launchURL(Constant.JOURNAL_REPORT + body['data'].toString());
+      }
+    }
+  }
+
+  void exportPdf() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      String param =
+          thisMonth.value + '_' + thisYear.value + '_' + userId.toString();
+
+      var data = {"param": param};
+
+      var res = await Network().post(data, '/journal/balance-sheet-pdf');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        launchURL(Constant.JOURNAL_REPORT + body['data'].toString());
+      }
+    }
+  }
+
+  void launchURL(String url) async {
+    launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 }

@@ -124,6 +124,7 @@ class HutangController extends GetxController {
       if (body['success']) {
         hutangList.value = body['data'];
         loading(false);
+        print(body);
       }
     }
   }

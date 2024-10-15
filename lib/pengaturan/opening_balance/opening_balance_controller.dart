@@ -41,8 +41,6 @@ class OpeningBalanceController extends GetxController {
       var body = jsonDecode(res.body);
       if (body['success']) {
         loading(false);
-        showSuccess(body['message'].toString());
-        print(body);
       } else {
         loading(false);
         showError(body['message'].toString());
@@ -114,9 +112,9 @@ class OpeningBalanceController extends GetxController {
   void showError(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       backgroundColor: Colors.red,
-      content: Html(
-        data: n,
-        defaultTextStyle: const TextStyle(
+      content: Text(
+        n,
+        style: const TextStyle(
             color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
@@ -127,8 +125,8 @@ class OpeningBalanceController extends GetxController {
       backgroundColor: Colors.green[900],
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }

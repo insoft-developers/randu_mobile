@@ -40,7 +40,7 @@ class PiutangPaymentController extends GetxController {
       var res = await Network().post(data, '/journal/piutang-payment');
       var body = jsonDecode(res.body);
       if (body['success']) {
-        showSuccess(body['message'].toString());
+        // showSuccess(body['message'].toString());
         Get.back();
         Get.back();
       } else {
@@ -88,8 +88,8 @@ class PiutangPaymentController extends GetxController {
       backgroundColor: Colors.red,
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }
@@ -99,8 +99,8 @@ class PiutangPaymentController extends GetxController {
       backgroundColor: Colors.green[900],
       content: Html(
         data: n,
-        defaultTextStyle: const TextStyle(
-            color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }

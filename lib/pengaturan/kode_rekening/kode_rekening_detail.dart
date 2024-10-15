@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randu_mobile/components/input_readonly.dart';
 import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';

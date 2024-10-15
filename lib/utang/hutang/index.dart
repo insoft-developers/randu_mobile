@@ -156,11 +156,15 @@ class _HutangState extends State<Hutang> {
                                                     1 /
                                                     3,
                                                 child: Text(
-                                                    Tanggal.getOnlyDate(
-                                                        _hutangController
+                                                    _hutangController.hutangList[
+                                                                    index]
+                                                                ['date'] ==
+                                                            null
+                                                        ? ''
+                                                        : _hutangController
                                                             .hutangList[index]
-                                                                ['created_at']
-                                                            .toString()),
+                                                                ['date']
+                                                            .toString(),
                                                     textAlign: TextAlign.end,
                                                     style: const TextStyle(
                                                         fontFamily:
