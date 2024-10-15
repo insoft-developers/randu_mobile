@@ -138,7 +138,8 @@ class _PiutangPaymentState extends State<PiutangPayment> {
                                   ? 0
                                   : int.parse(_nominal.text),
                               widget.dataList['balance'],
-                              _keterangan.text);
+                              _keterangan.text,
+                              _tanggal.text);
                         },
                         child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 15),
