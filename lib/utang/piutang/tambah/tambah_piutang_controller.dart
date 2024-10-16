@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:randu_mobile/utils/ribuan.dart';

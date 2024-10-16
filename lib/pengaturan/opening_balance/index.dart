@@ -60,14 +60,15 @@ class _OpeningBalanceState extends State<OpeningBalance> {
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  primary: AppColor.mainColor),
+                                  backgroundColor: AppColor.mainColor),
                               onPressed: () {
                                 _openingBalance.generateOpeningBalance();
                               },
                               child: Container(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 15),
-                                  child: const Text("Submit"))),
+                                  child: const Text("Submit",
+                                      style: TextStyle(color: Colors.white)))),
                         ),
                 )
               ],

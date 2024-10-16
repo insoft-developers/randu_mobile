@@ -129,7 +129,7 @@ class _PiutangPaymentState extends State<PiutangPayment> {
                         child: Center(child: CircularProgressIndicator()))
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: AppColor.mainColor),
+                            backgroundColor: AppColor.mainColor),
                         onPressed: () {
                           _dpc.savePayment(
                               widget.dataList['id'],
@@ -143,7 +143,8 @@ class _PiutangPaymentState extends State<PiutangPayment> {
                         },
                         child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: const Text("SUBMIT"))),
+                            child: const Text("SUBMIT",
+                                style: TextStyle(color: Colors.white)))),
               )
             ],
           ),

@@ -144,8 +144,8 @@ class _TambahPiutangState extends State<TambahPiutang> {
                   ? const SizedBox(
                       child: Center(child: CircularProgressIndicator()))
                   : ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(primary: AppColor.mainColor),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.mainColor),
                       onPressed: () {
                         _thc.onPiutangStore(
                             _tName.text,
@@ -157,7 +157,8 @@ class _TambahPiutangState extends State<TambahPiutang> {
                       },
                       child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: const Text("SUBMIT"))),
+                          child: const Text("SUBMIT",
+                              style: TextStyle(color: Colors.white)))),
             ),
             Jarak(tinggi: 20)
           ],

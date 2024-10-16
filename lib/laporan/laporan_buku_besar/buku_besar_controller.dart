@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -217,14 +216,17 @@ class BukuBesarController extends GetxController {
     }
   }
 
+  void showSuccess(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.green,
+      content: Text(n.toString()),
+    ));
+  }
+
   void showError(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       backgroundColor: Colors.red,
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-      ),
+      content: Text(n.toString()),
     ));
   }
 }

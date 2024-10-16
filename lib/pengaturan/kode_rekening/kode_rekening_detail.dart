@@ -82,7 +82,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
                 margin: const EdgeInsets.only(bottom: 50),
                 child: FloatingActionButton(
                     backgroundColor: AppColor.mainColor,
-                    child: const Icon(Icons.save),
+                    child: const Icon(Icons.save, color: Colors.white),
                     onPressed: () {
                       List<String> inputAkuns = [];
                       for (var i = 0; i < _akuns.length; i++) {

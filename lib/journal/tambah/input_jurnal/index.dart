@@ -125,7 +125,7 @@ class _InputJurnalState extends State<InputJurnal> {
                   margin: const EdgeInsets.only(bottom: 50),
                   child: FloatingActionButton(
                       backgroundColor: AppColor.mainColor,
-                      child: const Icon(Icons.save),
+                      child: const Icon(Icons.save, color: Colors.white),
                       onPressed: () {
                         _onSubmit();
                       }),
@@ -234,15 +234,22 @@ class _InputJurnalState extends State<InputJurnal> {
                                                 BorderRadius.circular(4),
                                           ),
                                           child: DropdownSearch<String>(
-                                            showSearchBox: true,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
                                             items: _inputJurnalController
                                                 .accountDropdown,
-                                            dropdownSearchDecoration:
-                                                const InputDecoration(
-                                                    border: InputBorder.none,
-                                                    label: Text("Pilih akun")),
+                                            popupProps: const PopupProps.menu(
+                                              showSelectedItems: true,
+                                              showSearchBox: true,
+                                            ),
+                                            dropdownDecoratorProps:
+                                                const DropDownDecoratorProps(
+                                                    baseStyle:
+                                                        TextStyle(fontSize: 16),
+                                                    dropdownSearchDecoration:
+                                                        InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                            label: Text(
+                                                                "Pilih akun"))),
                                             onChanged: (value) {
                                               setState(() {
                                                 _akuns[index] =

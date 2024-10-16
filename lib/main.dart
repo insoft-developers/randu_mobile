@@ -11,8 +11,10 @@ Future main() async {
   await Future.delayed(const Duration(seconds: 5));
   FlutterNativeSplash.remove();
 
-  runApp(const GetMaterialApp(
+  runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+        appBarTheme: const AppBarTheme(foregroundColor: Colors.white)),
     home: MyApp(),
   ));
 }

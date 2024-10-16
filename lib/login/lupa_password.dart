@@ -41,7 +41,7 @@ class _LupaPasswordState extends State<LupaPassword> {
                         width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: AppColor.mainColor),
+                                backgroundColor: AppColor.mainColor),
                             onPressed: () {
                               _loginController.lupaPassword(_email.text);
                             },

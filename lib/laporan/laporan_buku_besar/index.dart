@@ -90,13 +90,16 @@ class _BukuBesarState extends State<BukuBesar> {
                     ),
                     child: Obx(
                       () => DropdownSearch<String>(
-                        showSearchBox: true,
-                        mode: Mode.MENU,
-                        showSelectedItems: true,
                         items: _laporanController.accountDropdown,
-                        dropdownSearchDecoration: const InputDecoration(
-                            border: InputBorder.none,
-                            label: Text("Pilih akun")),
+                        popupProps: const PopupProps.menu(
+                          showSelectedItems: true,
+                          showSearchBox: true,
+                        ),
+                        dropdownDecoratorProps: const DropDownDecoratorProps(
+                            baseStyle: TextStyle(fontSize: 16),
+                            dropdownSearchDecoration: InputDecoration(
+                                border: InputBorder.none,
+                                label: Text("Pilih akun"))),
                         onChanged: (value) {
                           _laporanController.onChangeAccount(value.toString());
                         },

@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
                         margin: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 10),
                         child: ElevatedButton(
-                            style:
-                                ElevatedButton.styleFrom(primary: Colors.white),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white),
                             onPressed: () {
                               Get.to(() => const JurnalCepat())!.then((value) =>
                                   _jurnalController.getJournalList());
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.zero,
                   children: [
                     SizedBox(
-                      height: 230,
+                      height: 250,
                       child: DrawerHeader(
                         decoration: const BoxDecoration(
                           color: AppColor.mainColor,
@@ -349,7 +349,6 @@ class _HomePageState extends State<HomePage> {
                         Jarak(tinggi: 5),
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 20),
-                          color: Colors.white,
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
