@@ -20,13 +20,14 @@ class PiutangPaymentController extends GetxController {
   }
 
   void savePayment(int piutangId, String paymentFromId, int amount, int balance,
-      String note) async {
+      String note, String transactionDate) async {
     loading(true);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user')!);
     if (user != null) {
       var userId = user['id'];
       var data = {
+        "tanggal": transactionDate,
         "receivable_id": piutangId,
         "payment_to_id": selectedBayarKe.value,
         "payment_from_id": paymentFromId,

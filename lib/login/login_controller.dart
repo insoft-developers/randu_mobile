@@ -12,6 +12,11 @@ class LoginController extends GetxController {
   var isAuth = false.obs;
   var userName = "".obs;
   var lupaLoading = false.obs;
+  var isPassShowed = false.obs;
+
+  void showPassword() {
+    isPassShowed.value ? isPassShowed(false) : isPassShowed(true);
+  }
 
   void setLogin() {
     isAuth(true);

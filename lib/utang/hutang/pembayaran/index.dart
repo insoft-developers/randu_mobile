@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
+import 'package:randu_mobile/components/select/select_mont_report.dart';
 import 'package:randu_mobile/components/textarea.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
+import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/utang/hutang/pembayaran/debt_payment_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 
@@ -25,11 +27,11 @@ class _DebtPaymentState extends State<DebtPayment> {
 
   @override
   void initState() {
+    _dpc.getCurrentAsset();
     var now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
     _tanggal.text = formattedDate;
     super.initState();
-    print(widget.dataList);
   }
 
   _onDateChange() async {
@@ -93,6 +95,17 @@ class _DebtPaymentState extends State<DebtPayment> {
                 ),
               ),
               Jarak(tinggi: 20),
+              Obx(
+                () => _dpc.cloading.value
+                    ? TextShimmer(
+                        lebar: MediaQuery.of(context).size.width, tinggi: 50)
+                    : SelectMonthReport(
+                        defValue: _dpc.selectedPaymentWith.value,
+                        label: "label",
+                        menuItems: _dpc.paymentWithDropdown,
+                        code: "payment-with"),
+              ),
+              Jarak(tinggi: 20),
               InputText(
                   hint: "Nominal",
                   textInputType: TextInputType.number,
@@ -127,7 +140,8 @@ class _DebtPaymentState extends State<DebtPayment> {
                                   ? 0
                                   : int.parse(_nominal.text),
                               widget.dataList['balance'],
-                              _keterangan.text);
+                              _keterangan.text,
+                              _tanggal.text);
                         },
                         child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 15),

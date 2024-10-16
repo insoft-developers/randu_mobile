@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.zero,
                   children: [
                     SizedBox(
-                      height: 200,
+                      height: 230,
                       child: DrawerHeader(
                         decoration: const BoxDecoration(
                           color: AppColor.mainColor,
@@ -347,46 +347,61 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         const Divider(),
                         Jarak(tinggi: 5),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _homePageController.showWebsite();
-                                },
-                                child: SizedBox(
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.support_agent,
-                                          color: AppColor.mainColor, size: 30),
-                                      Spasi(lebar: 5),
-                                      const Text("Bantuan",
-                                          style: TextStyle(
-                                              fontFamily: FontSetting.bold,
-                                              color: AppColor.mainColor))
-                                    ],
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          color: Colors.white,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _homePageController.showWebsite();
+                                  },
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                            1 /
+                                            2 -
+                                        50,
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.support_agent,
+                                            color: AppColor.mainColor,
+                                            size: 30),
+                                        Spasi(lebar: 5),
+                                        const Text("Bantuan",
+                                            style: TextStyle(
+                                                fontFamily: FontSetting.bold,
+                                                color: AppColor.mainColor))
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  showAlertDialog(context);
-                                },
-                                child: SizedBox(
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.exit_to_app,
-                                          color: AppColor.merah, size: 30),
-                                      Spasi(lebar: 5),
-                                      const Text("Keluar",
-                                          style: TextStyle(
-                                              fontFamily: FontSetting.bold,
-                                              color: AppColor.merah))
-                                    ],
+                                GestureDetector(
+                                  onTap: () {
+                                    showAlertDialog(context);
+                                  },
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                            1 /
+                                            2 -
+                                        100,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const Icon(Icons.exit_to_app,
+                                            color: AppColor.merah, size: 30),
+                                        Spasi(lebar: 5),
+                                        const Text("Keluar",
+                                            style: TextStyle(
+                                                fontFamily: FontSetting.bold,
+                                                color: AppColor.merah))
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              )
-                            ]),
+                                Spasi(lebar: 10),
+                              ]),
+                        ),
                       ],
                     ),
                   ),
