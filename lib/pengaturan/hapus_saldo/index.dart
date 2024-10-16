@@ -59,7 +59,7 @@ class _HapusSaldoState extends State<HapusSaldo> {
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  primary: AppColor.mainColor),
+                                  backgroundColor: AppColor.mainColor),
                               onPressed: () {
                                 _hapusSaldo.initialDelete();
                               },

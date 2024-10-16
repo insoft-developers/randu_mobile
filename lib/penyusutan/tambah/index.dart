@@ -169,7 +169,7 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
                                   : int.parse(_residu.text));
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: AppColor.mainColor),
+                            backgroundColor: AppColor.mainColor),
                         child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: const Text("Submit"))),

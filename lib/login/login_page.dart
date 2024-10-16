@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 3 / 4 - 40,
+                    width: MediaQuery.of(context).size.width * 3 / 4 - 50,
                     child: const Text("Belum Daftar? atau Lupa Password ?",
                         style: TextStyle(
                             fontFamily: FontSetting.reg,

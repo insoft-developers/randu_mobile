@@ -143,8 +143,8 @@ class _TambahHutangState extends State<TambahHutang> {
                   ? const SizedBox(
                       child: Center(child: CircularProgressIndicator()))
                   : ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(primary: AppColor.mainColor),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.mainColor),
                       onPressed: () {
                         _thc.onDebtStore(
                             _tName.text,

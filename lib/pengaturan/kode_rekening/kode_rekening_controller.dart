@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,31 +73,17 @@ class KodeRekeningController extends GetxController {
     }
   }
 
-  void showError(String n) {
+  void showSuccess(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.red,
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-        style: {
-          "p": Style(color: Colors.white),
-        },
-      ),
+      backgroundColor: Colors.green,
+      content: Text(n.toString()),
     ));
   }
 
-  void showSuccess(String n) {
+  void showError(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.green[900],
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-        style: {
-          "p": Style(color: Colors.white),
-        },
-      ),
+      backgroundColor: Colors.red,
+      content: Text(n.toString()),
     ));
   }
 }

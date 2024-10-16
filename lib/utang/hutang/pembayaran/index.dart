@@ -117,7 +117,7 @@ class _DebtPaymentState extends State<DebtPayment> {
                         child: Center(child: CircularProgressIndicator()))
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: AppColor.mainColor),
+                            backgroundColor: AppColor.mainColor),
                         onPressed: () {
                           _dpc.savePayment(
                               widget.dataList['id'],

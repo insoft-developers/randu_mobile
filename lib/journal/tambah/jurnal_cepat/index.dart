@@ -105,13 +105,16 @@ class _JurnalCepatState extends State<JurnalCepat> {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: DropdownSearch<String>(
-                          showSearchBox: true,
-                          mode: Mode.MENU,
-                          showSelectedItems: true,
                           items: _jurnalCepatController.accountDropdown,
-                          dropdownSearchDecoration: const InputDecoration(
-                              border: InputBorder.none,
-                              label: Text("Pilih diterima dari")),
+                          popupProps: const PopupProps.menu(
+                            showSelectedItems: true,
+                            showSearchBox: true,
+                          ),
+                          dropdownDecoratorProps: const DropDownDecoratorProps(
+                              baseStyle: TextStyle(fontSize: 16),
+                              dropdownSearchDecoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  label: Text("Pilih diterima dari"))),
                           onChanged: (value) {
                             _jurnalCepatController.onchangeReceiveFrom(
                                 _jurnalCepatController.accountDropdown
@@ -133,13 +136,16 @@ class _JurnalCepatState extends State<JurnalCepat> {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: DropdownSearch<String>(
-                          showSearchBox: true,
-                          mode: Mode.MENU,
-                          showSelectedItems: true,
                           items: _jurnalCepatController.saveDropdown,
-                          dropdownSearchDecoration: const InputDecoration(
-                              border: InputBorder.none,
-                              label: Text("Pilih simpan ke")),
+                          popupProps: const PopupProps.menu(
+                            showSelectedItems: true,
+                            showSearchBox: true,
+                          ),
+                          dropdownDecoratorProps: const DropDownDecoratorProps(
+                              baseStyle: TextStyle(fontSize: 16),
+                              dropdownSearchDecoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  label: Text("Pilih simpan ke"))),
                           onChanged: (value) {
                             _jurnalCepatController.onchangeSaveTo(
                                 _jurnalCepatController.saveDropdown
@@ -179,7 +185,7 @@ class _JurnalCepatState extends State<JurnalCepat> {
                         height: 50,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: AppColor.mainColor),
+                                backgroundColor: AppColor.mainColor),
                             onPressed: () {
                               _jurnalCepatController.saveQuickJournal(
                                   _tanggalText.text,

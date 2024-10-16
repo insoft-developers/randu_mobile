@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
                         margin: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 10),
                         child: ElevatedButton(
-                            style:
-                                ElevatedButton.styleFrom(primary: Colors.white),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white),
                             onPressed: () {
                               Get.to(() => const JurnalCepat())!.then((value) =>
                                   _jurnalController.getJournalList());

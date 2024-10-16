@@ -234,15 +234,22 @@ class _InputJurnalState extends State<InputJurnal> {
                                                 BorderRadius.circular(4),
                                           ),
                                           child: DropdownSearch<String>(
-                                            showSearchBox: true,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
                                             items: _inputJurnalController
                                                 .accountDropdown,
-                                            dropdownSearchDecoration:
-                                                const InputDecoration(
-                                                    border: InputBorder.none,
-                                                    label: Text("Pilih akun")),
+                                            popupProps: const PopupProps.menu(
+                                              showSelectedItems: true,
+                                              showSearchBox: true,
+                                            ),
+                                            dropdownDecoratorProps:
+                                                const DropDownDecoratorProps(
+                                                    baseStyle:
+                                                        TextStyle(fontSize: 16),
+                                                    dropdownSearchDecoration:
+                                                        InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                            label: Text(
+                                                                "Pilih akun"))),
                                             onChanged: (value) {
                                               setState(() {
                                                 _akuns[index] =

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
@@ -116,17 +115,6 @@ class OpeningBalanceController extends GetxController {
         n,
         style: const TextStyle(
             color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-      ),
-    ));
-  }
-
-  void showSuccess(String n) {
-    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.green[900],
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
       ),
     ));
   }
