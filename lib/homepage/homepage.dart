@@ -187,9 +187,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 child: Image.asset("images/jurnal_icon.png")),
                             Spasi(lebar: 15),
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text("Jurnal",
                                     style: TextStyle(
                                         fontFamily: FontSetting.bold,
@@ -216,9 +216,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 child: Image.asset("images/laporan_icon.png")),
                             Spasi(lebar: 15),
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text("Laporan",
                                     style: TextStyle(
                                         fontFamily: FontSetting.bold,
@@ -245,9 +245,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 child: Image.asset("images/utang_icon.png")),
                             Spasi(lebar: 15),
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text("Utang / Piutang",
                                     style: TextStyle(
                                         fontFamily: FontSetting.bold,
@@ -275,9 +275,9 @@ class _HomePageState extends State<HomePage> {
                                 child:
                                     Image.asset("images/penyusutan_icon.png")),
                             Spasi(lebar: 15),
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text("Penyusutan",
                                     style: TextStyle(
                                         fontFamily: FontSetting.bold,
@@ -305,9 +305,9 @@ class _HomePageState extends State<HomePage> {
                                 child:
                                     Image.asset("images/pengaturan_icon.png")),
                             Spasi(lebar: 15),
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text("Pengaturan Aplikasi",
                                     style: TextStyle(
                                         fontFamily: FontSetting.bold,

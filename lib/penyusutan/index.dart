@@ -450,7 +450,7 @@ class _PenyusutanState extends State<Penyusutan> {
                                                       1
                                                   ? Container(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           vertical: 5),
                                                       decoration: BoxDecoration(
                                                           borderRadius:
@@ -458,8 +458,8 @@ class _PenyusutanState extends State<Penyusutan> {
                                                                   .circular(10),
                                                           color:
                                                               AppColor.putih),
-                                                      child: Row(
-                                                        children: const [
+                                                      child: const Row(
+                                                        children: [
                                                           Icon(
                                                             Icons.sync,
                                                             color:
@@ -476,7 +476,7 @@ class _PenyusutanState extends State<Penyusutan> {
                                                     )
                                                   : Container(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           vertical: 5),
                                                       decoration: BoxDecoration(
                                                           borderRadius:
@@ -484,8 +484,8 @@ class _PenyusutanState extends State<Penyusutan> {
                                                                   .circular(10),
                                                           color:
                                                               AppColor.putih),
-                                                      child: Row(
-                                                        children: const [
+                                                      child: const Row(
+                                                        children: [
                                                           Icon(
                                                             Icons.sync_disabled,
                                                             color:

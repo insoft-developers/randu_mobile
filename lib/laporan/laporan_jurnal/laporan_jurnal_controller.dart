@@ -7,7 +7,6 @@ import 'package:randu_mobile/api/network.dart';
 import 'package:randu_mobile/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class LaporanJurnalController extends GetxController {
   var now = DateTime.now();
@@ -49,7 +48,6 @@ class LaporanJurnalController extends GetxController {
       }
     }
   }
-
 
   void exportPdf() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();

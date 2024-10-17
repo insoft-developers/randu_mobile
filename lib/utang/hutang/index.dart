@@ -254,7 +254,7 @@ class _HutangState extends State<Hutang> {
                                                       ? Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   vertical: 5),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
@@ -263,8 +263,8 @@ class _HutangState extends State<Hutang> {
                                                                           10),
                                                               color: AppColor
                                                                   .putih),
-                                                          child: Row(
-                                                            children: const [
+                                                          child: const Row(
+                                                            children: [
                                                               Icon(
                                                                 Icons.sync,
                                                                 color: AppColor
@@ -283,7 +283,7 @@ class _HutangState extends State<Hutang> {
                                                       : Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   vertical: 5),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
@@ -292,8 +292,8 @@ class _HutangState extends State<Hutang> {
                                                                           10),
                                                               color: AppColor
                                                                   .putih),
-                                                          child: Row(
-                                                            children: const [
+                                                          child: const Row(
+                                                            children: [
                                                               Icon(
                                                                 Icons
                                                                     .sync_disabled,

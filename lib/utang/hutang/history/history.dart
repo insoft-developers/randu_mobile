@@ -299,10 +299,10 @@ class _DebtHistoryState extends State<DebtHistory> {
                                           child: _debtHistory.history[index]
                                                       ['sync_status'] ==
                                                   1
-                                              ? Row(
+                                              ? const Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
-                                                  children: const [
+                                                  children: [
                                                     Icon(Icons.check,
                                                         color: AppColor.hijau),
                                                     Text("Synced",
@@ -316,10 +316,10 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                                     .bold)),
                                                   ],
                                                 )
-                                              : Row(
+                                              : const Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
-                                                  children: const [
+                                                  children: [
                                                     Icon(Icons.sync_disabled,
                                                         color: AppColor.merah),
                                                     Text("not Sync",

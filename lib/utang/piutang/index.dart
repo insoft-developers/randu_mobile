@@ -253,7 +253,7 @@ class _PiutangState extends State<Piutang> {
                                                       ? Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   vertical: 5),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
@@ -262,8 +262,8 @@ class _PiutangState extends State<Piutang> {
                                                                           10),
                                                               color: AppColor
                                                                   .putih),
-                                                          child: Row(
-                                                            children: const [
+                                                          child: const Row(
+                                                            children: [
                                                               Icon(
                                                                 Icons.sync,
                                                                 color: AppColor
@@ -282,7 +282,7 @@ class _PiutangState extends State<Piutang> {
                                                       : Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   vertical: 5),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
@@ -291,8 +291,8 @@ class _PiutangState extends State<Piutang> {
                                                                           10),
                                                               color: AppColor
                                                                   .putih),
-                                                          child: Row(
-                                                            children: const [
+                                                          child: const Row(
+                                                            children: [
                                                               Icon(
                                                                 Icons
                                                                     .sync_disabled,

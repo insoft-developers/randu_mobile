@@ -15,7 +15,7 @@ Future main() async {
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
         appBarTheme: const AppBarTheme(foregroundColor: Colors.white)),
-    home: MyApp(),
+    home: const MyApp(),
   ));
 }
 
