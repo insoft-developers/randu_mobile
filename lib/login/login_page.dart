@@ -5,6 +5,7 @@ import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/components/textview.dart';
 import 'package:randu_mobile/css/font_setting.dart';
+import 'package:randu_mobile/login/help.dart';
 import 'package:randu_mobile/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -150,7 +151,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      _loginController.launchURL();
+                      Get.to(() => Helping(
+                            tujuan: 'https://app.randu.co.id',
+                            judul: 'Daftar atau Lupa Password',
+                          ));
                     },
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 1 / 4 - 20,

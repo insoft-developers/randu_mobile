@@ -12,6 +12,7 @@ import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/journal/tambah/input_jurnal/index.dart';
 import 'package:randu_mobile/journal/tambah/jurnal_cepat/index.dart';
 import 'package:randu_mobile/laporan/index.dart';
+import 'package:randu_mobile/login/help.dart';
 import 'package:randu_mobile/pengaturan/index.dart';
 import 'package:randu_mobile/penyusutan/index.dart';
 import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
@@ -326,7 +327,23 @@ class _HomePageState extends State<HomePage> {
                         Get.back();
                       },
                     ),
-                    Jarak(tinggi: 80),
+                    Jarak(tinggi: 50),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => Helping(
+                            tujuan:
+                                'https://dev.randu.co.id/mobile_account_remove',
+                            judul: 'Hapus Akun'));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 30),
+                        child: const Text("Hapus Akun ",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontFamily: FontSetting.bold, fontSize: 15)),
+                      ),
+                    ),
+                    Jarak(tinggi: 50),
                     Text("VERSI " + Constant.VERSION,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
@@ -335,6 +352,7 @@ class _HomePageState extends State<HomePage> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontFamily: FontSetting.reg, fontSize: 13)),
+                    Jarak(tinggi: 30),
                     Jarak(tinggi: 200),
                   ],
                 ),
@@ -354,7 +372,11 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    _homePageController.showWebsite();
+                                    // _homePageController.showWebsite();
+                                    Get.to(() => Helping(
+                                          tujuan: 'https://help.randu.co.id',
+                                          judul: 'Bantuan',
+                                        ));
                                   },
                                   child: SizedBox(
                                     width: MediaQuery.of(context).size.width *

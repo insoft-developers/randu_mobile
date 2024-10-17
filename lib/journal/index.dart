@@ -41,14 +41,14 @@ class _JournalState extends State<Journal> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 2 / 3,
+                width: MediaQuery.of(context).size.width * 2 / 3 - 20,
                 child: Obx(() => SelectMonth(
                     defValue: _jurnalController.thisMonth.value,
                     label: "Bulan",
                     menuItems: _jurnalController.monthDropdown)),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 1 / 3,
+                width: MediaQuery.of(context).size.width * 1 / 3 + 20,
                 child: Obx(() => SelectYear(
                     defValue: _jurnalController.thisYear.value,
                     label: "Tahun",

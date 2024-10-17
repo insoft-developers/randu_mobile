@@ -13,7 +13,6 @@ import 'package:randu_mobile/utang/hutang/hutang_controller.dart';
 import 'package:randu_mobile/utang/hutang/pembayaran/index.dart';
 import 'package:randu_mobile/utang/hutang/tambah/index.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
-import 'package:randu_mobile/utils/tanggal.dart';
 
 class Hutang extends StatefulWidget {
   const Hutang({Key? key}) : super(key: key);

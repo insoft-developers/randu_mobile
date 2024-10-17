@@ -14,7 +14,6 @@ import 'package:randu_mobile/utang/piutang/pembayaran/index.dart';
 import 'package:randu_mobile/utang/piutang/piutang_controller.dart';
 import 'package:randu_mobile/utang/piutang/tambah/index.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
-import 'package:randu_mobile/utils/tanggal.dart';
 
 class Piutang extends StatefulWidget {
   const Piutang({Key? key}) : super(key: key);
