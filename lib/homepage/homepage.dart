@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // _homePageController.getBranchName();
+    _homePageController.getDeviceType();
     _homePageController.initUserInfo();
     super.initState();
   }
@@ -328,6 +329,34 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     Jarak(tinggi: 50),
+                    Obx(
+                      () => _homePageController.isIpad.value
+                          ? GestureDetector(
+                              onTap: () {
+                                showAlertDialog(context);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 20),
+                                width:
+                                    MediaQuery.of(context).size.width * 1 / 2 -
+                                        100,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Icon(Icons.exit_to_app,
+                                        color: AppColor.merah, size: 30),
+                                    Spasi(lebar: 5),
+                                    const Text("Keluar",
+                                        style: TextStyle(
+                                            fontFamily: FontSetting.bold,
+                                            color: AppColor.merah))
+                                  ],
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ),
+                    Jarak(tinggi: 50),
                     GestureDetector(
                       onTap: () {
                         Get.to(() => Helping(
@@ -382,7 +411,7 @@ class _HomePageState extends State<HomePage> {
                                     width: MediaQuery.of(context).size.width *
                                             1 /
                                             2 -
-                                        50,
+                                        100,
                                     child: Row(
                                       children: [
                                         const Icon(Icons.support_agent,
@@ -405,7 +434,7 @@ class _HomePageState extends State<HomePage> {
                                     width: MediaQuery.of(context).size.width *
                                             1 /
                                             2 -
-                                        100,
+                                        120,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [

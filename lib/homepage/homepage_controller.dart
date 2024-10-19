@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/api/network.dart';
 import 'package:randu_mobile/login/login_page.dart';
@@ -13,6 +14,13 @@ class HomePageController extends GetxController {
   var pageTitle = "".obs;
   var userName = "".obs;
   var userEmail = "".obs;
+  var isIpad = false.obs;
+
+  void getDeviceType() {
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    data.size.shortestSide < 550 ? isIpad(false) : isIpad(true);
+    print(isIpad);
+  }
 
   void initUserInfo() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
