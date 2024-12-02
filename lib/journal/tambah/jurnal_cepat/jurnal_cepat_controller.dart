@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
+import 'package:randu_mobile/utils/constant.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class JurnalCepatController extends GetxController {
   var jenisTransaksi = "".obs;
@@ -21,6 +25,59 @@ class JurnalCepatController extends GetxController {
   var saveToValue = "".obs;
   var nominalRibuan = "0".obs;
   var saveLoading = false.obs;
+
+  PickedFile? _pickedFile;
+  PickedFile? get pickedFile => _pickedFile;
+  String? _imagePath;
+  String? get imagePath => _imagePath;
+  final _picker = ImagePicker();
+
+  Future<void> pickImage() async {
+    _pickedFile = await _picker.getImage(source: ImageSource.gallery);
+    update();
+  }
+
+  Future<void> resetPicker() async {
+    _pickedFile = null;
+    update();
+  }
+
+  Future<bool> upload(String ids) async {
+    update();
+    bool success = false;
+    http.StreamedResponse response = await updateImage(_pickedFile, ids);
+
+    if (response.statusCode == 200) {
+      Map map = jsonDecode(await response.stream.bytesToString());
+      String message = map["message"];
+      success = true;
+      _imagePath = message;
+      print(message);
+    } else {}
+    update();
+    Get.back();
+    return success;
+  }
+
+  Future<http.StreamedResponse> updateImage(
+      PickedFile? data, String ids) async {
+    http.MultipartRequest request = http.MultipartRequest('POST',
+        Uri.parse(Constant.UPLOAD_IMAGE_URL + '/journal/journal-upload'));
+
+    if (GetPlatform.isMobile && data != null) {
+      File _file = File(data.path);
+      request.files.add(http.MultipartFile(
+          'image', _file.readAsBytes().asStream(), _file.lengthSync(),
+          filename: _file.path.split('/').last));
+    }
+
+    Map<String, String> _fields = {};
+    _fields.addAll(<String, String>{'ids': ids});
+    request.fields.addAll(_fields);
+
+    http.StreamedResponse response = await request.send();
+    return response;
+  }
 
   void onChangeTransaction(String value) {
     selectedTransaction.value = value;
@@ -148,7 +205,11 @@ class JurnalCepatController extends GetxController {
       var body = jsonDecode(res.body);
       if (body['success']) {
         saveLoading(false);
-        Get.back();
+        if (_pickedFile != null) {
+          upload(body['id'].toString());
+        } else {
+          Get.back();
+        }
       } else {
         saveLoading(false);
         showError(body['message'].toString());

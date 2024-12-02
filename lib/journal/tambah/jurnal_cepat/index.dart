@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -170,6 +172,50 @@ class _JurnalCepatState extends State<JurnalCepat> {
                       _jurnalCepatController.nominalRibuan.value.toString(),
                       style: const TextStyle(
                           fontFamily: FontSetting.reg, color: Colors.red)))),
+              Jarak(tinggi: 10),
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  child: const Text("Upload Foto Dokument Transaksi",
+                      style: TextStyle(fontWeight: FontWeight.w600))),
+              Jarak(tinggi: 5),
+              GetBuilder<JurnalCepatController>(builder: (builderController) {
+                return builderController.pickedFile != null
+                    ? GestureDetector(
+                        onTap: () {
+                          builderController.pickImage();
+                        },
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 15),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 2.0)),
+                            height: 200,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image.file(
+                                File(builderController.pickedFile!.path),
+                                fit: BoxFit.contain,
+                              ),
+                            )),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          builderController.pickImage();
+                        },
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 2.0)),
+                            height: 200,
+                            child: Image.asset("images/image_upload.png")),
+                      );
+              }),
               Jarak(tinggi: 30),
               Obx(
                 () => _jurnalCepatController.saveLoading.value

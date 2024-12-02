@@ -180,35 +180,34 @@ class _JournalState extends State<Journal> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.to(() => JournalPreview(
+                                                        journalId:
+                                                            _jurnalController
+                                                                .journalList[
+                                                                    index]['id']
+                                                                .toString()));
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              3),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          color: Colors.green),
+                                                      child: const Icon(
+                                                          Icons.preview,
+                                                          size: 17,
+                                                          color: Colors.white)),
+                                                ),
+                                                Spasi(lebar: 20),
                                                 _jurnalController.journalList[
                                                             index]['awal'] ==
                                                         1
-                                                    ? GestureDetector(
-                                                        onTap: () {
-                                                          Get.to(() => JournalPreview(
-                                                              journalId: _jurnalController
-                                                                  .journalList[
-                                                                      index]
-                                                                      ['id']
-                                                                  .toString()));
-                                                        },
-                                                        child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(3),
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20),
-                                                                color: Colors
-                                                                    .green),
-                                                            child: const Icon(
-                                                                Icons.preview,
-                                                                size: 17,
-                                                                color: Colors
-                                                                    .white)),
-                                                      )
+                                                    ? const SizedBox()
                                                     : GestureDetector(
                                                         onTap: () {
                                                           Get.to(JournalEdit(
@@ -240,26 +239,6 @@ class _JournalState extends State<Journal> {
                                                 Spasi(lebar: 20),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    // SweetAlertV2.show(context,
-                                                    //     title: "Hapus Data ?",
-                                                    //     subtitle: "",
-                                                    //     style: SweetAlertV2Style
-                                                    //         .confirm,
-                                                    //     showCancelButton: true,
-                                                    //     onPress:
-                                                    //         (bool isConfirm) {
-                                                    //   if (isConfirm) {
-                                                    //     Get.back();
-                                                    //     _jurnalController
-                                                    //         .onJournalDelete(
-                                                    //             _jurnalController
-                                                    //                     .journalList[
-                                                    //                 index]['id']);
-                                                    //   } else {
-                                                    //     Get.back();
-                                                    //   }
-                                                    //   return false;
-                                                    // });
                                                     _showAlertDialog(
                                                         context,
                                                         _jurnalController

@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:randu_mobile/components/textarea.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/journal/edit/jurnal_edit_controller.dart';
+import 'package:randu_mobile/utils/constant.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 
 // ignore: must_be_immutable
@@ -24,8 +28,10 @@ class _JournalEditState extends State<JournalEdit> {
       Get.put(JournalEditController());
   final TextEditingController _tanggal = TextEditingController();
   final TextEditingController _transName = TextEditingController();
+  final TextEditingController _description = TextEditingController();
   final List<TextEditingController> _debits = [TextEditingController()];
   final List<TextEditingController> _credits = [TextEditingController()];
+  final List<TextEditingController> _catatans = [TextEditingController()];
   final List<String> _akuns = [""];
   final List<String> _selectedAkuns = [""];
   final List<String> _debitRibuan = [""];
@@ -44,6 +50,7 @@ class _JournalEditState extends State<JournalEdit> {
         formattedDate = _journalEditController.journalDate.value;
         _tanggal.text = formattedDate;
         _transName.text = _journalEditController.journal['transaction_name'];
+        _description.text = _journalEditController.journal['description'];
 
         for (var i = 0; i < _journalEditController.journalList.length; i++) {
           _journalEditController.getAccountSelect().then((value) {
@@ -59,14 +66,23 @@ class _JournalEditState extends State<JournalEdit> {
   _onSubmit() {
     List<String> _debetText = [];
     List<String> _creditText = [];
+    List<String> _catatanText = [];
 
     for (var i = 0; i < _debits.length; i++) {
       _debetText.add(_debits[i].text.isEmpty ? "0" : _debits[i].text);
       _creditText.add(_credits[i].text.isEmpty ? "0" : _credits[i].text);
+      _catatanText.add(_catatans[i].text);
     }
 
-    _journalEditController.updateMultipleJournal(widget.id, _tanggal.text,
-        _transName.text, _selectedAkuns, _debetText, _creditText);
+    _journalEditController.updateMultipleJournal(
+        widget.id,
+        _tanggal.text,
+        _transName.text,
+        _selectedAkuns,
+        _debetText,
+        _creditText,
+        _catatanText,
+        _description.text);
   }
 
   _initItem(int k) {
@@ -86,6 +102,9 @@ class _JournalEditState extends State<JournalEdit> {
           text: _journalEditController.journalList[k]['debet'].toString()));
       _credits.add(TextEditingController(
           text: _journalEditController.journalList[k]['credit'].toString()));
+      _catatans.add(TextEditingController(
+          text:
+              _journalEditController.journalList[k]['description'].toString()));
       _selectedAkuns.add(_journalEditController.journalList[k]['asset_data_id']
               .toString() +
           '_' +
@@ -103,6 +122,7 @@ class _JournalEditState extends State<JournalEdit> {
       _creditRibuan.add("");
       _debits.add(TextEditingController());
       _credits.add(TextEditingController());
+      _catatans.add(TextEditingController());
       _selectedAkuns.add("");
     });
   }
@@ -146,6 +166,8 @@ class _JournalEditState extends State<JournalEdit> {
       _debits.removeAt(index);
       _credits[index].clear();
       _credits.removeAt(index);
+      _catatans[index].clear();
+      _catatans.removeAt(index);
       _debitReadonly.removeAt(index);
       _creditReadonly.removeAt(index);
       _countTotal();
@@ -185,7 +207,9 @@ class _JournalEditState extends State<JournalEdit> {
                       }),
                 ),
         ),
-        body: Column(
+        body: ListView(
+          shrinkWrap: true,
+          physics: const ScrollPhysics(),
           children: [
             Container(
               padding: const EdgeInsets.all(10),
@@ -255,304 +279,371 @@ class _JournalEditState extends State<JournalEdit> {
                       margin: const EdgeInsets.only(top: 10),
                       child:
                           InputJurnalShimmer(tinggi: 150, jumlah: 2, pad: 10))
-                  : Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const ScrollPhysics(),
-                            itemCount: _debits.length,
-                            itemBuilder: (context, index) {
-                              return Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    decoration: BoxDecoration(
-                                      color: AppColor.display,
-                                      border: Border.all(
-                                          color: AppColor.displayLine,
-                                          width: 1),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.grey, width: 0.5),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: DropdownSearch<String>(
-                                            showSearchBox: true,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
-                                            items: _journalEditController
-                                                .accountDropdown,
-                                            dropdownSearchDecoration:
-                                                const InputDecoration(
-                                                    border: InputBorder.none,
-                                                    label: Text("Pilih akun")),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _akuns[index] =
-                                                    value.toString();
-                                                int indexSelected =
-                                                    _journalEditController
-                                                        .accountDropdown
-                                                        .indexOf(value!);
-                                                Map<String, dynamic>
-                                                    _selectedAccount =
-                                                    _journalEditController
-                                                            .accountSelect[
-                                                        indexSelected];
-                                                String _accountId =
-                                                    "${_selectedAccount['id']}_${_selectedAccount['account_code_id']}";
-                                                _selectedAkuns[index] =
-                                                    _accountId;
-                                              });
-                                            },
-                                            selectedItem: _akuns[index],
-                                          ),
-                                        ),
-                                        Jarak(tinggi: 8),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width *
-                                                                1 /
-                                                                2 -
-                                                            25,
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 10,
-                                                        right: 10,
-                                                      ),
-                                                      height: 50,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4),
-                                                        color: Colors.white,
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 0.5),
-                                                        boxShadow: const [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  Offset(0, 1),
-                                                              blurRadius: 50,
-                                                              color:
-                                                                  Colors.white),
-                                                        ],
-                                                      ),
-                                                      child: TextField(
-                                                          readOnly: _debitReadonly[
-                                                              index],
-                                                          controller:
-                                                              _debits[index],
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          decoration:
-                                                              const InputDecoration(
-                                                            hintText: "Debet",
-                                                            hintStyle: TextStyle(
-                                                                fontFamily:
-                                                                    FontSetting
-                                                                        .reg,
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .grey),
-                                                            enabledBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                            focusedBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                          ),
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              _debitRibuan[
-                                                                  index] = value
-                                                                      .isEmpty
-                                                                  ? ""
-                                                                  : Ribuan.convertToIdr(
-                                                                      int.parse(
-                                                                          value),
-                                                                      0);
-                                                              _creditReadonly[
-                                                                      index] =
-                                                                  value.isEmpty
-                                                                      ? false
-                                                                      : true;
-                                                              _countTotal();
-                                                            });
-                                                          }),
-                                                    )),
-                                                Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 5, top: 5),
-                                                    child: Text(
-                                                        _debitRibuan[index],
-                                                        style: const TextStyle(
-                                                            fontFamily:
-                                                                FontSetting.reg,
-                                                            color: Colors.red)))
-                                              ],
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width *
-                                                                1 /
-                                                                2 -
-                                                            25,
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 10,
-                                                        right: 10,
-                                                      ),
-                                                      height: 50,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4),
-                                                        color: Colors.white,
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 0.5),
-                                                        boxShadow: const [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  Offset(0, 1),
-                                                              blurRadius: 50,
-                                                              color:
-                                                                  Colors.white),
-                                                        ],
-                                                      ),
-                                                      child: TextField(
-                                                          controller:
-                                                              _credits[index],
-                                                          readOnly:
-                                                              _creditReadonly[
-                                                                  index],
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          decoration:
-                                                              const InputDecoration(
-                                                            hintText: "Kredit",
-                                                            hintStyle: TextStyle(
-                                                                fontFamily:
-                                                                    FontSetting
-                                                                        .reg,
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .grey),
-                                                            enabledBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                            focusedBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                          ),
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              _creditRibuan[
-                                                                  index] = value
-                                                                      .isEmpty
-                                                                  ? ""
-                                                                  : Ribuan.convertToIdr(
-                                                                      int.parse(
-                                                                          value),
-                                                                      0);
-                                                              _debitReadonly[
-                                                                      index] =
-                                                                  value.isEmpty
-                                                                      ? false
-                                                                      : true;
-                                                              _countTotal();
-                                                            });
-                                                          }),
-                                                    )),
-                                                Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 5, top: 5),
-                                                    child: Text(
-                                                        _creditRibuan[index],
-                                                        style: const TextStyle(
-                                                            fontFamily:
-                                                                FontSetting.reg,
-                                                            color: Colors.red)))
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                  : Container(
+                      margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          itemCount: _debits.length,
+                          itemBuilder: (context, index) {
+                            return Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.display,
+                                    border: Border.all(
+                                        color: AppColor.displayLine, width: 1),
+                                    borderRadius: BorderRadius.circular(4),
                                   ),
-                                  index != 0
-                                      ? Positioned(
-                                          right: 5,
-                                          top: 5,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                _itemDelete(index);
-                                              });
-                                            },
-                                            child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(3),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.red,
-                                                  border: Border.all(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        child: DropdownSearch<String>(
+                                          showSearchBox: true,
+                                          mode: Mode.DIALOG,
+                                          showSelectedItems: true,
+                                          items: _journalEditController
+                                              .accountDropdown,
+                                          dropdownSearchDecoration:
+                                              const InputDecoration(
+                                                  border: InputBorder.none,
+                                                  label: Text("Pilih akun")),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _akuns[index] = value.toString();
+                                              int indexSelected =
+                                                  _journalEditController
+                                                      .accountDropdown
+                                                      .indexOf(value!);
+                                              Map<String, dynamic>
+                                                  _selectedAccount =
+                                                  _journalEditController
+                                                          .accountSelect[
+                                                      indexSelected];
+                                              String _accountId =
+                                                  "${_selectedAccount['id']}_${_selectedAccount['account_code_id']}";
+                                              _selectedAkuns[index] =
+                                                  _accountId;
+                                            });
+                                          },
+                                          selectedItem: _akuns[index],
+                                        ),
+                                      ),
+                                      Jarak(tinggi: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          1 /
+                                                          2 -
+                                                      25,
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                    ),
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
                                                       color: Colors.white,
-                                                      width: 3),
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                child: const Icon(Icons.close,
-                                                    color: Colors.white,
-                                                    size: 20)),
+                                                      border: Border.all(
+                                                          color: Colors.grey,
+                                                          width: 0.5),
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                            offset:
+                                                                Offset(0, 1),
+                                                            blurRadius: 50,
+                                                            color:
+                                                                Colors.white),
+                                                      ],
+                                                    ),
+                                                    child: TextField(
+                                                        readOnly:
+                                                            _debitReadonly[
+                                                                index],
+                                                        controller:
+                                                            _debits[index],
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        textInputAction:
+                                                            TextInputAction
+                                                                .next,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          hintText: "Debet",
+                                                          hintStyle: TextStyle(
+                                                              fontFamily:
+                                                                  FontSetting
+                                                                      .reg,
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.grey),
+                                                          enabledBorder:
+                                                              InputBorder.none,
+                                                          focusedBorder:
+                                                              InputBorder.none,
+                                                        ),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            _debitRibuan[
+                                                                index] = value
+                                                                    .isEmpty
+                                                                ? ""
+                                                                : Ribuan.convertToIdr(
+                                                                    int.parse(
+                                                                        value),
+                                                                    0);
+                                                            _creditReadonly[
+                                                                    index] =
+                                                                value.isEmpty
+                                                                    ? false
+                                                                    : true;
+                                                            _countTotal();
+                                                          });
+                                                        }),
+                                                  )),
+                                              Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 10, top: 5),
+                                                  child: Text(
+                                                      _debitRibuan[index],
+                                                      style: const TextStyle(
+                                                          fontFamily:
+                                                              FontSetting.reg,
+                                                          color: Colors.red)))
+                                            ],
                                           ),
-                                        )
-                                      : const SizedBox(),
-                                ],
-                              );
-                            }),
-                      ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          1 /
+                                                          2 -
+                                                      25,
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                    ),
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: Colors.grey,
+                                                          width: 0.5),
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                            offset:
+                                                                Offset(0, 1),
+                                                            blurRadius: 50,
+                                                            color:
+                                                                Colors.white),
+                                                      ],
+                                                    ),
+                                                    child: TextField(
+                                                        controller:
+                                                            _credits[index],
+                                                        readOnly:
+                                                            _creditReadonly[
+                                                                index],
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        textInputAction:
+                                                            TextInputAction
+                                                                .next,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          hintText: "Kredit",
+                                                          hintStyle: TextStyle(
+                                                              fontFamily:
+                                                                  FontSetting
+                                                                      .reg,
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.grey),
+                                                          enabledBorder:
+                                                              InputBorder.none,
+                                                          focusedBorder:
+                                                              InputBorder.none,
+                                                        ),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            _creditRibuan[
+                                                                index] = value
+                                                                    .isEmpty
+                                                                ? ""
+                                                                : Ribuan.convertToIdr(
+                                                                    int.parse(
+                                                                        value),
+                                                                    0);
+                                                            _debitReadonly[
+                                                                    index] =
+                                                                value.isEmpty
+                                                                    ? false
+                                                                    : true;
+                                                            _countTotal();
+                                                          });
+                                                        }),
+                                                  )),
+                                              Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 10, top: 5),
+                                                  child: Text(
+                                                      _creditRibuan[index],
+                                                      style: const TextStyle(
+                                                          fontFamily:
+                                                              FontSetting.reg,
+                                                          color: Colors.red)))
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                          child: InputText(
+                                              hint: "Catatan",
+                                              textInputType: TextInputType.text,
+                                              textEditingController:
+                                                  _catatans[index],
+                                              obsecureText: false,
+                                              code: "")),
+                                    ],
+                                  ),
+                                ),
+                                index != 0
+                                    ? Positioned(
+                                        right: 5,
+                                        top: 5,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _itemDelete(index);
+                                            });
+                                          },
+                                          child: Container(
+                                              padding: const EdgeInsets.all(3),
+                                              decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 3),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: const Icon(Icons.close,
+                                                  color: Colors.white,
+                                                  size: 20)),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            );
+                          }),
                     ),
             ),
+            Container(
+              margin: const EdgeInsets.only(left: 15, right: 15),
+              child: TextArea(
+                  hint: "Catatan Pribadi",
+                  textEditingController: _description,
+                  maxline: 5),
+            ),
+            Jarak(tinggi: 30),
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                child: const Text("Upload Foto Dokument Transaksi",
+                    style: TextStyle(fontWeight: FontWeight.w600))),
+            Jarak(tinggi: 5),
+            GetBuilder<JournalEditController>(builder: (builderController) {
+              return builderController.pickedFile != null
+                  ? GestureDetector(
+                      onTap: () {
+                        builderController.pickImage();
+                      },
+                      child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: Colors.grey.shade300, width: 2.0)),
+                          height: 200,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.file(
+                              File(builderController.pickedFile!.path),
+                              fit: BoxFit.contain,
+                            ),
+                          )),
+                    )
+                  : _journalEditController.journal['image'] == null
+                      ? GestureDetector(
+                          onTap: () {
+                            builderController.pickImage();
+                          },
+                          child: Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                      color: Colors.grey.shade300, width: 2.0)),
+                              height: 200,
+                              child: Image.asset("images/image_upload.png")),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            builderController.pickImage();
+                          },
+                          child: Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                      color: Colors.grey.shade300, width: 2.0)),
+                              height: 200,
+                              child: Image.network(Constant.JOURNAL_IMAGE +
+                                  _journalEditController.journal['image']
+                                      .toString())),
+                        );
+            }),
+            Jarak(tinggi: 50),
           ],
         ));
   }

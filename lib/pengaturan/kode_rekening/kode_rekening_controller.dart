@@ -74,31 +74,29 @@ class KodeRekeningController extends GetxController {
     }
   }
 
+  void kodeRekeningDelete(String id, String tableCode) async {
+    var data = {"id": id, "table_code": tableCode};
+    var res = await Network().post(data, '/journal/kode-rekening-delete');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      showSuccess(body['message'].toString());
+      Get.back();
+    } else {
+      showError(body['message'].toString());
+    }
+  }
+
   void showError(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       backgroundColor: Colors.red,
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-        style: {
-          "p": Style(color: Colors.white),
-        },
-      ),
+      content: Text(n.toString()),
     ));
   }
 
   void showSuccess(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      backgroundColor: Colors.green[900],
-      content: Html(
-        data: n,
-        // defaultTextStyle: const TextStyle(
-        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-        style: {
-          "p": Style(color: Colors.white),
-        },
-      ),
+      backgroundColor: Colors.green,
+      content: Text(n.toString()),
     ));
   }
 }

@@ -181,6 +181,7 @@ class JurnalController extends GetxController {
       previewDate.value = body['data']['tanggal'];
       totalDebit.value = body['data']['total_debit'];
       totalKredit.value = body['data']['total_kredit'];
+      print(body.toString());
     }
   }
 }

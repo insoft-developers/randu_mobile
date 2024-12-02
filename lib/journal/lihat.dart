@@ -7,6 +7,8 @@ import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
+import 'package:randu_mobile/journal/photo.dart';
+import 'package:randu_mobile/utils/constant.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 
 // ignore: must_be_immutable
@@ -32,10 +34,11 @@ class _JournalPreviewState extends State<JournalPreview> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.mainColor,
-        title: const Text("Lihat Saldo Awal"),
+        title: const Text("Lihat Jurnal"),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
         children: [
           Obx(() => Container(
               margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -75,116 +78,169 @@ class _JournalPreviewState extends State<JournalPreview> {
                   ),
                 ]),
           ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Obx(
-                () => _jurnalController.previewLoading.value
-                    ? InputJurnalShimmer(tinggi: 60, jumlah: 12, pad: 0)
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _jurnalController.previewList.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColor.mainColor),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                          1 /
-                                          3 -
-                                      32,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      index == 0
-                                          ? const Text("Estimasi",
-                                              style: TextStyle(
-                                                  fontFamily: FontSetting.bold))
-                                          : const SizedBox(),
-                                      index == 0
-                                          ? const Divider()
-                                          : const SizedBox(),
-                                      Text(
-                                          _jurnalController.previewList[index]
-                                                  ['asset_data_name']
-                                              .toString(),
-                                          style: const TextStyle(
-                                              fontFamily: FontSetting.reg,
-                                              fontSize: 14)),
-                                    ],
+          Container(
+            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Obx(
+              () => _jurnalController.previewLoading.value
+                  ? InputJurnalShimmer(tinggi: 60, jumlah: 12, pad: 0)
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      itemCount: _jurnalController.previewList.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColor.mainColor),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                            1 /
+                                            3 -
+                                        32,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        index == 0
+                                            ? const Text("Estimasi",
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        FontSetting.bold))
+                                            : const SizedBox(),
+                                        index == 0
+                                            ? const Divider()
+                                            : const SizedBox(),
+                                        Text(
+                                            _jurnalController.previewList[index]
+                                                    ['asset_data_name']
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontFamily: FontSetting.reg,
+                                                fontSize: 14)),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Spasi(lebar: 5),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                          1 /
-                                          3 -
-                                      10,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      index == 0
-                                          ? const Text("Debet (D)",
-                                              style: TextStyle(
-                                                  fontFamily: FontSetting.bold))
-                                          : const SizedBox(),
-                                      index == 0
-                                          ? const Divider()
-                                          : const SizedBox(),
-                                      Text(
-                                          Ribuan.formatAngka(_jurnalController
-                                              .previewList[index]['debet']
-                                              .toString()),
-                                          style: const TextStyle(
-                                              fontFamily: FontSetting.reg,
-                                              fontSize: 14)),
-                                    ],
+                                  Spasi(lebar: 5),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                            1 /
+                                            3 -
+                                        10,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        index == 0
+                                            ? const Text("Debet (D)",
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        FontSetting.bold))
+                                            : const SizedBox(),
+                                        index == 0
+                                            ? const Divider()
+                                            : const SizedBox(),
+                                        Text(
+                                            Ribuan.formatAngka(_jurnalController
+                                                .previewList[index]['debet']
+                                                .toString()),
+                                            style: const TextStyle(
+                                                fontFamily: FontSetting.reg,
+                                                fontSize: 14)),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                          1 /
-                                          3 -
-                                      5,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      index == 0
-                                          ? const Text("Kredit (K)",
-                                              style: TextStyle(
-                                                  fontFamily: FontSetting.bold))
-                                          : const SizedBox(),
-                                      index == 0
-                                          ? const Divider()
-                                          : const SizedBox(),
-                                      Text(
-                                          Ribuan.formatAngka(_jurnalController
-                                              .previewList[index]['credit']
-                                              .toString()),
-                                          style: const TextStyle(
-                                              fontFamily: FontSetting.reg,
-                                              fontSize: 14)),
-                                    ],
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                            1 /
+                                            3 -
+                                        5,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        index == 0
+                                            ? const Text("Kredit (K)",
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        FontSetting.bold))
+                                            : const SizedBox(),
+                                        index == 0
+                                            ? const Divider()
+                                            : const SizedBox(),
+                                        Text(
+                                            Ribuan.formatAngka(_jurnalController
+                                                .previewList[index]['credit']
+                                                .toString()),
+                                            style: const TextStyle(
+                                                fontFamily: FontSetting.reg,
+                                                fontSize: 14)),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
+                                ],
+                              ),
+                              Jarak(tinggi: 10),
+                              SizedBox(
+                                child: Text(
+                                    "catatan : " +
+                                        _jurnalController.previewList[index]
+                                                ['catatan']
+                                            .toString(),
+                                    style: const TextStyle(color: Colors.grey),
+                                    textAlign: TextAlign.justify),
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+            ),
+          ),
+          Obx(
+            () => Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                "description : " +
+                    _jurnalController.previewJournal['description'].toString(),
+                textAlign: TextAlign.justify,
+                style: const TextStyle(color: Colors.green),
               ),
             ),
           ),
+          Jarak(tinggi: 30),
+          Obx(
+            () => _jurnalController.previewJournal['image'] == null
+                ? const SizedBox()
+                : GestureDetector(
+                    onTap: () {
+                      Get.to(() => JournalPhoto(
+                          url: Constant.JOURNAL_IMAGE +
+                              _jurnalController.previewJournal['image']
+                                  .toString()));
+                    },
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                color: Colors.grey.shade300, width: 2.0)),
+                        height: 200,
+                        child: Image.network(Constant.JOURNAL_IMAGE +
+                            _jurnalController.previewJournal['image']
+                                .toString())),
+                  ),
+          ),
+          Jarak(tinggi: 50),
         ],
       ),
     );
