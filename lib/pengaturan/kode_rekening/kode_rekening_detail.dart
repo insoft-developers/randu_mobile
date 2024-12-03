@@ -162,7 +162,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
         return AlertDialog(
           title: const Text('Hapus Kode Rekening'),
           content: Text(
-              "Apakah anda yakin ingin menghapus Kode Rekening [ ${name} ] ?"),
+              "Apakah anda yakin ingin menghapus Kode Rekening [ $name ] ?"),
           actions: <Widget>[
             TextButton(
               child: const Text('Batal'),
