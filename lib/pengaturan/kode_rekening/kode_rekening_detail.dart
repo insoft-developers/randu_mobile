@@ -22,6 +22,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
 
   final List<TextEditingController> _akuns = [TextEditingController()];
   final List<String> _id = ["0"];
+  final List<String> _deleted = [""];
   bool _loading = false;
 
   @override
@@ -34,6 +35,8 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
               _akuns.add(TextEditingController());
               _akuns[i].text = _kodeRekening.kodeList[i]['name'].toString();
               _id.add(_kodeRekening.kodeList[i]['id'].toString());
+              _deleted
+                  .add(_kodeRekening.kodeList[i]['can_be_deleted'].toString());
             }
             _loading = false;
           })
@@ -45,6 +48,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
     setState(() {
       _akuns.add(TextEditingController());
       _id.add("0");
+      _deleted.add("3");
     });
   }
 
@@ -53,6 +57,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
       _akuns[index].clear();
       _akuns.removeAt(index);
       _id.removeAt(index);
+      _deleted.removeAt(index);
     });
   }
 
@@ -82,7 +87,7 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
                 margin: const EdgeInsets.only(bottom: 50),
                 child: FloatingActionButton(
                     backgroundColor: AppColor.mainColor,
-                    child: const Icon(Icons.save, color: Colors.white),
+                    child: const Icon(Icons.save),
                     onPressed: () {
                       List<String> inputAkuns = [];
                       for (var i = 0; i < _akuns.length; i++) {
@@ -109,16 +114,74 @@ class _KodeRekeningDetailState extends State<KodeRekeningDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          InputText(
-                              hint: "",
-                              textInputType: TextInputType.text,
-                              textEditingController: _akuns[index],
-                              obsecureText: false,
-                              code: ""),
+                          Stack(
+                            children: [
+                              InputText(
+                                  hint: "",
+                                  textInputType: TextInputType.text,
+                                  textEditingController: _akuns[index],
+                                  obsecureText: false,
+                                  code: ""),
+                              _deleted[index] == '3'
+                                  ? Positioned(
+                                      right: 10,
+                                      top: 15,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          _showAlertDialog(
+                                              context,
+                                              _id[index].toString(),
+                                              _akuns[index].text,
+                                              widget.akun.toString());
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: Colors.red),
+                                          child: const Icon(Icons.delete,
+                                              color: Colors.white, size: 15),
+                                        ),
+                                      ))
+                                  : const SizedBox()
+                            ],
+                          ),
                         ],
                       ));
                 }),
       ),
+    );
+  }
+
+  void _showAlertDialog(
+      BuildContext context, String id, String name, String widgetAkun) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Hapus Kode Rekening'),
+          content: Text(
+              "Apakah anda yakin ingin menghapus Kode Rekening [ ${name} ] ?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Batal'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Hapus'),
+              onPressed: () {
+                KodeRekeningController _controller =
+                    Get.put(KodeRekeningController());
+                _controller.kodeRekeningDelete(id, widgetAkun);
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

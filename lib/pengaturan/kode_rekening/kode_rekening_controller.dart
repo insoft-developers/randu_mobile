@@ -73,6 +73,18 @@ class KodeRekeningController extends GetxController {
     }
   }
 
+  void kodeRekeningDelete(String id, String tableCode) async {
+    var data = {"id": id, "table_code": tableCode};
+    var res = await Network().post(data, '/journal/kode-rekening-delete');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      showSuccess(body['message'].toString());
+      Get.back();
+    } else {
+      showError(body['message'].toString());
+    }
+  }
+
   void showSuccess(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       backgroundColor: Colors.green,

@@ -17,7 +17,7 @@ class HomePageController extends GetxController {
   var isIpad = false.obs;
 
   void getDeviceType() {
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    final data = MediaQueryData.fromView(WidgetsBinding.instance.window);
     data.size.shortestSide < 550 ? isIpad(false) : isIpad(true);
     print(isIpad);
   }

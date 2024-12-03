@@ -356,7 +356,7 @@ class _HomePageState extends State<HomePage> {
                             )
                           : const SizedBox(),
                     ),
-                    Jarak(tinggi: 50),
+                    Jarak(tinggi: 10),
                     GestureDetector(
                       onTap: () {
                         Get.to(() => Helping(
@@ -372,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                                 fontFamily: FontSetting.bold, fontSize: 15)),
                       ),
                     ),
-                    Jarak(tinggi: 50),
+                    Jarak(tinggi: 10),
                     Text("VERSI " + Constant.VERSION,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
@@ -382,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                         style: const TextStyle(
                             fontFamily: FontSetting.reg, fontSize: 13)),
                     Jarak(tinggi: 30),
-                    Jarak(tinggi: 200),
+                    Jarak(tinggi: 300),
                   ],
                 ),
                 Positioned(
@@ -411,7 +411,7 @@ class _HomePageState extends State<HomePage> {
                                     width: MediaQuery.of(context).size.width *
                                             1 /
                                             2 -
-                                        100,
+                                        95,
                                     child: Row(
                                       children: [
                                         const Icon(Icons.support_agent,
@@ -430,11 +430,12 @@ class _HomePageState extends State<HomePage> {
                                   onTap: () {
                                     showAlertDialog(context);
                                   },
-                                  child: SizedBox(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 50),
                                     width: MediaQuery.of(context).size.width *
                                             1 /
                                             2 -
-                                        120,
+                                        20,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
