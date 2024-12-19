@@ -9,6 +9,8 @@ import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/laporan/laporan_buku_besar/buku_besar_controller.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 
 class BukuBesar extends StatefulWidget {
   const BukuBesar({Key? key}) : super(key: key);
@@ -27,6 +29,7 @@ class _BukuBesarState extends State<BukuBesar> {
   @override
   void initState() {
     _laporanController.getAccountList();
+
     super.initState();
   }
 

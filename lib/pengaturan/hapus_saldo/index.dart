@@ -5,6 +5,8 @@ import 'package:randu_mobile/components/select/select_year_report.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:get/get.dart';
 import 'package:randu_mobile/pengaturan/hapus_saldo/hapus_saldo_controller.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 
 class HapusSaldo extends StatefulWidget {
   const HapusSaldo({Key? key}) : super(key: key);
@@ -14,6 +16,18 @@ class HapusSaldo extends StatefulWidget {
 }
 
 class _HapusSaldoState extends State<HapusSaldo> {
+  @override
+  void initState() {
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+    super.initState();
+  }
+
   final HapusSaldoController _hapusSaldo = Get.put(HapusSaldoController());
   @override
   Widget build(BuildContext context) {

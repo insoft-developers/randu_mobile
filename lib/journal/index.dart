@@ -11,6 +11,8 @@ import 'package:randu_mobile/homepage/shimmer/list_shimmer.dart';
 import 'package:randu_mobile/journal/edit/index.dart';
 import 'package:randu_mobile/journal/jurnal_controller.dart';
 import 'package:randu_mobile/journal/lihat.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 import 'package:randu_mobile/utils/warna.dart';
 // import 'package:sweetalertv2/sweetalertv2.dart';
 
@@ -27,7 +29,16 @@ class _JournalState extends State<Journal> {
 
   @override
   void initState() {
-    _jurnalController.getJournalList();
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+        _jurnalController.getJournalList();
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+    // _jurnalController.getJournalList();
+
     super.initState();
   }
 

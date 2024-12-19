@@ -10,6 +10,8 @@ import 'package:randu_mobile/pengaturan/modal_awal/edit/index.dart';
 import 'package:randu_mobile/pengaturan/modal_awal/tambah/index.dart';
 import 'package:randu_mobile/pengaturan/opening_balance/index.dart';
 import 'package:randu_mobile/pengaturan/pengaturan_controller.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 
 class Pengaturan extends StatefulWidget {
   const Pengaturan({Key? key}) : super(key: key);
@@ -61,6 +63,18 @@ class _PengaturanState extends State<Pengaturan> {
   }
 
   @override
+  void initState() {
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

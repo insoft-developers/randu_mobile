@@ -8,6 +8,8 @@ import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/laporan/laporan_jurnal/laporan_jurnal_controller.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 
 class LaporanJurnal extends StatefulWidget {
@@ -24,6 +26,7 @@ class _LaporanJurnalState extends State<LaporanJurnal> {
   @override
   void initState() {
     _laporanController.getDataLaporan("", "");
+
     super.initState();
   }
 

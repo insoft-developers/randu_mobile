@@ -8,6 +8,8 @@ import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/laporan/profit_loss/profit_loss_controller.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 
 class ProfitLoss extends StatefulWidget {
   const ProfitLoss({Key? key}) : super(key: key);
@@ -23,6 +25,7 @@ class _ProfitLossState extends State<ProfitLoss> {
   @override
   void initState() {
     _laporanController.getProfitLoss();
+
     super.initState();
   }
 

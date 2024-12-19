@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:randu_mobile/api/network.dart';
@@ -161,27 +162,40 @@ class JurnalController extends GetxController {
         deleteLoading(false);
         getJournalList();
       } else {
-        // SweetAlertV2.show(Get.context,
-        //     title: "Gagal",
-        //     subtitle: body['message'].toString(),
-        //     style: SweetAlertV2Style.error);
+        showError(body['message'].toString());
       }
     }
   }
 
   void journalPreview(String id) async {
     previewLoading(true);
-    var data = {"journal_id": id};
-    var res = await Network().post(data, '/journal/journal-preview');
-    var body = jsonDecode(res.body);
-    if (body['success']) {
-      previewLoading(false);
-      previewJournal.value = body['data']['jurnal'];
-      previewList.value = body['data']['list'];
-      previewDate.value = body['data']['tanggal'];
-      totalDebit.value = body['data']['total_debit'];
-      totalKredit.value = body['data']['total_kredit'];
-      print(body.toString());
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {"journal_id": id, "userid": userId};
+      var res = await Network().post(data, '/journal/journal-preview');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        previewLoading(false);
+        previewJournal.value = body['data']['jurnal'];
+        previewList.value = body['data']['list'];
+        previewDate.value = body['data']['tanggal'];
+        totalDebit.value = body['data']['total_debit'];
+        totalKredit.value = body['data']['total_kredit'];
+        print(body.toString());
+      }
     }
+  }
+
+  void showError(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.red,
+      content: Text(
+        n, style: const TextStyle(color: Colors.white),
+        // defaultTextStyle: const TextStyle(
+        //     color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
+      ),
+    ));
   }
 }

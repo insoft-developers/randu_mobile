@@ -11,6 +11,8 @@ import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
 import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
 import 'package:randu_mobile/penyusutan/simulasi/index.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:randu_mobile/utils/tanggal.dart';
 
@@ -28,8 +30,16 @@ class _PenyusutanState extends State<Penyusutan> {
 
   @override
   void initState() {
-    _penyusutanController.akunBiayaPenyusutan();
-    _penyusutanController.getDataPenyusutan();
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+        _penyusutanController.akunBiayaPenyusutan();
+        _penyusutanController.getDataPenyusutan();
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+
     super.initState();
   }
 

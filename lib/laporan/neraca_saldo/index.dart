@@ -8,6 +8,8 @@ import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/neraca_saldo_controller.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 
 class NeracaSaldo extends StatefulWidget {
   const NeracaSaldo({Key? key}) : super(key: key);
@@ -23,6 +25,7 @@ class _NeracaSaldoState extends State<NeracaSaldo> {
   @override
   void initState() {
     _laporanController.getNeracaSaldo();
+
     super.initState();
   }
 

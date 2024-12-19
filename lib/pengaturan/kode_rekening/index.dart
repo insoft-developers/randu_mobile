@@ -5,6 +5,8 @@ import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/pengaturan/kode_rekening/kode_rekening_controller.dart';
 import 'package:randu_mobile/pengaturan/kode_rekening/kode_rekening_detail.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 
 class KodeRekening extends StatefulWidget {
   const KodeRekening({Key? key}) : super(key: key);
@@ -19,7 +21,15 @@ class _KodeRekeningState extends State<KodeRekening> {
 
   @override
   void initState() {
-    _kodeRekeningController.getAccountSelect();
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+        _kodeRekeningController.getAccountSelect();
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+
     super.initState();
   }
 
