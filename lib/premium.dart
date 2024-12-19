@@ -99,7 +99,8 @@ class _PremiumState extends State<Premium> {
                 Jarak(tinggi: 30),
                 ElevatedButton(
                     onPressed: () async {
-                      await launchUrl(Uri.parse('https://app.randu.co.id'),
+                      await launchUrl(
+                          Uri.parse('https://randu.co.id/chat/upgrade-premium'),
                           mode: LaunchMode.externalApplication);
                     },
                     child: const Text("UPGRADE PREMIUM SEKARANG"))
