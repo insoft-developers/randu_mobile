@@ -48,6 +48,9 @@ class SelectMonthReport extends StatelessWidget {
     } else if (code == 'balance-sheet') {
       final NeracaController _laporan = Get.put(NeracaController());
       _laporan.thisMonth.value = value;
+    } else if (code == 'balance-sheet-akhir') {
+      final NeracaController _laporan = Get.put(NeracaController());
+      _laporan.thisMonthTo.value = value;
     } else if (code == 'debt-category') {
       final HutangController _hutang = Get.put(HutangController());
       _hutang.categoryOnChange(value);

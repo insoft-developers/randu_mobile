@@ -9,31 +9,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class NeracaController extends GetxController {
+class NewNeracaController extends GetxController {
   var loading = false.obs;
   var now = DateTime.now();
   var formatter = DateFormat('MM');
   var formatterYear = DateFormat('yyyy');
   var thisMonth = "".obs;
   var thisYear = "".obs;
-  var thisMonthTo = "".obs;
-  var thisYearTo = "".obs;
   var tahunSekarang = "".obs;
-  var neracaList = List.empty().obs;
+  var userId = "".obs;
+
+  var isShow = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     String formattedDate = formatter.format(now);
     thisMonth.value = formattedDate.toString();
     String formattedYear = formatterYear.format(now);
     thisYear.value = formattedYear.toString();
     tahunSekarang.value = formattedYear.toString();
-    thisMonthTo.value = formattedDate.toString();
-    thisYearTo.value = formattedYear.toString();
+
     super.onInit();
   }
 
-  void getNeracaSaldo() {}
+  void showNeraca() async {
+    isShow(false);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      userId.value = user['id'].toString();
+      isShow(true);
+    }
+  }
 
   List<DropdownMenuItem<String>> get monthDropdown {
     List<DropdownMenuItem<String>> menuItems = [];
@@ -94,77 +101,6 @@ class NeracaController extends GetxController {
     }
 
     return menuItems;
-  }
-
-  void getNeraca() async {
-    loading(true);
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user')!);
-    if (user != null) {
-      var userId = user['id'];
-      var data = {
-        "userid": userId,
-        "month_from": thisMonth.value,
-        "year_from": thisYear.value
-      };
-
-      var res = await Network().post(data, '/journal/balance-sheet');
-      var body = jsonDecode(res.body);
-      if (body['success']) {
-        neracaList.value = body['data'];
-        loading(false);
-      }
-    }
-  }
-
-  void exportExcel() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user')!);
-    if (user != null) {
-      var userId = user['id'];
-      String param = thisMonth.value +
-          '_' +
-          thisYear.value +
-          '_' +
-          thisMonthTo.value +
-          '_' +
-          thisYearTo.value +
-          '_' +
-          userId.toString();
-
-      var data = {"param": param};
-
-      var res = await Network().post(data, '/journal/balance-sheet-export');
-      var body = jsonDecode(res.body);
-      if (body['success']) {
-        launchURL(Constant.JOURNAL_REPORT + body['data'].toString());
-      }
-    }
-  }
-
-  void exportPdf() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user')!);
-    if (user != null) {
-      var userId = user['id'];
-      String param = thisMonth.value +
-          '_' +
-          thisYear.value +
-          '_' +
-          thisMonthTo.value +
-          '_' +
-          thisYearTo.value +
-          '_' +
-          userId.toString();
-
-      var data = {"param": param};
-
-      var res = await Network().post(data, '/journal/balance-sheet-pdf');
-      var body = jsonDecode(res.body);
-      if (body['success']) {
-        launchURL(Constant.JOURNAL_REPORT + body['data'].toString());
-      }
-    }
   }
 
   void launchURL(String url) async {

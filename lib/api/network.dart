@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class Network {
   // final String _url = Constant.BASE_URL + 'public/api';
-  final String _url = Constant.BASE_URL + 'api/v1';
+  final String _url = Constant.BASE_URL + 'api/v2';
 
   var token;
 
