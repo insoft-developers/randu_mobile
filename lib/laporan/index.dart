@@ -12,6 +12,7 @@ import 'package:randu_mobile/laporan/neraca/neraca_webview.dart';
 import 'package:randu_mobile/laporan/neraca/new_index.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/index.dart';
 import 'package:randu_mobile/laporan/profit_loss/index.dart';
+import 'package:randu_mobile/laporan/profit_loss/profit_loss_webview.dart';
 import 'package:randu_mobile/premium.dart';
 import 'package:randu_mobile/premium_controller.dart';
 import 'package:randu_mobile/utils/constant.dart';
@@ -64,6 +65,23 @@ class _LaporanState extends State<Laporan> {
     }
   }
 
+  _launchLabaRugi() async {
+    String formattedDate = formatter.format(now);
+    thisMonth = formattedDate.toString();
+    String formattedYear = formatterYear.format(now);
+    thisYear = formattedYear.toString();
+
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      Get.to(() => ProfitLossWebview(
+            paymentUrl: Constant.BASE_URL +
+                'profit-loss-webview/${userId}/${thisMonth}/${thisYear}/${thisMonth}/${thisYear}',
+          ));
+    }
+  }
+
   _onTapReport(int index) {
     if (index == 0) {
       Get.to(() => const LaporanJurnal());
@@ -72,7 +90,8 @@ class _LaporanState extends State<Laporan> {
     } else if (index == 2) {
       Get.to(() => const NeracaSaldo());
     } else if (index == 3) {
-      Get.to(() => const ProfitLoss());
+      // Get.to(() => const ProfitLoss());
+      _launchLabaRugi();
     } else if (index == 4) {
       // Get.to(() => const Neraca());
       _launchNeraca();

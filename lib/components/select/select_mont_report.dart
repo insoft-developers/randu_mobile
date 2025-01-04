@@ -45,6 +45,9 @@ class SelectMonthReport extends StatelessWidget {
     } else if (code == 'profit-loss') {
       final ProfitLossController _laporan = Get.put(ProfitLossController());
       _laporan.thisMonth.value = value;
+    } else if (code == 'profit-loss-akhir') {
+      final ProfitLossController _laporan = Get.put(ProfitLossController());
+      _laporan.thisMonthTo.value = value;
     } else if (code == 'balance-sheet') {
       final NeracaController _laporan = Get.put(NeracaController());
       _laporan.thisMonth.value = value;
