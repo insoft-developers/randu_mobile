@@ -12,6 +12,6 @@ class Constant {
   static String JOURNAL_IMAGE = BASE_URL + "storage/images/journal/";
 
   static String UPLOAD_IMAGE_URL = BASE_URL + "api/v2";
-  static String VERSION = "1.0.8";
-  static String RELEASE_DATE = "03 Januari 2025";
+  static String VERSION = "1.0.9";
+  static String RELEASE_DATE = "27 Januari 2025";
 }

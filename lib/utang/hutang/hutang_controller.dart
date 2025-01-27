@@ -156,7 +156,17 @@ class HutangController extends GetxController {
       Get.back();
       Get.back();
       getHutangData("");
+    } else {
+      Get.back();
+      showError(body['message'].toString());
     }
+  }
+
+  void showError(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.red,
+      content: Text(n.toString()),
+    ));
   }
 
   void onDebtSync(int hutangId) async {

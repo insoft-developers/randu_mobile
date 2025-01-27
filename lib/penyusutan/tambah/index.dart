@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:randu_mobile/components/input_text.dart';
 import 'package:randu_mobile/components/jarak.dart';
 import 'package:randu_mobile/components/select/select_mont_report.dart';
@@ -23,13 +24,36 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
   final TextEditingController _umur = TextEditingController();
   final TextEditingController _residu = TextEditingController();
   final TextEditingController _note = TextEditingController();
+  final TextEditingController _quantity = TextEditingController();
+  final TextEditingController _tanggal = TextEditingController();
 
   @override
   void initState() {
+    var now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    setState(() {
+      _tanggal.text = formattedDate;
+    });
+
     _tpc.getPenyusutanCategory();
     _tpc.getAkumulasiData();
     _tpc.getBebanPenyusutanData();
+    _tpc.getAkunData();
     super.initState();
+  }
+
+  _onDateChange() async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
+        lastDate: DateTime(2101));
+    String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate!);
+    setState(() {
+      _tanggal.text = formattedDate;
+    });
+
+    print(_tanggal.text);
   }
 
   @override
@@ -43,6 +67,29 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
           padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
+              Jarak(tinggi: 20),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(4)),
+                height: 50,
+                child: TextField(
+                  controller: _tanggal,
+                  decoration: const InputDecoration(
+                    hintText: "",
+                    label: Text(""),
+                    border: InputBorder.none,
+                    filled: false,
+                    suffixIcon: Icon(Icons.calendar_month),
+                  ),
+                  readOnly: true,
+                  onTap: () {
+                    _onDateChange();
+                  },
+                ),
+              ),
               Jarak(tinggi: 20),
               Obx(() => _tpc.categoryLoading.value
                   ? TextShimmer(
@@ -71,6 +118,15 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
                       menuItems: _tpc.bebanDropdown,
                       code: "beban-penyusutan")),
               Jarak(tinggi: 20),
+              Obx(() => _tpc.akunLoading.value
+                  ? TextShimmer(
+                      lebar: MediaQuery.of(context).size.width, tinggi: 50)
+                  : SelectMonthReport(
+                      defValue: _tpc.selectedAkuns.value,
+                      label: "",
+                      menuItems: _tpc.akunsDropdown,
+                      code: "akuns")),
+              Jarak(tinggi: 20),
               InputText(
                   hint: "Input Nama Asset",
                   textInputType: TextInputType.text,
@@ -90,6 +146,13 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
                   child: Text(_tpc.nilaiAwalRibuan.value.toString(),
                       style: const TextStyle(
                           fontFamily: FontSetting.reg, color: Colors.red)))),
+              Jarak(tinggi: 20),
+              InputText(
+                  hint: "masukkan jumlah pembelian aset",
+                  textInputType: TextInputType.number,
+                  textEditingController: _quantity,
+                  obsecureText: false,
+                  code: "quantity-penyusutan"),
               Jarak(tinggi: 20),
               Row(
                 children: [
@@ -159,6 +222,7 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
                     : ElevatedButton(
                         onPressed: () {
                           _tpc.penyusutanStore(
+                              _tanggal.text,
                               _tName.text,
                               _tInitValue.text.isEmpty
                                   ? 0
@@ -166,7 +230,10 @@ class _TambahPenyusutanState extends State<TambahPenyusutan> {
                               _umur.text.isEmpty ? 0 : int.parse(_umur.text),
                               _residu.text.isEmpty
                                   ? 0
-                                  : int.parse(_residu.text));
+                                  : int.parse(_residu.text),
+                              _quantity.text.isEmpty
+                                  ? 0
+                                  : int.parse(_quantity.text));
                         },
                         style: ElevatedButton.styleFrom(
                             primary: AppColor.mainColor),

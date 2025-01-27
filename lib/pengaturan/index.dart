@@ -24,40 +24,42 @@ class _PengaturanState extends State<Pengaturan> {
   final PengaturanController _pengaturan = Get.put(PengaturanController());
 
   List<String> laporan = [
-    "Pengaturan Modal Awal",
+    // "Pengaturan Modal Awal",
     "Pengaturan Kode Rekening",
     "Generate Opening Balance",
     "Hapus Saldo Awal",
   ];
 
   List<String> gambar = [
-    "images/setting_awal.png",
+    // "images/setting_awal.png",
     "images/setting_rekening.png",
     "images/setting_open.png",
     "images/setting_hapus.png",
   ];
 
   _onTapReport(int index) {
+    // if (index == 0) {
+    //   _pengaturan.checkModal().then((value) => {
+    //         if (value == 'exist')
+    //           {
+    //             Get.to(() => PengaturanModalAwal(
+    //                   id: 20,
+    //                 ))
+    //           }
+    //         else
+    //           {
+    //             Get.to(
+    //               () => const TambahModal(),
+    //             )
+    //           }
+    //       });
+    // }
+
     if (index == 0) {
-      _pengaturan.checkModal().then((value) => {
-            if (value == 'exist')
-              {
-                Get.to(() => PengaturanModalAwal(
-                      id: 20,
-                    ))
-              }
-            else
-              {
-                Get.to(
-                  () => const TambahModal(),
-                )
-              }
-          });
-    } else if (index == 1) {
       Get.to(() => const KodeRekening());
-    } else if (index == 2) {
+    } else if (index == 1) {
       Get.to(() => const OpeningBalance());
-    } else if (index == 3) {
+    } else if (index == 2) {
       Get.to(() => const HapusSaldo());
     }
   }

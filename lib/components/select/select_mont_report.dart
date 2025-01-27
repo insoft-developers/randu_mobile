@@ -124,6 +124,11 @@ class SelectMonthReport extends StatelessWidget {
       final DebtPaymentController _controller =
           Get.put(DebtPaymentController());
       _controller.selectedPaymentWith.value = value;
+    } else if (code == 'akuns') {
+      final TambahPenyusutanController _controller =
+          Get.put(TambahPenyusutanController());
+      _controller.selectedAkuns.value = value;
+      print(value);
     }
   }
 
