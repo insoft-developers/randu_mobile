@@ -129,7 +129,9 @@ class TambahHutangController extends GetxController {
             child: SizedBox(
                 width: MediaQuery.of(Get.context!).size.width - 85,
                 child: Text(debtTo[i]['name'].toString())),
-            value: debtTo[i]['id'].toString()),
+            value: debtTo[i]['id'].toString() +
+                '_' +
+                debtTo[i]['account_code_id'].toString()),
       );
     }
 

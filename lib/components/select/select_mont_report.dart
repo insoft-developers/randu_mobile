@@ -72,6 +72,7 @@ class SelectMonthReport extends StatelessWidget {
     } else if (code == 'debt-to') {
       final TambahHutangController _thc = Get.put(TambahHutangController());
       _thc.selectedDebtTo.value = value;
+      print(value);
     }
     // ========================================================================
     else if (code == 'piutang-category') {

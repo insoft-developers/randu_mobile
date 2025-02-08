@@ -61,7 +61,9 @@ class PiutangPaymentController extends GetxController {
             child: SizedBox(
                 width: MediaQuery.of(Get.context!).size.width - 85,
                 child: Text(selectList[i]['name'].toString())),
-            value: selectList[i]['id'].toString()),
+            value: selectList[i]['id'].toString() +
+                '_' +
+                selectList[i]['account_code_id'].toString()),
       );
     }
 

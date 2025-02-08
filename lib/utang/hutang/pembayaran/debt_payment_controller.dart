@@ -61,7 +61,9 @@ class DebtPaymentController extends GetxController {
             child: SizedBox(
                 width: MediaQuery.of(Get.context!).size.width - 85,
                 child: Text(currentAsset[i]['name'].toString())),
-            value: currentAsset[i]['id'].toString()),
+            value: currentAsset[i]['id'].toString() +
+                '_' +
+                currentAsset[i]['account_code_id'].toString()),
       );
     }
 
