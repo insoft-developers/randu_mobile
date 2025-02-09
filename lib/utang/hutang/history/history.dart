@@ -333,8 +333,28 @@ class _DebtHistoryState extends State<DebtHistory> {
                                                                     .bold)),
                                                   ],
                                                 ),
-                                        )
+                                        ),
                                       ],
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        showDialogDelete(
+                                            context,
+                                            _debtHistory.history[index]['id']
+                                                .toString(),
+                                            _debtHistory.history[index]
+                                                    ['debt_id']
+                                                .toString());
+                                      },
+                                      child: Container(
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            color: AppColor.merah,
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                          child: const Icon(Icons.delete,
+                                              size: 20, color: AppColor.putih)),
                                     ),
                                   ],
                                 ),
@@ -371,6 +391,47 @@ showDialogSync(BuildContext context, String paymentId, String hutangId) {
     title:
         const Text("Peringatan", style: TextStyle(fontFamily: 'PoppinsBold')),
     content: const Text('Sinkronisasi data ini ke jurnal..? ',
+        style: TextStyle(fontFamily: 'Poppins')),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showDialogDelete(BuildContext context, String paymentId, String debtId) {
+  Widget cancelButton = TextButton(
+    child: const Text(
+      "Tidak",
+      style: TextStyle(fontFamily: 'PoppinsBold'),
+    ),
+    onPressed: () {
+      Get.back();
+    },
+  );
+
+  Widget continueButton = TextButton(
+    child: const Text(
+      "Hapus Data ?",
+      style: TextStyle(fontFamily: 'PoppinsBold'),
+    ),
+    onPressed: () {
+      DebtHistoryController _hc = Get.put(DebtHistoryController());
+      _hc.paymentDelete(paymentId, debtId);
+    },
+  );
+
+  AlertDialog alert = AlertDialog(
+    title:
+        const Text("Peringatan", style: TextStyle(fontFamily: 'PoppinsBold')),
+    content: const Text('Anda Ingin menghapus data ini? ',
         style: TextStyle(fontFamily: 'Poppins')),
     actions: [
       cancelButton,
