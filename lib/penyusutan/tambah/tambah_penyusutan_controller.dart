@@ -20,6 +20,10 @@ class TambahPenyusutanController extends GetxController {
   var nilaiAwalRibuan = "0".obs;
   var nilaiResiduRibuan = "0".obs;
 
+  var akunLoading = false.obs;
+  var selectedAkuns = "".obs;
+  var akunList = List.empty().obs;
+
   void setAwalRibuan(int value) {
     nilaiAwalRibuan.value = Ribuan.convertToIdr(value, 0);
   }
@@ -32,14 +36,15 @@ class TambahPenyusutanController extends GetxController {
     selectedKategori.value = value;
   }
 
-  void penyusutanStore(
-      String name, int initialValue, int usefulLife, int residu) async {
+  void penyusutanStore(String tanggal, String name, int initialValue,
+      int usefulLife, int residu, int quantity) async {
     loading(true);
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user')!);
     if (user != null) {
       var userId = user['id'];
       var data = {
+        "date": tanggal,
         "ml_fixed_asset_id": selectedKategori.value,
         "ml_accumulated_depreciation_id": selectedAkumulasi.value,
         "ml_admin_general_fee_id": selectedBeban.value,
@@ -47,7 +52,9 @@ class TambahPenyusutanController extends GetxController {
         "initial_value": initialValue,
         "useful_life": usefulLife,
         "residual_value": residu,
-        "user_id": userId
+        "user_id": userId,
+        "buying_with_account": selectedAkuns.value,
+        "quantity": quantity
       };
       var res = await Network().post(data, '/journal/penyusutan-store');
       var body = jsonDecode(res.body);
@@ -59,6 +66,38 @@ class TambahPenyusutanController extends GetxController {
         showError(body['message'].toString());
       }
     }
+  }
+
+  void getAkunData() async {
+    akunLoading(true);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {"userid": userId};
+      var res = await Network().post(data, '/journal/akun-bayar-dengan');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        akunList.value = body['data'];
+        akunLoading(false);
+      }
+    }
+  }
+
+  List<DropdownMenuItem<String>> get akunsDropdown {
+    List<DropdownMenuItem<String>> menuItems = [];
+    menuItems.add(const DropdownMenuItem(
+        child: Text("Pilih Aset Beli Dengan"), value: ""));
+    for (var i = 0; i < akunList.length; i++) {
+      menuItems.add(
+        DropdownMenuItem(
+            child: SizedBox(
+                width: MediaQuery.of(Get.context!).size.width - 85,
+                child: Text(akunList[i]['name'].toString())),
+            value: akunList[i]['id'].toString()),
+      );
+    }
+    return menuItems;
   }
 
   void getPenyusutanCategory() async {

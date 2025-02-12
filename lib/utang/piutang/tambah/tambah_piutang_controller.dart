@@ -111,7 +111,9 @@ class TambahPiutangController extends GetxController {
             child: SizedBox(
                 width: MediaQuery.of(Get.context!).size.width - 85,
                 child: Text(piutangFrom[i]['name'].toString())),
-            value: piutangFrom[i]['id'].toString()),
+            value: piutangFrom[i]['id'].toString() +
+                '_' +
+                piutangFrom[i]['account_code_id'].toString()),
       );
     }
 

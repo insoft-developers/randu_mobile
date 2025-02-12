@@ -171,16 +171,21 @@ class JurnalController extends GetxController {
 
   void journalPreview(String id) async {
     previewLoading(true);
-    var data = {"journal_id": id};
-    var res = await Network().post(data, '/journal/journal-preview');
-    var body = jsonDecode(res.body);
-    if (body['success']) {
-      previewLoading(false);
-      previewJournal.value = body['data']['jurnal'];
-      previewList.value = body['data']['list'];
-      previewDate.value = body['data']['tanggal'];
-      totalDebit.value = body['data']['total_debit'];
-      totalKredit.value = body['data']['total_kredit'];
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {"journal_id": id, "userid": userId};
+      var res = await Network().post(data, '/journal/journal-preview');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        previewLoading(false);
+        previewJournal.value = body['data']['jurnal'];
+        previewList.value = body['data']['list'];
+        previewDate.value = body['data']['tanggal'];
+        totalDebit.value = body['data']['total_debit'];
+        totalKredit.value = body['data']['total_kredit'];
+      }
     }
   }
 }

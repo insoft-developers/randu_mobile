@@ -7,6 +7,7 @@ import 'package:randu_mobile/api/network.dart';
 import 'package:randu_mobile/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class NeracaController extends GetxController {
   var loading = false.obs;
@@ -15,6 +16,8 @@ class NeracaController extends GetxController {
   var formatterYear = DateFormat('yyyy');
   var thisMonth = "".obs;
   var thisYear = "".obs;
+  var thisMonthTo = "".obs;
+  var thisYearTo = "".obs;
   var tahunSekarang = "".obs;
   var neracaList = List.empty().obs;
 
@@ -25,6 +28,8 @@ class NeracaController extends GetxController {
     String formattedYear = formatterYear.format(now);
     thisYear.value = formattedYear.toString();
     tahunSekarang.value = formattedYear.toString();
+    thisMonthTo.value = formattedDate.toString();
+    thisYearTo.value = formattedYear.toString();
     super.onInit();
   }
 
@@ -117,8 +122,15 @@ class NeracaController extends GetxController {
     var user = jsonDecode(localStorage.getString('user')!);
     if (user != null) {
       var userId = user['id'];
-      String param =
-          thisMonth.value + '_' + thisYear.value + '_' + userId.toString();
+      String param = thisMonth.value +
+          '_' +
+          thisYear.value +
+          '_' +
+          thisMonthTo.value +
+          '_' +
+          thisYearTo.value +
+          '_' +
+          userId.toString();
 
       var data = {"param": param};
 
@@ -135,8 +147,15 @@ class NeracaController extends GetxController {
     var user = jsonDecode(localStorage.getString('user')!);
     if (user != null) {
       var userId = user['id'];
-      String param =
-          thisMonth.value + '_' + thisYear.value + '_' + userId.toString();
+      String param = thisMonth.value +
+          '_' +
+          thisYear.value +
+          '_' +
+          thisMonthTo.value +
+          '_' +
+          thisYearTo.value +
+          '_' +
+          userId.toString();
 
       var data = {"param": param};
 

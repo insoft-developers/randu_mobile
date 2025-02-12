@@ -51,8 +51,10 @@ class _JournalEditState extends State<JournalEdit> {
       setState(() {
         formattedDate = _journalEditController.journalDate.value;
         _tanggal.text = formattedDate;
-        _transName.text = _journalEditController.journal['transaction_name'];
-        _description.text = _journalEditController.journal['description'];
+        _transName.text =
+            _journalEditController.journal['transaction_name'].toString();
+        _description.text =
+            _journalEditController.journal['description'].toString();
 
         for (var i = 0; i < _journalEditController.journalList.length; i++) {
           _journalEditController.getAccountSelect().then((value) {

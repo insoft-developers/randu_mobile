@@ -18,6 +18,7 @@ class PenyusutanController extends GetxController {
   var selectedCategory = "".obs;
   var categoryList = List.empty().obs;
   var categoryLoading = false.obs;
+  var kurangiLoading = false.obs;
 
   @override
   void onInit() {
@@ -192,5 +193,40 @@ class PenyusutanController extends GetxController {
 
   onSearchDebt(String value) {
     getDataPenyusutan();
+  }
+
+  void lostAssetStore(String transactionId, String assetName, String lostValue,
+      String lostQuantity, String assetNote) async {
+    kurangiLoading(true);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      var data = {
+        "transaction_id": transactionId,
+        "asset_name": assetName,
+        "lost_value": lostValue,
+        "lost_quantity": lostQuantity,
+        "asset_note": assetNote,
+        "userid": userId,
+      };
+      var res = await Network().post(data, '/journal/penyusutan-lost-store');
+      var body = jsonDecode(res.body);
+      if (body['success']) {
+        kurangiLoading(false);
+        Get.back();
+        Get.back();
+      } else {
+        kurangiLoading(false);
+        showError(body['message'].toString());
+      }
+    }
+  }
+
+  void showError(String n) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      backgroundColor: Colors.red,
+      content: Text(n.toString()),
+    ));
   }
 }

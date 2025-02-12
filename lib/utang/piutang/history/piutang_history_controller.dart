@@ -44,6 +44,16 @@ class PiutangHistoryController extends GetxController {
     }
   }
 
+  void paymentDelete(String id, String debtId) async {
+    var data = {"id": id};
+    var res = await Network().post(data, '/journal/piutang-payment-delete');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      Get.back();
+      getHistoryById(debtId);
+    }
+  }
+
   void showSuccess(String n) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       backgroundColor: Colors.green,

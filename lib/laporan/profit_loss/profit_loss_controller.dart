@@ -17,6 +17,8 @@ class ProfitLossController extends GetxController {
   var thisYear = "".obs;
   var tahunSekarang = "".obs;
   var profitLoss = List.empty().obs;
+  var thisMonthTo = "".obs;
+  var thisYearTo = "".obs;
 
   @override
   void onInit() {
@@ -25,6 +27,8 @@ class ProfitLossController extends GetxController {
     String formattedYear = formatterYear.format(now);
     thisYear.value = formattedYear.toString();
     tahunSekarang.value = formattedYear.toString();
+    thisMonthTo.value = formattedDate.toString();
+    thisYearTo.value = formattedYear.toString();
     super.onInit();
   }
 
@@ -118,14 +122,22 @@ class ProfitLossController extends GetxController {
     var user = jsonDecode(localStorage.getString('user')!);
     if (user != null) {
       var userId = user['id'];
-      String param =
-          thisMonth.value + '_' + thisYear.value + '_' + userId.toString();
+      String param = thisMonth.value +
+          '_' +
+          thisYear.value +
+          '_' +
+          thisMonthTo.value +
+          '_' +
+          thisYearTo.value +
+          '_' +
+          userId.toString();
 
       var data = {"param": param};
 
       var res = await Network().post(data, '/journal/profit-loss-export');
       var body = jsonDecode(res.body);
       if (body['success']) {
+        print(body);
         launchURL(Constant.JOURNAL_REPORT + body['data'].toString());
       }
     }
@@ -136,8 +148,15 @@ class ProfitLossController extends GetxController {
     var user = jsonDecode(localStorage.getString('user')!);
     if (user != null) {
       var userId = user['id'];
-      String param =
-          thisMonth.value + '_' + thisYear.value + '_' + userId.toString();
+      String param = thisMonth.value +
+          '_' +
+          thisYear.value +
+          '_' +
+          thisMonthTo.value +
+          '_' +
+          thisYearTo.value +
+          '_' +
+          userId.toString();
 
       var data = {"param": param};
 

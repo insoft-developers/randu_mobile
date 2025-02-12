@@ -45,9 +45,15 @@ class SelectMonthReport extends StatelessWidget {
     } else if (code == 'profit-loss') {
       final ProfitLossController _laporan = Get.put(ProfitLossController());
       _laporan.thisMonth.value = value;
+    } else if (code == 'profit-loss-akhir') {
+      final ProfitLossController _laporan = Get.put(ProfitLossController());
+      _laporan.thisMonthTo.value = value;
     } else if (code == 'balance-sheet') {
       final NeracaController _laporan = Get.put(NeracaController());
       _laporan.thisMonth.value = value;
+    } else if (code == 'balance-sheet-akhir') {
+      final NeracaController _laporan = Get.put(NeracaController());
+      _laporan.thisMonthTo.value = value;
     } else if (code == 'debt-category') {
       final HutangController _hutang = Get.put(HutangController());
       _hutang.categoryOnChange(value);
@@ -118,6 +124,10 @@ class SelectMonthReport extends StatelessWidget {
       final DebtPaymentController _controller =
           Get.put(DebtPaymentController());
       _controller.selectedPaymentWith.value = value;
+    } else if (code == 'akuns') {
+      final TambahPenyusutanController _controller =
+          Get.put(TambahPenyusutanController());
+      _controller.selectedAkuns.value = value;
     }
   }
 

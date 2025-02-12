@@ -1,13 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/laporan/laporan_buku_besar/index.dart';
 import 'package:randu_mobile/laporan/laporan_jurnal/index.dart';
-import 'package:randu_mobile/laporan/neraca/index.dart';
+import 'package:randu_mobile/laporan/neraca/neraca_webview.dart';
 import 'package:randu_mobile/laporan/neraca_saldo/index.dart';
 import 'package:randu_mobile/laporan/profit_loss/index.dart';
+import 'package:randu_mobile/laporan/profit_loss/profit_loss_webview.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
+import 'package:randu_mobile/utils/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Laporan extends StatefulWidget {
   const Laporan({Key? key}) : super(key: key);
@@ -17,6 +25,12 @@ class Laporan extends StatefulWidget {
 }
 
 class _LaporanState extends State<Laporan> {
+  var now = DateTime.now();
+  var formatter = DateFormat('MM');
+  var formatterYear = DateFormat('yyyy');
+  String thisMonth = "";
+  String thisYear = "";
+
   List<String> laporan = [
     "Laporan Jurnal",
     "Laporan Buku Besar",
@@ -33,6 +47,40 @@ class _LaporanState extends State<Laporan> {
     "images/neraca.png"
   ];
 
+  _launchNeraca() async {
+    String formattedDate = formatter.format(now);
+    thisMonth = formattedDate.toString();
+    String formattedYear = formatterYear.format(now);
+    thisYear = formattedYear.toString();
+
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      Get.to(() => NeracaWebview(
+            paymentUrl: Constant.BASE_URL +
+                'neraca-webview/${userId}/${thisMonth}/${thisYear}/${thisMonth}/${thisYear}',
+          ));
+    }
+  }
+
+  _launchLabaRugi() async {
+    String formattedDate = formatter.format(now);
+    thisMonth = formattedDate.toString();
+    String formattedYear = formatterYear.format(now);
+    thisYear = formattedYear.toString();
+
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+    if (user != null) {
+      var userId = user['id'];
+      Get.to(() => ProfitLossWebview(
+            paymentUrl: Constant.BASE_URL +
+                'profit-loss-webview/${userId}/${thisMonth}/${thisYear}/${thisMonth}/${thisYear}',
+          ));
+    }
+  }
+
   _onTapReport(int index) {
     if (index == 0) {
       Get.to(() => const LaporanJurnal());
@@ -41,13 +89,26 @@ class _LaporanState extends State<Laporan> {
     } else if (index == 2) {
       Get.to(() => const NeracaSaldo());
     } else if (index == 3) {
-      Get.to(() => const ProfitLoss());
+      // Get.to(() => const ProfitLoss());
+      _launchLabaRugi();
     } else if (index == 4) {
-      Get.to(() => const Neraca());
+      // Get.to(() => const Neraca());
+      _launchNeraca();
     }
   }
 
   @override
+  void initState() {
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

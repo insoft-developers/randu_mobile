@@ -40,9 +40,15 @@ class SelectYearReport extends StatelessWidget {
     } else if (code == 'profit-loss') {
       final ProfitLossController _laporan = Get.put(ProfitLossController());
       _laporan.thisYear.value = value;
+    } else if (code == 'profit-loss-akhir') {
+      final ProfitLossController _laporan = Get.put(ProfitLossController());
+      _laporan.thisYearTo.value = value;
     } else if (code == 'balance-sheet') {
       final NeracaController _laporan = Get.put(NeracaController());
       _laporan.thisYear.value = value;
+    } else if (code == 'balance-sheet-akhir') {
+      final NeracaController _laporan = Get.put(NeracaController());
+      _laporan.thisYearTo.value = value;
     } else if (code == 'debt-list') {
       final HutangController _hutang = Get.put(HutangController());
       _hutang.yearOnChange(value);

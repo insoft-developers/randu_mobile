@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/components/spasi.dart';
 import 'package:randu_mobile/css/font_setting.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 import 'package:randu_mobile/utang/hutang/index.dart';
 import 'package:randu_mobile/utang/piutang/index.dart';
 
@@ -33,6 +35,17 @@ class _UtangState extends State<Utang> {
   }
 
   @override
+  void initState() {
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -9,8 +9,11 @@ import 'package:randu_mobile/css/app_color.dart';
 import 'package:randu_mobile/css/font_setting.dart';
 import 'package:randu_mobile/homepage/shimmer/input_jurnal_shimmer.dart';
 import 'package:randu_mobile/homepage/shimmer/text_shimmer.dart';
+import 'package:randu_mobile/penyusutan/kurangi.dart';
 import 'package:randu_mobile/penyusutan/penyusutan_controller.dart';
 import 'package:randu_mobile/penyusutan/simulasi/index.dart';
+import 'package:randu_mobile/premium.dart';
+import 'package:randu_mobile/premium_controller.dart';
 import 'package:randu_mobile/utils/ribuan.dart';
 import 'package:randu_mobile/utils/tanggal.dart';
 
@@ -28,8 +31,16 @@ class _PenyusutanState extends State<Penyusutan> {
 
   @override
   void initState() {
-    _penyusutanController.akunBiayaPenyusutan();
-    _penyusutanController.getDataPenyusutan();
+    PremiumController _premium = Get.put(PremiumController());
+    _premium.cekPremium().then((value) {
+      if (value) {
+        _penyusutanController.akunBiayaPenyusutan();
+        _penyusutanController.getDataPenyusutan();
+      } else {
+        Get.to(() => const Premium());
+      }
+    });
+
     super.initState();
   }
 
@@ -301,10 +312,23 @@ class _PenyusutanState extends State<Penyusutan> {
                                                         3 -
                                                     42,
                                                 child: Text(
-                                                    _penyusutanController
-                                                        .penyusutanList[index]
-                                                            ['name']
-                                                        .toString(),
+                                                    _penyusutanController.penyusutanList[index]
+                                                                ['quantity'] ==
+                                                            null
+                                                        ? _penyusutanController
+                                                            .penyusutanList[index]
+                                                                ['name']
+                                                            .toString()
+                                                        : _penyusutanController
+                                                                .penyusutanList[index]
+                                                                    ['name']
+                                                                .toString() +
+                                                            ' ( ' +
+                                                            _penyusutanController
+                                                                .penyusutanList[index]
+                                                                    ['quantity']
+                                                                .toString() +
+                                                            ' unit )',
                                                     textAlign: TextAlign.end,
                                                     style: const TextStyle(
                                                         fontFamily:
@@ -615,7 +639,32 @@ void showSlideupView(BuildContext context, Map<String, dynamic> dataList) {
                               const Text("Simulasi")
                             ],
                           ),
-                        )
+                        ),
+                        dataList['is_lost'] == 1 || dataList['sync_status'] != 1
+                            ? const SizedBox()
+                            : GestureDetector(
+                                onTap: () {
+                                  Get.to(() => Kurangi(dataList: dataList))
+                                      ?.then((value) {
+                                    _hc.getDataPenyusutan();
+                                  });
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: AppColor.kuning,
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        child: const Icon(Icons.water_drop,
+                                            color: AppColor.putih)),
+                                    Jarak(tinggi: 2),
+                                    const Text("Kurangi")
+                                  ],
+                                ),
+                              )
                       ],
                     ),
                     Jarak(tinggi: 20),

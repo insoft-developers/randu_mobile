@@ -19,6 +19,16 @@ class DebtHistoryController extends GetxController {
     }
   }
 
+  void paymentDelete(String id, String debtId) async {
+    var data = {"id": id};
+    var res = await Network().post(data, '/journal/payment-delete');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      Get.back();
+      getHistoryById(debtId);
+    }
+  }
+
   void paymentSync(String paymentId, String hutangId) async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user')!);
